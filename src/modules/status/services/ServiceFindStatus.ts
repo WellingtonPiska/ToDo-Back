@@ -1,4 +1,6 @@
-import { prisma } from '../../../database/prismaClient';
+import 'reflect-metadata';
+import { dataSource } from '../../../shared/database';
+import Status from '../entities/Status';
 
 interface IFindStatus {
   id: string;
@@ -6,15 +8,9 @@ interface IFindStatus {
 
 export class ServiceFindStatus {
   async execute({ id }: IFindStatus) {
-    const status = await prisma.status.findFirst({
-      where: {
-        OR: [{ AND: { id } }, { AND: { reference: id } }],
-      },
-    });
+    const repo = dataSource.getRepository(Status);
 
-    if (status === null) {
-      throw new Error('Status not found');
-    }
+    const status = await repo.findOneBy({ id });
 
     return status;
   }

@@ -9,22 +9,22 @@ import { v4 as uuid } from 'uuid';
 
 @Entity('status')
 class Status {
-  @PrimaryColumn()
+  @PrimaryColumn({ name: 'sta_id_s' })
   id: string;
 
-  @Column()
+  @Column({ name: 'sta_name_s' })
   name: string;
 
-  @Column()
-  references: string;
+  @Column({ name: 'sta_ref_s' })
+  reference: string;
 
-  @Column()
+  @Column({ name: 'sta_color_s' })
   color: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'sta_created_d' })
   created: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'sta_updated_d' })
   updated: Date;
 
   constructor() {

@@ -5,8 +5,8 @@ export const dataSource = new DataSource({
   username: 'gta',
   password: 'gta2018',
   connectString:
-    '(DESCRIPTION=(ADDRESS=(PROTOCOL = TCP)(HOST = 192.168.0.7)(PORT = 1521))(CONNECT_DATA=(SERVICE_NAME = orcl) ))',
-  synchronize: true,
+    '(DESCRIPTION=(ADDRESS=(PROTOCOL = TCP)(HOST = 192.168.0.9)(PORT = 1521))(CONNECT_DATA=(SERVICE_NAME = teste) ))',
+  synchronize: false,
   logging: false,
   entities: ['./src/modules/**/entities/*.ts'],
   subscribers: [],
