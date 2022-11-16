@@ -1,33 +1,31 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import Status from '../entities/Status';
-import { Not } from 'typeorm';
+import { ServiceFindStatus } from './ServiceFindStatus';
 
 interface IUpdateStatus {
   id: string;
-  name: string;
-  reference: string;
-  color: string;
+  nome: string;
+  referencia: string;
+  cor: string;
 }
 
 export class ServiceUpdateStatus {
-  async execute({ id, name, reference, color }: IUpdateStatus) {
+  async execute({ id, nome, referencia, cor }: IUpdateStatus) {
     const repo = dataSource.getRepository(Status);
 
-    const status = await repo.findOneBy({ id });
+    const serviceFindStatus = new ServiceFindStatus();
 
-    if (!status) {
-      throw new Error('Register not found');
-    }
+    const status = await serviceFindStatus.execute({ id });
 
     const statusValid = await repo
       .createQueryBuilder('status')
       .where(
-        'status.sta_id_s <> :id and (status.sta_name_s = :name or status.sta_ref_s = :reference)',
+        'status.sta_id_s <> :id and (status.sta_nome_s = :nome or status.sta_ref_s = :reference)',
         {
           id,
-          name,
-          reference,
+          nome,
+          referencia,
         }
       )
       .getOne();
@@ -37,10 +35,10 @@ export class ServiceUpdateStatus {
     }
 
     const obj = await repo.save({
-      ...status,
-      name,
-      reference,
-      color,
+      id: status.id,
+      nome,
+      referencia,
+      cor,
     });
     return obj;
   }

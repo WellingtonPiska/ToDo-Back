@@ -29,13 +29,13 @@ export default class StatusController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     //#swagger.tags = ['Status']
-    const { name, reference, color } = request.body;
+    const { nome, referencia, cor } = request.body;
 
     const serviceCreateStatus = new ServiceCreateStatus();
     const result = await serviceCreateStatus.execute({
-      name,
-      reference,
-      color,
+      nome,
+      referencia,
+      cor,
     });
 
     return response.json(result);
@@ -43,15 +43,15 @@ export default class StatusController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     //#swagger.tags = ['Status']
-    const { name, reference, color } = request.body;
+    const { nome, referencia, cor } = request.body;
     const { id } = request.params;
 
     const serviceUpdateStatus = new ServiceUpdateStatus();
     const status = await serviceUpdateStatus.execute({
       id,
-      name,
-      reference,
-      color,
+      nome,
+      referencia,
+      cor,
     });
 
     return response.json(status);

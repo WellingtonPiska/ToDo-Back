@@ -14,7 +14,7 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
             primaryKeyConstraintName: 'PK_STATUS',
           },
           {
-            name: 'sta_name_s',
+            name: 'sta_nome_s',
             type: 'varchar',
             length: '30',
             isUnique: true,
@@ -25,17 +25,19 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
             isUnique: true,
           },
           {
-            name: 'sta_color_s',
+            name: 'sta_cor_s',
             type: 'varchar',
             length: '20',
           },
           {
-            name: 'sta_created_d',
+            name: 'sta_create_d',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP'
           },
           {
-            name: 'sta_updated_d',
+            name: 'sta_update_d',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP'
           },
         ],
       })

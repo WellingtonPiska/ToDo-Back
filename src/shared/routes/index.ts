@@ -1,6 +1,9 @@
+
+
 import { Router } from 'express';
 
 import routerStatus from '../../modules/status/routes';
+import routerCentroCusto from '../../modules/centro_custo/routes';
 
 //import routerAddressCompany from '../modules/addressCompany/routes';
 //import routerAddressType from '../modules/addressType/routes';
@@ -14,6 +17,7 @@ import routerStatus from '../../modules/status/routes';
 const routes = Router();
 
 routes.use('/status', routerStatus);
+routes.use('/centrocusto', routerCentroCusto);
 //routes.use('/devicetype', routerDevice);
 //routes.use('/company', routerCompany);
 //routes.use('/contacttype', routerContactType);

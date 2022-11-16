@@ -3,20 +3,20 @@ import { dataSource } from '../../../shared/database';
 import Status from '../entities/Status';
 
 interface ICreateStatus {
-  name: string;
-  reference: string;
-  color: string;
+  nome: string;
+  referencia: string;
+  cor: string;
 }
 
 export class ServiceCreateStatus {
-  async execute({ name, reference, color }: ICreateStatus) {
+  async execute({ nome, referencia, cor }: ICreateStatus) {
     const repo = dataSource.getRepository(Status);
 
     const statusValid = await repo
       .createQueryBuilder('status')
-      .where('status.sta_name_s = :name or status.sta_ref_s = :reference', {
-        name,
-        reference,
+      .where('status.sta_nome_s = :nome or status.sta_ref_s = :referencia', {
+        nome,
+        referencia,
       })
       .getOne();
 
@@ -25,9 +25,9 @@ export class ServiceCreateStatus {
     }
 
     const status = new Status();
-    status.name = name;
-    status.reference = reference;
-    status.color = color;
+    status.nome = nome;
+    status.referencia = referencia;
+    status.cor = cor;
     const obj = await repo.save(status);
 
     return obj;
