@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ServiceCreateCentroCusto } from '../services/ServiceCreateCentroCusto';
+import { ServiceDeleteCentroCusto } from '../services/ServiceDeleteCentroCusto';
 import { ServiceFindCentroCusto } from '../services/ServiceFindCentroCusto';
 import { ServiceListCentroCusto } from '../services/ServiceListCentroCusto';
 import { ServiceUpdateCentroCusto } from '../services/ServiceUpdateCentroCusto';
@@ -59,16 +60,14 @@ export default class CentroCustoController {
   }
 
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  // #swagger.tags = ['CentroCusto']
-  // const { id } = request.params;
-  // const serviceDeleteCentroCusto = new ServiceDeleteCentroCusto();
-  // const centroCusto = await serviceDeleteCentroCusto.execute({
-  //   id,
-  // });
+  public async delete(request: Request, response: Response): Promise<Response> {
+    //#swagger.tags = ['Status']
+    const { id } = request.params;
+    const serviceDeleteCentroCusto = new ServiceDeleteCentroCusto();
+    const centroCusto = await serviceDeleteCentroCusto.execute({
+      id,
+    });
 
-  // return response.json(centroCusto);
-
-  // }
-
+    return response.json(centroCusto);
+  }
 }

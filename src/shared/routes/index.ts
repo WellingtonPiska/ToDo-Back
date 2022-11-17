@@ -2,8 +2,9 @@ import { Router } from 'express';
 
 import routerLocalidades from '../../modules/localidades/routes';
 
-import routerStatus from '../../modules/status/routes';
 import routerCentroCusto from '../../modules/centro_custo/routes';
+import routerProfile from '../../modules/profile/routes';
+import routerStatus from '../../modules/status/routes';
 
 //import routerAddressCompany from '../modules/addressCompany/routes';
 //import routerAddressType from '../modules/addressType/routes';
@@ -20,6 +21,7 @@ routes.use('/localidades', routerLocalidades);
 
 routes.use('/status', routerStatus);
 routes.use('/centrocusto', routerCentroCusto);
+routes.use('/profile', routerProfile)
 //routes.use('/devicetype', routerDevice);
 //routes.use('/company', routerCompany);
 //routes.use('/contacttype', routerContactType);

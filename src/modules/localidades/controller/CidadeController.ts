@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { string } from 'yup';
 import { ServiceListCidade } from '../services/ServiceListCidade';
 
 export default class CidadeController {

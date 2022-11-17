@@ -1,9 +1,10 @@
-import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import { Router } from 'express';
+import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 
 import ControllerCentroCusto from '../controller/CentroCustoController';
-import schemaValidationCentroCustoFind from '../validation/schemaValidationFind';
 import schemaValidationCentroCustoCreate from '../validation/schemaValidationCreate';
+import schemaValidationCentroCustoDelete from '../validation/schemaValidationDelete';
+import schemaValidationCentroCustoFind from '../validation/schemaValidationFind';
 import schemaValidationCentroCustoUpdate from '../validation/schemaValidationUpdate';
 
 
@@ -26,7 +27,11 @@ routerCentroCusto.put(
   ensureValidationYupRequest(schemaValidationCentroCustoUpdate),
   controllerCentroCusto.update
 );
-
+routerCentroCusto.delete(
+  '/:id',
+  ensureValidationYupRequest(schemaValidationCentroCustoDelete),
+  controllerCentroCusto.delete
+);
 
 
 export default routerCentroCusto;

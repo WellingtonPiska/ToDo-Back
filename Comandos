@@ -1,0 +1,8 @@
+Criar migration
+yarn typeorm migration:create src\shared\database\migration\NOME-DA-migration
+
+Executar migration
+yarn typeorm migration:run -- -d src\shared\database\index
+
+Reverter migration
+yarn typeorm migration:revert -- -d src\shared\database\index
