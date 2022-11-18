@@ -1,11 +1,6 @@
-import CentroCusto from '../../centro_custo/entities/CentroCusto';
 import {
-  Entity,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  PrimaryColumn,
-  OneToMany,
+  CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -14,14 +9,14 @@ class Status {
   @PrimaryColumn({ name: 'sta_id_s' })
   id: string;
 
-  @Column({ name: 'sta_nome_s' })
-  nome: string;
+  @Column({ name: 'sta_name_s' })
+  name: string;
 
   @Column({ name: 'sta_ref_s' })
-  referencia: string;
+  reference: string;
 
-  @Column({ name: 'sta_cor_s' })
-  cor: string;
+  @Column({ name: 'sta_color_s' })
+  color: string;
 
   @CreateDateColumn({ name: 'sta_create_d' })
   create: Date;

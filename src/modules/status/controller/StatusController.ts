@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { ServiceListStatus } from '../services/ServiceListStatus';
-import { ServiceFindStatus } from '../services/ServiceFindStatus';
 import { ServiceCreateStatus } from '../services/ServiceCreateStatus';
-import { ServiceUpdateStatus } from '../services/ServiceUpdateStatus';
 import { ServiceDeleteStatus } from '../services/ServiceDeleteStatus';
+import { ServiceFindStatus } from '../services/ServiceFindStatus';
+import { ServiceListStatus } from '../services/ServiceListStatus';
+import { ServiceUpdateStatus } from '../services/ServiceUpdateStatus';
 
 export default class StatusController {
   public async list(request: Request, response: Response): Promise<Response> {
@@ -29,13 +29,13 @@ export default class StatusController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     //#swagger.tags = ['Status']
-    const { nome, referencia, cor } = request.body;
+    const { name, reference, color } = request.body;
 
     const serviceCreateStatus = new ServiceCreateStatus();
     const result = await serviceCreateStatus.execute({
-      nome,
-      referencia,
-      cor,
+      name,
+      reference,
+      color,
     });
 
     return response.json(result);
@@ -43,15 +43,15 @@ export default class StatusController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     //#swagger.tags = ['Status']
-    const { nome, referencia, cor } = request.body;
+    const { name, reference, color } = request.body;
     const { id } = request.params;
 
     const serviceUpdateStatus = new ServiceUpdateStatus();
     const status = await serviceUpdateStatus.execute({
       id,
-      nome,
-      referencia,
-      cor,
+      name,
+      reference,
+      color,
     });
 
     return response.json(status);

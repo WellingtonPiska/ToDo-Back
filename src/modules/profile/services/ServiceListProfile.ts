@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
-import Profile from '../entities/Status';
+import Profile from '../entities/Profile';
+
 
 
 

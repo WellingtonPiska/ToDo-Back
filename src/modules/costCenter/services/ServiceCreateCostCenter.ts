@@ -1,38 +1,38 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import CentroCusto from '../entities/CentroCusto';
+import CostCenter from '../entities/CostCenter';
 
-interface ICreateCentroCusto {
-  nome: string;
+interface ICreateCostCenter {
+  name: string;
   obs: string;
-  rateio: string;
+  apportionment: string;
   status: string;
 }
 
-export class ServiceCreateCentroCusto {
-  async execute({ nome, rateio, obs, status }: ICreateCentroCusto) {
-    const repo = dataSource.getRepository(CentroCusto);
+export class ServiceCreateCostCenter {
+  async execute({ name, apportionment, obs, status }: ICreateCostCenter) {
+    const repo = dataSource.getRepository(CostCenter);
 
     const serviceFindStatus = new ServiceFindStatus();
 
     const statusRef = await serviceFindStatus.execute({ id: status });
 
-    const centroCustoValid = await repo
+    const costCenterValid = await repo
       .createQueryBuilder('status')
-      .where('status.ccu_nome_s = :nome', {
-        nome,
+      .where('status.cce_name_s = :name', {
+        name,
       })
       .getOne();
 
-    if (centroCustoValid) {
+    if (costCenterValid) {
       throw new Error('Duplicate register');
     }
 
-    const cc = new CentroCusto();
-    cc.nome = nome;
+    const cc = new CostCenter();
+    cc.name = name;
     cc.obs = obs;
-    cc.rateio = rateio;
+    cc.apportionment = apportionment;
     cc.status = statusRef.id;
     const obj = await repo.save(cc);
 

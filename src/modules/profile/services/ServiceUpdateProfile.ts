@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Profile from '../entities/Status';
+import Profile from '../entities/Profile';
+
 import { ServiceFindProfile } from './ServiceFindProfile';
 
 interface IUpdateProfile {

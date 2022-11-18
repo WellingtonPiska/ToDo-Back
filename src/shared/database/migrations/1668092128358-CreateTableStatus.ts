@@ -14,7 +14,7 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
             primaryKeyConstraintName: 'PK_STATUS',
           },
           {
-            name: 'sta_nome_s',
+            name: 'sta_name_s',
             type: 'varchar',
             length: '30',
             isUnique: true,
@@ -25,7 +25,7 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
             isUnique: true,
           },
           {
-            name: 'sta_cor_s',
+            name: 'sta_color_s',
             type: 'varchar',
             length: '20',
           },

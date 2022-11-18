@@ -5,13 +5,13 @@ import { ServiceFindStatus } from './ServiceFindStatus';
 
 interface IUpdateStatus {
   id: string;
-  nome: string;
-  referencia: string;
-  cor: string;
+  name: string;
+  reference: string;
+  color: string;
 }
 
 export class ServiceUpdateStatus {
-  async execute({ id, nome, referencia, cor }: IUpdateStatus) {
+  async execute({ id, name, reference, color }: IUpdateStatus) {
     const repo = dataSource.getRepository(Status);
 
     const serviceFindStatus = new ServiceFindStatus();
@@ -21,11 +21,11 @@ export class ServiceUpdateStatus {
     const statusValid = await repo
       .createQueryBuilder('status')
       .where(
-        'status.sta_id_s <> :id and (status.sta_nome_s = :nome or status.sta_ref_s = :reference)',
+        'status.sta_id_s <> :id and (status.sta_name_s = :name or status.sta_ref_s = :reference)',
         {
           id,
-          nome,
-          referencia,
+          name,
+          reference,
         }
       )
       .getOne();
@@ -36,9 +36,9 @@ export class ServiceUpdateStatus {
 
     const obj = await repo.save({
       id: status.id,
-      nome,
-      referencia,
-      cor,
+      name,
+      reference,
+      color,
     });
     return obj;
   }

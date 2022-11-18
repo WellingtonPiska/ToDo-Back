@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import regexUuidV4 from '../../../shared/utils/regexUuidV4';
-import schemaBodyCentroCusto from './schemaBodyCentroCusto';
+import schemaBodyCostCenter from './schemaBodyCostCenter';
 
-const schemaValidationCentroCustoUpdate = yup.object().shape({
-  body: schemaBodyCentroCusto,
+const schemaValidationCostCenterUpdate = yup.object().shape({
+  body: schemaBodyCostCenter,
   params: yup.object({
     id: yup
       .string()
@@ -12,4 +12,4 @@ const schemaValidationCentroCustoUpdate = yup.object().shape({
   }),
 });
 
-export default schemaValidationCentroCustoUpdate;
+export default schemaValidationCostCenterUpdate;

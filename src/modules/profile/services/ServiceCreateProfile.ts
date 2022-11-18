@@ -1,17 +1,16 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Profile from '../entities/Status';
+import Profile from '../entities/Profile';
 
-
-interface ICreateCentroProfile {
+interface ICreateProfile {
   name: string;
   obs: string;
   status: string;
 }
 
 export class ServiceCreateProfile {
-  async execute({ name, obs, status }: ICreateCentroProfile) {
+  async execute({ name, obs, status }: ICreateProfile) {
     const repo = dataSource.getRepository(Profile);
 
     const serviceFindStatus = new ServiceFindStatus();

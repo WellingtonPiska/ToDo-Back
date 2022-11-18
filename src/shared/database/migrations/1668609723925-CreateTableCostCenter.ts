@@ -2,49 +2,49 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey,
+  TableForeignKey
 } from 'typeorm';
 
-export class CreateTableCentroCusto1668609723925 implements MigrationInterface {
+export class CreateTableCostCenter1668609723925 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'centro_custo',
+        name: 'costcenter',
         columns: [
           {
-            name: 'ccu_id_s',
+            name: 'cce_id_s',
             type: 'varchar',
             length: '36',
             isPrimary: true,
-            primaryKeyConstraintName: 'PK_CENTROCUSTO',
+            primaryKeyConstraintName: 'PK_COSTCENTER',
           },
           {
-            name: 'ccu_status_s',
+            name: 'cce_status_s',
             type: 'varchar',
             length: '36',
           },
           {
-            name: 'ccu_nome_s',
+            name: 'cce_name_s',
             type: 'varchar',
             length: '30',
             isUnique: true,
           },
           {
-            name: 'ccu_rateio_s',
+            name: 'cce_apportionment_s',
             type: 'char',
             length: '1',
           },
           {
-            name: 'ccu_obs_s',
+            name: 'cce_obs_s',
             type: 'varchar',
           },
           {
-            name: 'ccu_create_d',
+            name: 'cce_create_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },
           {
-            name: 'ccu_update_d',
+            name: 'cce_update_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },
@@ -52,18 +52,18 @@ export class CreateTableCentroCusto1668609723925 implements MigrationInterface {
       })
     );
     await queryRunner.createForeignKey(
-      'centro_custo',
+      'costcenter',
       new TableForeignKey({
-        columnNames: ['ccu_status_s'],
+        columnNames: ['cce_status_s'],
         referencedColumnNames: ['sta_id_s'],
         referencedTableName: 'status',
         onDelete: 'CASCADE',
-        name: 'FK_CENTROCUSTO_STATUS',
+        name: 'FK_COSTCENTER_STATUS',
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('centro_custo');
+    await queryRunner.dropTable('costcenter');
   }
 }

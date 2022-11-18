@@ -5,7 +5,7 @@ export class Place1668716577911 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'centro_custo',
+        name: 'place',
         columns: [
           {
             name: 'pla_id_s',
@@ -20,11 +20,23 @@ export class Place1668716577911 implements MigrationInterface {
             length: '36',
           },
           {
-            name: 'pla_nome_s',
+            name: 'pla_costcenter_s',
+            type: 'varchar',
+            length: '36',
+          },
+          {
+            name: 'pla_place_s',
+            type: 'varchar',
+            length: '36',
+            isNullable: true
+          },
+          {
+            name: 'pla_name_s',
             type: 'varchar',
             length: '30',
             isUnique: true,
           },
+
           {
             name: 'pla_type_s',
             type: 'char',
@@ -44,6 +56,16 @@ export class Place1668716577911 implements MigrationInterface {
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },
+          {
+            name: 'pla_dn_s',
+            type: 'varchar',
+            isNullable: true
+          },
+          {
+            name: 'pla_guid_s',
+            type: 'varchar',
+            isNullable: true
+          },
         ],
       })
     );
@@ -57,7 +79,28 @@ export class Place1668716577911 implements MigrationInterface {
         name: 'FK_PLACE_STATUS',
       })
     );
+    await queryRunner.createForeignKey(
+      'place',
+      new TableForeignKey({
+        columnNames: ['pla_costcenter_s'],
+        referencedColumnNames: ['cce_id_s'],
+        referencedTableName: 'costcenter',
+        onDelete: 'CASCADE',
+        name: 'FK_PLACE_COSTCENTER',
+      })
+    );
+    await queryRunner.createForeignKey(
+      'place',
+      new TableForeignKey({
+        columnNames: ['pla_place_s'],
+        referencedColumnNames: ['pla_id_s'],
+        referencedTableName: 'place',
+        onDelete: 'CASCADE',
+        name: 'FK_PLACE_PLACE',
+      })
+    );
   }
+
 
   public async down(queryRunner: QueryRunner): Promise<void> {
   }
