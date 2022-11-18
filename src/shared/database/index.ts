@@ -7,7 +7,7 @@ export const dataSource = new DataSource({
   connectString:
     '(DESCRIPTION=(ADDRESS=(PROTOCOL = TCP)(HOST = 192.168.0.9)(PORT = 1521))(CONNECT_DATA=(SERVICE_NAME = teste) ))',
   synchronize: false,
-  logging: true,
+  logging: false,
   entities: ['./src/modules/**/entities/*.ts'],
   subscribers: [],
   migrations: ['./src/shared/database/migrations/*.ts'],

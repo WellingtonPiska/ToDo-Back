@@ -13,7 +13,10 @@ export class ServiceFindUF {
   async execute({ uf }: IFindUF) {
     const res = await ibge.get(`/estados/${uf}`);
     if (res.status == 200) {
-      return res.data;
+      return {
+        sigla: res.data.sigla,
+        nome: res.data.nome,
+      };
     }
     throw Error('Não foi localizado');
   }

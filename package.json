@@ -8,6 +8,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/shared/server.ts",
+    "dev2": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/shared/server.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"

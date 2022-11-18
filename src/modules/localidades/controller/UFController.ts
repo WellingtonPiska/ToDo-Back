@@ -15,8 +15,8 @@ export default class UFController {
 
     const serviceFindUF = new ServiceFindUF();
 
-    const status = await serviceFindUF.execute({ uf });
+    const state = await serviceFindUF.execute({ uf });
 
-    return response.json(status);
+    return response.json(state);
   }
 }
