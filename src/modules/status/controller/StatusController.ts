@@ -6,9 +6,8 @@ import { ServiceListStatus } from '../services/ServiceListStatus';
 import { ServiceUpdateStatus } from '../services/ServiceUpdateStatus';
 
 export default class StatusController {
+
   public async list(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
-    //#swagger.summary = 'List All Status'
     const serviceListStatus = new ServiceListStatus();
 
     const status = await serviceListStatus.execute();
@@ -17,7 +16,6 @@ export default class StatusController {
   }
 
   public async find(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
     const { id } = request.params;
 
     const serviceFindStatus = new ServiceFindStatus();
@@ -28,7 +26,6 @@ export default class StatusController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
     const { name, reference, color } = request.body;
 
     const serviceCreateStatus = new ServiceCreateStatus();
@@ -42,7 +39,6 @@ export default class StatusController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
     const { name, reference, color } = request.body;
     const { id } = request.params;
 
@@ -58,7 +54,6 @@ export default class StatusController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
     const { id } = request.params;
     const serviceDeleteStatus = new ServiceDeleteStatus();
     const status = await serviceDeleteStatus.execute({

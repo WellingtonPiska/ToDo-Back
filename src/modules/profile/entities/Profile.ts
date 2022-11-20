@@ -29,9 +29,6 @@ class Profile {
   @UpdateDateColumn({ name: 'pro_updated_d' })
   update: Date;
 
-
-
-
   constructor() {
     if (!this.id) {
       this.id = uuid();

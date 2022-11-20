@@ -21,7 +21,7 @@ export class ServiceCreateStatus {
       .getOne();
 
     if (statusValid) {
-      throw new Error('Duplicate register');
+      throw new Error('Registro com valores duplicados.');
     }
 
     const status = new Status();

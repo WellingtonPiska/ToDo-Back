@@ -8,12 +8,12 @@ interface IUpdateCostCenter {
   id: string;
   name: string;
   obs: string;
-  apportionment: string;
+  apportion: string;
   status: string;
 }
 
 export class ServiceUpdateCostCenter {
-  async execute({ id, name, obs, apportionment, status }: IUpdateCostCenter) {
+  async execute({ id, name, obs, apportion, status }: IUpdateCostCenter) {
     const repo = dataSource.getRepository(CostCenter);
     const serviceFindCostCenter = new ServiceFindCostCenter();
     const costCenter = await serviceFindCostCenter.execute({ id });
@@ -40,7 +40,7 @@ export class ServiceUpdateCostCenter {
       id: costCenter.id,
       name,
       obs,
-      apportionment,
+      apportion,
       status: statusRef.id
     });
     return obj;

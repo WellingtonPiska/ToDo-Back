@@ -13,11 +13,11 @@ export class ServiceDeleteStatus {
     const status = await repo.findOneBy({ id });
 
     if (!status) {
-      throw new Error('Not Found');
+      throw new Error('Registro não encontrado.');
     }
 
     await repo.delete({ id });
 
-    return 'Deleted';
+    return {'message': 'Registro excluído.'};
   }
 }

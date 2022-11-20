@@ -50,7 +50,6 @@ export class CreateTableProfile1668702730728 implements MigrationInterface {
         columnNames: ['pro_status_s'],
         referencedColumnNames: ['sta_id_s'],
         referencedTableName: 'status',
-        onDelete: 'CASCADE',
         name: 'FK_PROFILE_STATUS',
       })
     );

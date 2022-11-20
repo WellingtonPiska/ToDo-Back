@@ -7,9 +7,8 @@ import { ServiceUpdateCostCenter } from '../services/ServiceUpdateCostCenter';
 
 
 export default class CostCenterController {
+
   public async list(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['CostCenter']
-    //#swagger.summary = 'List All CostCenter'
     const serviceListCostCenter = new ServiceListCostCenter();
 
     const CostCenter = await serviceListCostCenter.execute();
@@ -18,7 +17,6 @@ export default class CostCenterController {
   }
 
   public async find(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['CostCenter']
     const { id } = request.params;
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
@@ -27,14 +25,14 @@ export default class CostCenterController {
 
     return response.json(costCenter);
   }
+
   public async create(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['CentroCusto']
-    const { name, apportionment, obs, status } = request.body;
+    const { name, apportion, obs, status } = request.body;
 
     const serviceCreateCostCenter = new ServiceCreateCostCenter();
     const costCenter = await serviceCreateCostCenter.execute({
       name,
-      apportionment,
+      apportion,
       obs,
       status
     });
@@ -43,15 +41,14 @@ export default class CostCenterController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['CentroCusto']
-    const { name, apportionment, obs, status } = request.body;
+    const { name, apportion, obs, status } = request.body;
     const { id } = request.params;
 
     const serviceUpdateCostCenter = new ServiceUpdateCostCenter();
     const costCenter = await serviceUpdateCostCenter.execute({
       id,
       name,
-      apportionment,
+      apportion,
       obs,
       status
     });
@@ -59,9 +56,7 @@ export default class CostCenterController {
     return response.json(costCenter);
   }
 
-
   public async delete(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
     const { id } = request.params;
     const serviceDeleteCostCenter = new ServiceDeleteCostCenter();
     const costCenter = await serviceDeleteCostCenter.execute({

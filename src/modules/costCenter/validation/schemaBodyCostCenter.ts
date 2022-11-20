@@ -4,7 +4,7 @@ import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
 const schemaBodyCostCenter = yup.object().shape({
   name: yup.string().required('Name is required'),
-  apportionment: yup
+  apportion: yup
     .string()
     .required('Apportionment is required')
     .max(1, 'Apportionment requires 1 character'),

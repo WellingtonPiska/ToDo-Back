@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import ibge from '../../../config/axios/ibge';
 
 interface IResponseCidade {
-  nome: string;
+  name: string;
   uf: string;
 }
 
@@ -24,18 +24,18 @@ interface IObjectCidade {
   };
 }
 
-export class ServiceListCidade {
+export class ServiceListCity {
   async execute({ uf }: IRequestUF): Promise<IResponseCidade[]> {
     const res = await ibge.get(`/estados/${uf}/municipios`);
     if (res.status == 200) {
       const data = res.data.map(({ nome, microrregiao }: IObjectCidade) => {
         return {
-          nome: nome,
+          name: nome,
           uf: microrregiao.mesorregiao.UF.sigla,
         };
       });
       return data;
     }
-    throw Error('Não foi localizado');
+    throw Error('Registro não localizado.');
   }
 }

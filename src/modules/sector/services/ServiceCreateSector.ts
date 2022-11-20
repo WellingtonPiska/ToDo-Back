@@ -2,22 +2,22 @@ import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Place from '../entities/Place';
-import { ServiceFindPlace } from './ServiceFindPlace';
+import Place from '../entities/Sector';
+import { ServiceFindSector } from './ServiceFindSector';
 
-interface ICreatePlace {
+interface ICreateSector {
   name: string;
   obs: string;
   type: string;
   dn?: string;
   guid?: string;
   status: string;
-  placeFather?: string;
+  sectorFather?: string;
   costCenter: string;
 }
 
-export class ServiceCreatePlace {
-  async execute({ name, dn, obs, status, guid, type, placeFather, costCenter }: ICreatePlace): Promise<Place> {
+export class ServiceCreateSector {
+  async execute({ name, dn, obs, status, guid, type, sectorFather, costCenter }: ICreateSector): Promise<Place> {
     const repo = dataSource.getRepository(Place);
 
     const serviceFindStatus = new ServiceFindStatus();
@@ -26,14 +26,14 @@ export class ServiceCreatePlace {
     const serviceFindCostCenter = new ServiceFindCostCenter();
     const costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
 
-    let placeFatherRef = null
-    if (placeFather) {
-      const serviceFindPlace = new ServiceFindPlace();
-      placeFatherRef = await serviceFindPlace.execute({ id: placeFather });
+    let sectorFatherRef = null
+    if (sectorFather) {
+      const serviceFindSector = new ServiceFindSector();
+      sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
     }
 
     const placeValid = await repo
-      .createQueryBuilder('place')
+      .createQueryBuilder('sector')
       .where('place.pla_name_s = :name and place.pla_type_s = :type', {
         name,
         type
@@ -50,7 +50,7 @@ export class ServiceCreatePlace {
     place.type = type;
     place.status = statusRef.id;
     place.costCenter = costCenterRef.id;
-    place.placeFather = placeFatherRef?.id;
+    place.sectorFather = sectorFatherRef?.id;
     place.dn = dn;
     place.guid = guid;
     const obj = await repo.save(place);

@@ -17,8 +17,8 @@ class CostCenter {
   @Column({ name: 'cce_status_s' })
   status: string;
 
-  @Column({ name: 'cce_apportionment_s' })
-  apportionment: string;
+  @Column({ name: 'cce_apportion_s' })
+  apportion: string;
 
   @Column({ name: 'cce_name_s' })
   name: string;
@@ -26,10 +26,10 @@ class CostCenter {
   @Column({ name: 'cce_obs_s' })
   obs: string;
 
-  @CreateDateColumn({ name: 'cce_create_d' })
+  @CreateDateColumn({ name: 'cce_created_d' })
   create: Date;
 
-  @UpdateDateColumn({ name: 'cce_update_d' })
+  @UpdateDateColumn({ name: 'cce_updated_d' })
   update: Date;
 
 

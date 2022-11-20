@@ -13,7 +13,7 @@ export class ServiceFindStatus {
     const status = await repo.findOneBy({ id });
 
     if (!status) {
-      throw new Error('Status not found');
+      throw new Error('Registro não encontrado.');
     }
 
     return status;

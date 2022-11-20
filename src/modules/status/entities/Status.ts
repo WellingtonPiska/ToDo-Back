@@ -18,10 +18,10 @@ class Status {
   @Column({ name: 'sta_color_s' })
   color: string;
 
-  @CreateDateColumn({ name: 'sta_create_d' })
+  @CreateDateColumn({ name: 'sta_created_d' })
   create: Date;
 
-  @UpdateDateColumn({ name: 'sta_update_d' })
+  @UpdateDateColumn({ name: 'sta_updated_d' })
   update: Date;
 
   constructor() {

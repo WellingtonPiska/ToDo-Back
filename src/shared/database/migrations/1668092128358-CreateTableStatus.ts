@@ -30,12 +30,12 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
             length: '20',
           },
           {
-            name: 'sta_create_d',
+            name: 'sta_created_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },
           {
-            name: 'sta_update_d',
+            name: 'sta_updated_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },

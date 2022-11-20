@@ -6,12 +6,13 @@ import CostCenter from '../entities/CostCenter';
 interface ICreateCostCenter {
   name: string;
   obs: string;
-  apportionment: string;
+  apportion: string;
   status: string;
 }
 
 export class ServiceCreateCostCenter {
-  async execute({ name, apportionment, obs, status }: ICreateCostCenter) {
+
+  async execute({ name, apportion, obs, status }: ICreateCostCenter) {
     const repo = dataSource.getRepository(CostCenter);
 
     const serviceFindStatus = new ServiceFindStatus();
@@ -32,7 +33,7 @@ export class ServiceCreateCostCenter {
     const cc = new CostCenter();
     cc.name = name;
     cc.obs = obs;
-    cc.apportionment = apportionment;
+    cc.apportion = apportion;
     cc.status = statusRef.id;
     const obj = await repo.save(cc);
 

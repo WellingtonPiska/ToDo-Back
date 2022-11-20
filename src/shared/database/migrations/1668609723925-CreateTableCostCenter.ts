@@ -30,7 +30,7 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
             isUnique: true,
           },
           {
-            name: 'cce_apportionment_s',
+            name: 'cce_apportion_s',
             type: 'char',
             length: '1',
           },
@@ -39,12 +39,12 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'cce_create_d',
+            name: 'cce_created_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },
           {
-            name: 'cce_update_d',
+            name: 'cce_updated_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'
           },
@@ -57,7 +57,6 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
         columnNames: ['cce_status_s'],
         referencedColumnNames: ['sta_id_s'],
         referencedTableName: 'status',
-        onDelete: 'CASCADE',
         name: 'FK_COSTCENTER_STATUS',
       })
     );

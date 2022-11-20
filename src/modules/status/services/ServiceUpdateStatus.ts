@@ -31,7 +31,7 @@ export class ServiceUpdateStatus {
       .getOne();
 
     if (statusValid) {
-      throw new Error('Duplicate register');
+      throw new Error('Registro com valores duplicados.');
     }
 
     const obj = await repo.save({
