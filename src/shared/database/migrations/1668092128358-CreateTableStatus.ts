@@ -1,5 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
+import { SeedStatus } from '../seed/SeedStatus';
+
 export class CreateTableStatus1668092128358 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -42,6 +44,9 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
         ],
       })
     );
+
+    await queryRunner.manager.getRepository("status").save(SeedStatus);
+
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

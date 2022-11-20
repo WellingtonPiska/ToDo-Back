@@ -9,7 +9,10 @@ import schemaValidationPlaceUpdate from "../validation/schemaValidationUpdate";
 const placeController = new PlaceController();
 const routerPlace = Router();
 
+routerPlace.get('/sync', placeController.sync);
+
 routerPlace.get('/', placeController.list);
+
 routerPlace.get(
   '/:id',
   ensureValidationYupRequest(schemaValidationPlaceFind),
@@ -31,7 +34,5 @@ routerPlace.put(
   ensureValidationYupRequest(schemaValidationPlaceUpdate),
   placeController.update
 );
-
-
 
 export default routerPlace;

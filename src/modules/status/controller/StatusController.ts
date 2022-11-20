@@ -8,21 +8,21 @@ import { ServiceUpdateStatus } from '../services/ServiceUpdateStatus';
 export default class StatusController {
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const serviceListStatus = new ServiceListStatus();
 
-    const status = await serviceListStatus.execute();
+    const svcList = new ServiceListStatus();
+    const data = await svcList.execute();
+    return response.json(data);
 
-    return response.json(status);
   }
 
   public async find(request: Request, response: Response): Promise<Response> {
+
     const { id } = request.params;
 
-    const serviceFindStatus = new ServiceFindStatus();
+    const svcFind = new ServiceFindStatus();
+    const data = await svcFind.execute({ id });
+    return response.json(data);
 
-    const status = await serviceFindStatus.execute({ id });
-
-    return response.json(status);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

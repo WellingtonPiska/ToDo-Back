@@ -9,7 +9,7 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'costcenter',
+        name: 'cost_center',
         columns: [
           {
             name: 'cce_id_s',
@@ -52,7 +52,7 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
       })
     );
     await queryRunner.createForeignKey(
-      'costcenter',
+      'cost_center',
       new TableForeignKey({
         columnNames: ['cce_status_s'],
         referencedColumnNames: ['sta_id_s'],
@@ -63,6 +63,6 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('costcenter');
+    await queryRunner.dropTable('cost_center');
   }
 }

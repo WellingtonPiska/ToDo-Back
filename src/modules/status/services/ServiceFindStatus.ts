@@ -8,14 +8,15 @@ interface IFindStatus {
 
 export class ServiceFindStatus {
   async execute({ id }: IFindStatus) {
+
     const repo = dataSource.getRepository(Status);
+    const data = await repo.findOneBy({ id });
 
-    const status = await repo.findOneBy({ id });
-
-    if (!status) {
+    if (!data) {
       throw new Error('Registro não encontrado.');
     }
 
-    return status;
+    return data;
+
   }
 }

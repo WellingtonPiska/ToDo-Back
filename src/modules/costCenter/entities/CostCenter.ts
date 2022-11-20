@@ -5,7 +5,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import Status from '../../status/entities/Status';
 
-@Entity('costcenter')
+@Entity('cost_center')
 class CostCenter {
   @PrimaryColumn({ name: 'cce_id_s' })
   id: string;
@@ -31,9 +31,6 @@ class CostCenter {
 
   @UpdateDateColumn({ name: 'cce_updated_d' })
   update: Date;
-
-
-
 
   constructor() {
     if (!this.id) {

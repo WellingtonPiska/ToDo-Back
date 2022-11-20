@@ -83,7 +83,7 @@ export class Place1668716577911 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ['sec_costcenter_s'],
         referencedColumnNames: ['cce_id_s'],
-        referencedTableName: 'costcenter',
+        referencedTableName: 'cost_center',
         name: 'FK_SECTOR_COSTCENTER',
       })
     );
