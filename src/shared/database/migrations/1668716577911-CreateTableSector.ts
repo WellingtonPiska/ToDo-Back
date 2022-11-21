@@ -39,7 +39,6 @@ export class Place1668716577911 implements MigrationInterface {
             name: 'sec_name_s',
             type: 'varchar',
             length: '30',
-            isUnique: true,
           },
           {
             name: 'sec_type_s',
