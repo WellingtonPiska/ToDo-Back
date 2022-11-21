@@ -1,5 +1,5 @@
-import { DataSource } from 'typeorm';
 import 'dotenv/config';
+import { DataSource } from 'typeorm';
 
 export const dataSource = new DataSource({
   type: 'oracle',

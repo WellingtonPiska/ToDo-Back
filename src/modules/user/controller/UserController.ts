@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
+import { ServiceCreateUser } from '../services/ServiceCreateUser';
+import { ServiceDeleteUser } from '../services/ServiceDeleteUser';
+import { ServiceFindUser } from '../services/ServiceFindUser';
 
 import { ServiceListUser } from '../services/ServiceListUser';
+import { ServiceUpdateUser } from '../services/ServiceUpdateUser';
 // import { ServiceCreateStatus } from '../services/ServiceCreateStatus';
 // import { ServiceDeleteStatus } from '../services/ServiceDeleteStatus';
 // import { ServiceFindStatus } from '../services/ServiceFindStatus';
@@ -10,58 +14,76 @@ import { ServiceListUser } from '../services/ServiceListUser';
 export default class UserController {
 
   public async list(request: Request, response: Response): Promise<Response> {
+
+
     const svcList = new ServiceListUser();
 
     const data = await svcList.execute();
 
     return response.json(data);
   }
+  public async find(request: Request, response: Response): Promise<Response> {
 
-  // public async find(request: Request, response: Response): Promise<Response> {
-  //   const { id } = request.params;
+    const { id } = request.params;
 
-  //   const serviceFindStatus = new ServiceFindStatus();
+    const svcFind = new ServiceFindUser();
+    const data = await svcFind.execute({ id });
+    return response.json(data);
 
-  //   const status = await serviceFindStatus.execute({ id });
+  }
+  public async create(request: Request, response: Response): Promise<Response> {
+    const { name, lastName, display, login, password, cpf, mail, dn, sid, status, sector, profile, costCenter } =
+      request.body;
+    const serviceCreateUser = new ServiceCreateUser();
+    const result = await serviceCreateUser.execute({
+      name,
+      lastName,
+      display,
+      login,
+      password,
+      cpf,
+      mail,
+      dn,
+      sid,
+      status,
+      sector,
+      profile,
+      costCenter
+    });
+    return response.json(result);
+  }
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { name, lastName, display, login, password, cpf,
+      mail, dn, sid, status, sector, profile, costCenter } =
+      request.body;
 
-  //   return response.json(status);
-  // }
+    const serviceUpdateUser = new ServiceUpdateUser();
+    const data = await serviceUpdateUser.execute({
+      id,
+      name,
+      lastName,
+      display,
+      login,
+      password,
+      cpf,
+      mail,
+      dn,
+      sid,
+      status,
+      sector,
+      profile,
+      costCenter
+    });
 
-  // public async create(request: Request, response: Response): Promise<Response> {
-  //   const { name, reference, color } = request.body;
-
-  //   const serviceCreateStatus = new ServiceCreateStatus();
-  //   const result = await serviceCreateStatus.execute({
-  //     name,
-  //     reference,
-  //     color,
-  //   });
-
-  //   return response.json(result);
-  // }
-
-  // public async update(request: Request, response: Response): Promise<Response> {
-  //   const { name, reference, color } = request.body;
-  //   const { id } = request.params;
-
-  //   const serviceUpdateStatus = new ServiceUpdateStatus();
-  //   const status = await serviceUpdateStatus.execute({
-  //     id,
-  //     name,
-  //     reference,
-  //     color,
-  //   });
-
-  //   return response.json(status);
-  // }
-
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const { id } = request.params;
-  //   const serviceDeleteStatus = new ServiceDeleteStatus();
-  //   const status = await serviceDeleteStatus.execute({
-  //     id,
-  //   });
-
-  //   return response.json(status);
-  // }
+    return response.json(data);
+  }
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const serviceDeleteUser = new ServiceDeleteUser();
+    const data = await serviceDeleteUser.execute({
+      id,
+    });
+    return response.json(data);
+  }
 }

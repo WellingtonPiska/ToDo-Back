@@ -9,7 +9,7 @@ import Sector from '../../sector/entities/Sector';
 import Status from '../../status/entities/Status';
 
 @Entity('user')
-class SUser {
+class User {
   @PrimaryColumn({ name: 'use_id_s' })
   id: string;
 
@@ -38,8 +38,8 @@ class SUser {
   @JoinColumn({ name: "use_costcenter_s" })
   costCenterRef: CostCenter;
 
-  @Column({ name: 'use_costcenter_s' })
-  costCenter: string;
+  @Column({ name: 'use_costcenter_s', nullable: true })
+  costCenter?: string;
 
   @Column({ name: 'use_name_s' })
   name: string;
@@ -48,25 +48,25 @@ class SUser {
   lastName: string;
 
   @Column({ name: 'use_display_s' })
-  diosplay: string;
+  display: string;
 
   @Column({ name: 'use_login_s' })
   login: string;
 
   @Column({ name: 'use_password_s', nullable: true })
-  password: string;
+  password?: string;
 
   @Column({ name: 'use_cpf_s', nullable: true })
-  cpf: string;
+  cpf?: string;
 
   @Column({ name: 'use_mail_s', nullable: true })
-  mail: string;
+  mail?: string;
 
   @Column({ name: 'use_dn_s', nullable: true })
-  dn: string;
+  dn?: string;
 
   @Column({ name: 'use_sid_s', nullable: true })
-  sid: string;
+  sid?: string;
 
   @CreateDateColumn({ name: 'use_created_d' })
   create: Date;
@@ -81,4 +81,4 @@ class SUser {
   }
 }
 
-export default Status;
+export default User;

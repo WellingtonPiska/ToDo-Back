@@ -1,38 +1,36 @@
 import { Router } from 'express';
-import validationRequest from '../../../shared/middleware/validationRequest';
+import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
+import schemaValidationStatusDelete from '../../status/validation/schemaValidationStatusDelete';
 import ControllerUser from '../controller/UserController';
-// import schemaValidationStatusFind from '../validation/schemaValidationStatusFind';
-// import schemaValidationStatusCreate from '../validation/schemaValidationStatusCreate';
-// import schemaValidationStatusUpdate from '../validation/schemaValidationStatusUpdate';
-// import schemaValidationStatusDelete from '../validation/schemaValidationStatusDelete';
+import schemaValidationUserCreate from '../validation/schemaValidationUserCreate';
+import schemaValidationUserFind from '../validation/schemaValidationUserFind';
+import schemaValidationUserUpdate from '../validation/schemaValidationUserUpdate';
 
 const controllerUser = new ControllerUser();
-const routerStatus = Router();
+const routerUser = Router();
 
-routerStatus.get('/', controllerUser.list);
+routerUser.get('/', controllerUser.list);
+routerUser.get(
+  '/:id',
+  ensureValidationYupRequest(schemaValidationUserFind),
+  controllerUser.find
+);
+routerUser.post(
+  '/',
+  ensureValidationYupRequest(schemaValidationUserCreate),
+  controllerUser.create
+);
+routerUser.put(
+  '/:id',
+  ensureValidationYupRequest(schemaValidationUserUpdate),
+  controllerUser.update
+);
 
-// routerStatus.get(
-//   '/:id',
-//   validationRequest(schemaValidationStatusFind),
-//   controllerStatus.find
-// );
+routerUser.delete(
+  '/:id',
+  ensureValidationYupRequest(schemaValidationStatusDelete),
+  controllerUser.delete
+);
 
-// routerStatus.post(
-//   '/',
-//   validationRequest(schemaValidationStatusCreate),
-//   controllerStatus.create
-// );
 
-// routerStatus.put(
-//   '/:id',
-//   validationRequest(schemaValidationStatusUpdate),
-//   controllerStatus.update
-// );
-
-// routerStatus.delete(
-//   '/:id',
-//   validationRequest(schemaValidationStatusDelete),
-//   controllerStatus.delete
-// );
-
-export default routerStatus;
+export default routerUser;

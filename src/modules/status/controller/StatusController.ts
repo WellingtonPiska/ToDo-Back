@@ -62,4 +62,5 @@ export default class StatusController {
 
     return response.json(status);
   }
+
 }
