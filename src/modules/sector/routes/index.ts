@@ -1,15 +1,13 @@
-import { Router } from "express";
-import ensureValidationYupRequest from "../../../shared/middleware/validationRequest";
-import PlaceController from "../controller/SectorController";
-import schemaValidationPlaceCreate from "../validation/schemaValidationCreate";
-import schemaValidationPlaceDelete from "../validation/schemaValidationDelete";
-import schemaValidationPlaceFind from "../validation/schemaValidationFind";
-import schemaValidationPlaceUpdate from "../validation/schemaValidationUpdate";
+import { Router } from 'express';
+import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
+import PlaceController from '../controller/SectorController';
+import schemaValidationPlaceCreate from '../validation/schemaValidationCreate';
+import schemaValidationPlaceDelete from '../validation/schemaValidationDelete';
+import schemaValidationPlaceFind from '../validation/schemaValidationFind';
+import schemaValidationPlaceUpdate from '../validation/schemaValidationUpdate';
 
 const placeController = new PlaceController();
 const routerPlace = Router();
-
-routerPlace.get('/sync', placeController.sync);
 
 routerPlace.get('/', placeController.list);
 

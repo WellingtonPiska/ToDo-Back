@@ -1,7 +1,11 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class Place1668716577911 implements MigrationInterface {
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -12,7 +16,7 @@ export class Place1668716577911 implements MigrationInterface {
             type: 'varchar',
             length: '36',
             isPrimary: true,
-            primaryKeyConstraintName: 'PK_SECTOR'
+            primaryKeyConstraintName: 'PK_SECTOR',
           },
           {
             name: 'sec_status_s',
@@ -23,12 +27,13 @@ export class Place1668716577911 implements MigrationInterface {
             name: 'sec_costcenter_s',
             type: 'varchar',
             length: '36',
+            isNullable: true,
           },
           {
             name: 'sec_sector_s',
             type: 'varchar',
             length: '36',
-            isNullable: true
+            isNullable: true,
           },
           {
             name: 'sec_name_s',
@@ -44,28 +49,28 @@ export class Place1668716577911 implements MigrationInterface {
           {
             name: 'sec_obs_s',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'sec_dn_s',
             type: 'varchar',
-            isNullable: true
+            isNullable: true,
           },
           {
             name: 'sec_guid_s',
             type: 'varchar',
-            isNullable: true
+            isNullable: true,
           },
           {
             name: 'sec_created_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'sec_updated_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
-
         ],
       })
     );
@@ -99,7 +104,5 @@ export class Place1668716577911 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
-  }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {}
 }

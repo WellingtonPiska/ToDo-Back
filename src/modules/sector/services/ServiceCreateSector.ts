@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Place from '../entities/Sector';
+import Sector from '../entities/Sector';
 import { ServiceFindSector } from './ServiceFindSector';
 
 interface ICreateSector {
@@ -13,20 +13,34 @@ interface ICreateSector {
   guid?: string;
   status: string;
   sectorFather?: string;
-  costCenter: string;
+  costCenter?: string;
 }
 
 export class ServiceCreateSector {
-  async execute({ name, dn, obs, status, guid, type, sectorFather, costCenter }: ICreateSector): Promise<Place> {
-    const repo = dataSource.getRepository(Place);
+  async execute({
+    name,
+    obs,
+    status,
+    dn,
+    guid,
+    type,
+    sectorFather,
+    costCenter,
+  }: ICreateSector): Promise<Sector> {
+    const repo = dataSource.getRepository(Sector);
 
     const serviceFindStatus = new ServiceFindStatus();
     const statusRef = await serviceFindStatus.execute({ id: status });
 
-    const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    let costCenterRef = null;
+    if (costCenter) {
+      const serviceFindCostCenter = new ServiceFindCostCenter();
+      costCenterRef = await serviceFindCostCenter.execute({
+        id: costCenter,
+      });
+    }
 
-    let sectorFatherRef = null
+    let sectorFatherRef = null;
     if (sectorFather) {
       const serviceFindSector = new ServiceFindSector();
       sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
@@ -34,9 +48,9 @@ export class ServiceCreateSector {
 
     const placeValid = await repo
       .createQueryBuilder('sector')
-      .where('place.pla_name_s = :name and place.pla_type_s = :type', {
+      .where('sector.sec_name_s = :name and sector.sec_type_s = :type', {
         name,
-        type
+        type,
       })
       .getOne();
 
@@ -44,16 +58,16 @@ export class ServiceCreateSector {
       throw new Error('Duplicate register');
     }
 
-    const place = new Place();
-    place.name = name;
-    place.obs = obs;
-    place.type = type;
-    place.status = statusRef.id;
-    place.costCenter = costCenterRef.id;
-    place.sectorFather = sectorFatherRef?.id;
-    place.dn = dn;
-    place.guid = guid;
-    const obj = await repo.save(place);
+    const sector = new Sector();
+    sector.name = name;
+    sector.obs = obs;
+    sector.type = type;
+    sector.status = statusRef.id;
+    sector.costCenter = costCenterRef?.id;
+    sector.sectorFather = sectorFatherRef?.id;
+    sector.dn = dn;
+    sector.guid = guid;
+    const obj = await repo.save(sector);
 
     return obj;
   }
