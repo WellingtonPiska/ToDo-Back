@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
-import User_CostCenter from '../entities/User_CostCenter';
+import UserCostCenter from '../entities/UserCostCenter';
 
 
 export class ServiceListUserCostCenter {
 
   async execute() {
-    const repo = dataSource.getRepository(User_CostCenter);
+    const repo = dataSource.getRepository(UserCostCenter);
     const data = await repo.find();
     return data;
   }

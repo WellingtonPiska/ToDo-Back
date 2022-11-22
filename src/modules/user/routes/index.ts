@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
-import schemaValidationStatusDelete from '../../status/validation/schemaValidationStatusDelete';
 import ControllerUser from '../controller/UserController';
 import schemaValidationUserCreate from '../validation/schemaValidationUserCreate';
+import schemaValidationUserDelete from '../validation/schemaValidationUserDelete';
 import schemaValidationUserFind from '../validation/schemaValidationUserFind';
 import schemaValidationUserUpdate from '../validation/schemaValidationUserUpdate';
 
@@ -28,7 +28,7 @@ routerUser.put(
 
 routerUser.delete(
   '/:id',
-  ensureValidationYupRequest(schemaValidationStatusDelete),
+  ensureValidationYupRequest(schemaValidationUserDelete),
   controllerUser.delete
 );
 

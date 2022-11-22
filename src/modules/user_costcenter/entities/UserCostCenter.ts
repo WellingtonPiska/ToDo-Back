@@ -6,8 +6,8 @@ import { v4 as uuid } from 'uuid';
 import CostCenter from '../../costCenter/entities/CostCenter';
 import User from '../../user/entities/User';
 
-@Entity('profile')
-class User_CostCenter {
+@Entity('user_costcenter')
+class UserCostCenter {
   @PrimaryColumn({ name: 'ucc_id_s' })
   id: string;
 
@@ -20,10 +20,10 @@ class User_CostCenter {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: "ucc_user_s" })
-  UserRef: User;
+  userRef: User;
 
   @Column({ name: 'ucc_user_s' })
-  User: string;
+  user: string;
 
 
 
@@ -40,4 +40,4 @@ class User_CostCenter {
   }
 }
 
-export default User_CostCenter;
+export default UserCostCenter;

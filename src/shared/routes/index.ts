@@ -8,6 +8,7 @@ import routerSector from '../../modules/sector/routes';
 import routerStatus from '../../modules/status/routes';
 import routerSync from '../../modules/sync/routes';
 import routerUser from '../../modules/user/routes';
+import routerUserCostCenter from '../../modules/user_costcenter/routes';
 
 const routes = Router();
 
@@ -19,5 +20,6 @@ routes.use('/costcenter', routerCostCenter);
 routes.use('/sector', routerSector);
 routes.use('/user', routerUser);
 routes.use('/apportion', routerApportion)
+routes.use('/user_costcenter', routerUserCostCenter)
 
 export default routes;
