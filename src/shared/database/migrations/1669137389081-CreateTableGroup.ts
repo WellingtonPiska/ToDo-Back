@@ -65,7 +65,7 @@ export class CreateTableGroup1669137389081 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'profile',
+      'group',
       new TableForeignKey({
         columnNames: ['gro_status_s'],
         referencedColumnNames: ['sta_id_s'],
