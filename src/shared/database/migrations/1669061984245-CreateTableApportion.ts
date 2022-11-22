@@ -2,7 +2,7 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey,
+  TableForeignKey
 } from 'typeorm';
 
 export class CreateTableApportion1669061984245 implements MigrationInterface {
@@ -29,7 +29,7 @@ export class CreateTableApportion1669061984245 implements MigrationInterface {
             length: '36',
           },
           {
-            name: 'app_value_s',
+            name: 'app_value_n',
             type: 'integer',
           },
           {
@@ -59,8 +59,8 @@ export class CreateTableApportion1669061984245 implements MigrationInterface {
       'apportion',
       new TableForeignKey({
         columnNames: ['app_apportion_s'],
-        referencedColumnNames: ['app_id_s'],
-        referencedTableName: 'apportion',
+        referencedColumnNames: ['cce_id_s'],
+        referencedTableName: 'cost_center',
         name: 'FK_APPORTION_APPORTION',
       })
     );
