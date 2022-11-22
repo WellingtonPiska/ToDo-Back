@@ -4,7 +4,7 @@ import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
 const schemaBodyApportion = yup.object().shape({
   value: yup.string().required('Value is required'),
-  costcenter: yup
+  costCenter: yup
     .string()
     .notRequired()
     .matches(regexUuidV4, 'Invalid UUID'),

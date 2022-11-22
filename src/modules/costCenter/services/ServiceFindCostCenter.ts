@@ -9,6 +9,10 @@ interface IFindCostCenter {
 
 export class ServiceFindCostCenter {
   async execute({ id }: IFindCostCenter) {
+    if (!id) {
+      throw new Error('CostCenter não encontrado');
+    }
+
     const repo = dataSource.getRepository(CostCenter);
     const costCenter = await repo.findOneBy({ id });
 
