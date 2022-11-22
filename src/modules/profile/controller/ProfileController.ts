@@ -15,6 +15,7 @@ export default class ProfileController {
 
     return response.json(profile);
   }
+
   public async find(request: Request, response: Response): Promise<Response> {
     //#swagger.tags = ['Status']
     const { id } = request.params;
@@ -48,7 +49,7 @@ export default class ProfileController {
       id,
       name,
       obs,
-      status
+      status,
     });
 
     return response.json(profile);
