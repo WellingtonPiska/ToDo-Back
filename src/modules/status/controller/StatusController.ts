@@ -6,23 +6,21 @@ import { ServiceListStatus } from '../services/ServiceListStatus';
 import { ServiceUpdateStatus } from '../services/ServiceUpdateStatus';
 
 export default class StatusController {
-
   public async list(request: Request, response: Response): Promise<Response> {
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
 
     const svcList = new ServiceListStatus();
-    const data = await svcList.execute();
+    const data = await svcList.execute({ page, limit });
     return response.json(data);
-
   }
 
   public async find(request: Request, response: Response): Promise<Response> {
-
     const { id } = request.params;
 
     const svcFind = new ServiceFindStatus();
     const data = await svcFind.execute({ id });
     return response.json(data);
-
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -62,5 +60,4 @@ export default class StatusController {
 
     return response.json(status);
   }
-
 }

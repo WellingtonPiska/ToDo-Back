@@ -2,8 +2,6 @@ import 'reflect-metadata';
 import 'dotenv/config';
 import { dataSource } from '../../../shared/database';
 import ldap from '../../../config/axios/ldap';
-
-import { ServiceCreateSector } from '../../sector/services/ServiceCreateSector';
 import Status from '../../status/entities/Status';
 import Sector from '../../sector/entities/Sector';
 
@@ -27,7 +25,6 @@ export class ServiceSyncLocation {
     };
     const res = await ldap.post('/ldap/ou/list', param);
     if (res.status == 200) {
-      const svcCreatorSector = new ServiceCreateSector();
       const repo = dataSource.getRepository(Sector);
 
       const repoStatus = dataSource.getRepository(Status);
@@ -44,25 +41,37 @@ export class ServiceSyncLocation {
 
       res.data.forEach(
         async ({ name, distinguishedName, objectGUID }: ILdapOu) => {
-          const sectorValid = await repo
-            .createQueryBuilder('sector')
-            .where('sector.sec_name_s = :name and sector.sec_type_s = :type', {
-              name,
-              type,
-            })
-            .getOne();
-
-          if (!sectorValid) {
-            const sector = new Sector();
+          const sector = await repo.findOne({
+            where: {
+              guid: objectGUID,
+            },
+          });
+          if (sector) {
+            //UPDATE
             sector.name = name;
-            sector.obs = obs;
-            sector.type = type;
-            sector.status = dataStatus.id;
-            sector.costCenter = costCenter;
-            sector.sectorFather = sectorFather;
             sector.dn = distinguishedName;
-            sector.guid = objectGUID;
-            const obj = await repo.save(sector);
+            await repo.save(sector);
+          } else {
+            //INSERT
+            const sectorValid = await repo
+              .createQueryBuilder('sector')
+              .where(`sector.sec_name_s = :name and sector.sec_type_s = 'L'`, {
+                name,
+              })
+              .getOne();
+
+            if (!sectorValid) {
+              const add = new Sector();
+              add.name = name;
+              add.obs = obs;
+              add.type = type;
+              add.status = dataStatus.id;
+              add.costCenter = costCenter;
+              add.sectorFather = sectorFather;
+              add.dn = distinguishedName;
+              add.guid = objectGUID;
+              await repo.save(add);
+            }
           }
         }
       );

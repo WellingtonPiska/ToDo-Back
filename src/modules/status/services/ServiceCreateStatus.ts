@@ -1,5 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
+import StatusRepository from '../repository/StatusRepository';
 import Status from '../entities/Status';
 
 interface ICreateStatus {
@@ -10,15 +9,9 @@ interface ICreateStatus {
 
 export class ServiceCreateStatus {
   async execute({ name, reference, color }: ICreateStatus) {
-    const repo = dataSource.getRepository(Status);
+    const repo = new StatusRepository();
 
-    const statusValid = await repo
-      .createQueryBuilder('status')
-      .where('status.sta_name_s = :name or status.sta_ref_s = :reference', {
-        name,
-        reference,
-      })
-      .getOne();
+    const statusValid = await repo.findValid(name, reference);
 
     if (statusValid) {
       throw new Error('Registro com valores duplicados.');
@@ -28,7 +21,7 @@ export class ServiceCreateStatus {
     status.name = name;
     status.reference = reference;
     status.color = color;
-    const obj = await repo.save(status);
+    const obj = await repo.create(status);
 
     return obj;
   }

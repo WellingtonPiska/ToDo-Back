@@ -1,7 +1,5 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
+import StatusRepository from '../repository/StatusRepository';
 import Status from '../entities/Status';
-import { ServiceFindStatus } from './ServiceFindStatus';
 
 interface IUpdateStatus {
   id: string;
@@ -11,35 +9,31 @@ interface IUpdateStatus {
 }
 
 export class ServiceUpdateStatus {
-  async execute({ id, name, reference, color }: IUpdateStatus) {
-    const repo = dataSource.getRepository(Status);
+  async execute({
+    id,
+    name,
+    reference,
+    color,
+  }: IUpdateStatus): Promise<Status> {
+    const repo = new StatusRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
+    const status = await repo.findById(id);
 
-    const status = await serviceFindStatus.execute({ id });
+    if (!status) {
+      throw new Error('Registro não encontrado.');
+    }
 
-    const statusValid = await repo
-      .createQueryBuilder('status')
-      .where(
-        'status.sta_id_s <> :id and (status.sta_name_s = :name or status.sta_ref_s = :reference)',
-        {
-          id,
-          name,
-          reference,
-        }
-      )
-      .getOne();
+    const valid = await repo.findValidUpdate(id, name, reference);
 
-    if (statusValid) {
+    if (valid) {
       throw new Error('Registro com valores duplicados.');
     }
 
-    const obj = await repo.save({
-      id: status.id,
-      name,
-      reference,
-      color,
-    });
-    return obj;
+    status.name = name;
+    status.reference = reference;
+    status.color = color;
+    await repo.update(status);
+
+    return status;
   }
 }

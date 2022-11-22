@@ -1,6 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import Status from '../entities/Status';
+import StatusRepository from '../repository/StatusRepository';
 
 interface IFindStatus {
   id: string;
@@ -8,15 +6,13 @@ interface IFindStatus {
 
 export class ServiceFindStatus {
   async execute({ id }: IFindStatus) {
-
-    const repo = dataSource.getRepository(Status);
-    const data = await repo.findOneBy({ id });
+    const repo = new StatusRepository();
+    const data = repo.findById(id);
 
     if (!data) {
       throw new Error('Registro não encontrado.');
     }
 
     return data;
-
   }
 }
