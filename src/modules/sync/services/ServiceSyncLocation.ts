@@ -34,6 +34,13 @@ export class ServiceSyncLocation {
       const type = 'L';
       const costCenter = undefined;
       const sectorFather = undefined;
+      const d = new Date();
+      let dt = d.getFullYear().toString();
+      dt += (d.getMonth() + 1).toString();
+      dt += d.getDay().toString();
+      dt += d.getHours().toString();
+      dt += d.getMinutes().toString();
+      dt += d.getSeconds().toString();
 
       if (!dataStatus) {
         throw Error('Status não cadastrado');
@@ -50,6 +57,7 @@ export class ServiceSyncLocation {
             //UPDATE
             sector.name = name;
             sector.dn = distinguishedName;
+            sector.sync = dt;
             await repo.save(sector);
           } else {
             //INSERT
@@ -70,11 +78,14 @@ export class ServiceSyncLocation {
               add.sectorFather = sectorFather;
               add.dn = distinguishedName;
               add.guid = objectGUID;
+              add.sync = dt;
               await repo.save(add);
             }
           }
         }
       );
+      //Desativar não sincronizados.
+      //const rem = repo.findNotSync(dt);
     } else {
       throw Error('Erro na sincronização de locais.');
     }

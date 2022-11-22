@@ -24,29 +24,29 @@ export class CreateTableStatus1668092128358 implements MigrationInterface {
           {
             name: 'sta_ref_s',
             type: 'char',
+            length: '1',
             isUnique: true,
           },
           {
             name: 'sta_color_s',
-            type: 'varchar',
+            type: 'varchar2',
             length: '20',
           },
           {
             name: 'sta_created_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'sta_updated_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       })
     );
 
-    await queryRunner.manager.getRepository("status").save(SeedStatus);
-
+    await queryRunner.manager.getRepository('status').save(SeedStatus);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

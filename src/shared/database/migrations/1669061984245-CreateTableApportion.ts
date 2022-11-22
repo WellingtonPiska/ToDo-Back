@@ -1,7 +1,11 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class CreateTableApportion1669061984245 implements MigrationInterface {
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,48 +19,54 @@ export class CreateTableApportion1669061984245 implements MigrationInterface {
             primaryKeyConstraintName: 'PK_APPORTION',
           },
           {
-            name: 'app_value_s',
+            name: 'app_costcenter_s',
             type: 'varchar',
-            length: '45',
-            isUnique: true,
+            length: '36',
+          },
+          {
+            name: 'app_apportion_s',
+            type: 'varchar',
+            length: '36',
+          },
+          {
+            name: 'app_value_s',
+            type: 'integer',
           },
           {
             name: 'app_created_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'app_updated_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       })
     );
     await queryRunner.createForeignKey(
-      'user',
+      'apportion',
       new TableForeignKey({
-        columnNames: ['use_costcenter_s'],
-        referencedColumnNames: ['sta_id_s'],
-        referencedTableName: 'costcenter',
-        name: 'FK_USER_COSTCENTER',
+        columnNames: ['app_costcenter_s'],
+        referencedColumnNames: ['cce_id_s'],
+        referencedTableName: 'cost_center',
+        name: 'FK_APPORTION_COSTCENTER',
       })
     );
 
     await queryRunner.createForeignKey(
-      'user',
+      'apportion',
       new TableForeignKey({
-        columnNames: ['use_apportion_s'],
-        referencedColumnNames: ['sec_id_s'],
+        columnNames: ['app_apportion_s'],
+        referencedColumnNames: ['app_id_s'],
         referencedTableName: 'apportion',
-        name: 'FK_USER_APPORTION',
+        name: 'FK_APPORTION_APPORTION',
       })
     );
-
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('profile');
+    await queryRunner.dropTable('apportion');
   }
-
 }

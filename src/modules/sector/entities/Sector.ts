@@ -52,6 +52,9 @@ class Sector {
   @Column({ name: 'sec_guid_s', nullable: true })
   guid?: string;
 
+  @Column({ name: 'sec_sync_s', nullable: true })
+  sync?: string;
+
   @CreateDateColumn({ name: 'sec_created_d' })
   create: Date;
 

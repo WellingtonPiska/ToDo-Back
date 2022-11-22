@@ -1,3 +1,4 @@
+import Status from '../entities/Status';
 import StatusRepository from '../repository/StatusRepository';
 
 interface IFindStatus {
@@ -5,14 +6,12 @@ interface IFindStatus {
 }
 
 export class ServiceFindStatus {
-  async execute({ id }: IFindStatus) {
+  async execute({ id }: IFindStatus): Promise<Status> {
     const repo = new StatusRepository();
-    const data = repo.findById(id);
-
+    const data = await repo.findById(id);
     if (!data) {
       throw new Error('Registro não encontrado.');
     }
-
     return data;
   }
 }

@@ -61,6 +61,12 @@ export class Place1668716577911 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'sec_sync_s',
+            type: 'varchar',
+            length: '15',
+            isNullable: true,
+          },
+          {
             name: 'sec_created_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
