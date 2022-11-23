@@ -1,7 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import CostCenter from '../entities/CostCenter';
-
+import CostCenterRepository from "../repository/CostCenterRepository";
 
 interface IFindCostCenter {
   id: string;
@@ -9,17 +6,13 @@ interface IFindCostCenter {
 
 export class ServiceFindCostCenter {
   async execute({ id }: IFindCostCenter) {
-    if (!id) {
-      throw new Error('CostCenter não encontrado');
+    const repo = new CostCenterRepository();
+
+    const data = await repo.findById(id)
+
+    if (!data) {
+      throw new Error('CostCenter não encontrado')
     }
-
-    const repo = dataSource.getRepository(CostCenter);
-    const costCenter = await repo.findOneBy({ id });
-
-    if (!costCenter) {
-      throw new Error('CostCenter não encontrado');
-    }
-
-    return costCenter;
+    return data;
   }
 }

@@ -1,6 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import Profile from '../entities/Profile';
+import ProfileRepository from '../repository/ProfileRepository';
 
 
 interface IFindProfile {
@@ -9,14 +7,14 @@ interface IFindProfile {
 
 export class ServiceFindProfile {
   async execute({ id }: IFindProfile) {
-    const repo = dataSource.getRepository(Profile);
+    const repo = new ProfileRepository();
 
-    const profile = await repo.findOneBy({ id });
+    const data = await repo.findById(id)
 
-    if (!profile) {
+    if (!data) {
       throw new Error('Profile not found');
     }
 
-    return profile;
+    return data;
   }
 }

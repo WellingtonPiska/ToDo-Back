@@ -1,48 +1,39 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import CostCenter from '../entities/CostCenter';
-import { ServiceFindCostCenter } from './ServiceFindCostCenter';
+import StatusRepository from "../../status/repository/StatusRepository";
+import CostCenterRepository from "../repository/CostCenterRepository";
 
 interface IUpdateCostCenter {
   id: string;
   name: string;
   obs: string;
-  apportion: string;
   status: string;
+  apportion: string;
 }
 
 export class ServiceUpdateCostCenter {
-  async execute({ id, name, obs, apportion, status }: IUpdateCostCenter) {
-    const repo = dataSource.getRepository(CostCenter);
-    const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenter = await serviceFindCostCenter.execute({ id });
+  async execute({ id, name, obs, status, apportion }: IUpdateCostCenter) {
+    const repo = new CostCenterRepository();
+    const costCenter = await repo.findById(id);
+    if (!costCenter) {
+      throw new Error('CostCenter não existe')
+    }
+    const repoStatus = new StatusRepository();
+    const statusRef = await repoStatus.findById(status);
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
-
-    const costCenterValid = await repo
-      .createQueryBuilder('costcenter')
-      .where(
-        'costcenter.cce_id_s <> :id and (costcenter.cce_name_s = :name)',
-        {
-          id,
-          name
-        }
-      )
-      .getOne();
-
-    if (costCenterValid) {
-      throw new Error('Duplicate register');
+    if (!statusRef) {
+      throw new Error('Status não encontrado')
     }
 
-    const obj = await repo.save({
-      id: costCenter.id,
-      name,
-      obs,
-      apportion,
-      status: statusRef.id
-    });
-    return obj;
+    const costCenterValid = await repo.findValidUpdate(id, name);
+
+    if (costCenterValid) {
+      throw new Error('CostCenter duplicado');
+    }
+
+    costCenter.name = name;
+    costCenter.obs = obs;
+    costCenter.status = statusRef.id;
+    costCenter.apportion = apportion;
+    await repo.update(costCenter);
+    return costCenter;
   }
 }

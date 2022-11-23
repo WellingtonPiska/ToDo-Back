@@ -1,9 +1,5 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Sector from '../entities/Sector';
-import { ServiceFindSector } from './ServiceFindSector';
+import StatusRepository from "../../status/repository/StatusRepository";
+import SectorRepository from "../repository/SectorRepository";
 
 interface ICreateSector {
   name: string;
@@ -17,58 +13,24 @@ interface ICreateSector {
 }
 
 export class ServiceCreateSector {
-  async execute({
-    name,
-    obs,
-    status,
-    dn,
-    guid,
-    type,
-    sectorFather,
-    costCenter,
-  }: ICreateSector): Promise<Sector> {
-    const repo = dataSource.getRepository(Sector);
+  async execute({ name, obs, type, dn, guid, status, sectorFather, costCenter }: ICreateSector) {
+    const repo = new SectorRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const repoStatus = new StatusRepository();
 
-    let costCenterRef = null;
-    if (costCenter) {
-      const serviceFindCostCenter = new ServiceFindCostCenter();
-      costCenterRef = await serviceFindCostCenter.execute({
-        id: costCenter,
-      });
+    const statusRef = await repoStatus.findById(status);
+
+    if (!statusRef) {
+      throw new Error('Status não cadastrado')
     }
 
-    let sectorFatherRef = null;
-    if (sectorFather) {
-      const serviceFindSector = new ServiceFindSector();
-      sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
+
+
+    const sectorValid = await repo.findByName(name);
+
+    if (sectorValid) {
+      throw new Error('Sector já existe');
     }
 
-    const placeValid = await repo
-      .createQueryBuilder('sector')
-      .where('sector.sec_name_s = :name and sector.sec_type_s = :type', {
-        name,
-        type,
-      })
-      .getOne();
-
-    if (placeValid) {
-      throw new Error('Duplicate register');
-    }
-
-    const sector = new Sector();
-    sector.name = name;
-    sector.obs = obs;
-    sector.type = type;
-    sector.status = statusRef.id;
-    sector.costCenter = costCenterRef?.id;
-    sector.sectorFather = sectorFatherRef?.id;
-    sector.dn = dn;
-    sector.guid = guid;
-    const obj = await repo.save(sector);
-
-    return obj;
   }
 }

@@ -1,41 +1,39 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import CostCenter from '../entities/CostCenter';
+import StatusRepository from "../../status/repository/StatusRepository";
+import CostCenter from "../entities/CostCenter";
+import CostCenterRepository from "../repository/CostCenterRepository";
 
 interface ICreateCostCenter {
   name: string;
   obs: string;
-  apportion: string;
   status: string;
+  apportion: string;
 }
 
 export class ServiceCreateCostCenter {
+  async execute({ name, obs, status, apportion }: ICreateCostCenter) {
+    const repo = new CostCenterRepository();
 
-  async execute({ name, apportion, obs, status }: ICreateCostCenter) {
-    const repo = dataSource.getRepository(CostCenter);
+    const repoStatus = new StatusRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
+    const statusRef = await repoStatus.findById(status)
 
-    const statusRef = await serviceFindStatus.execute({ id: status });
-
-    const costCenterValid = await repo
-      .createQueryBuilder('status')
-      .where('status.cce_name_s = :name', {
-        name,
-      })
-      .getOne();
-
-    if (costCenterValid) {
-      throw new Error('Duplicate register');
+    if (!statusRef) {
+      throw new Error('Status não cadastrado')
     }
 
-    const cc = new CostCenter();
-    cc.name = name;
-    cc.obs = obs;
-    cc.apportion = apportion;
-    cc.status = statusRef.id;
-    const obj = await repo.save(cc);
+    const costCenterValid = await repo.findByName(name);
+
+    if (costCenterValid) {
+      throw new Error('CostCenter já existe');
+    }
+
+    const costCenter = new CostCenter();
+    costCenter.name = name;
+    costCenter.obs = obs;
+    costCenter.status = statusRef.id;
+    costCenter.apportion = apportion;
+
+    const obj = await repo.create(costCenter);
 
     return obj;
   }

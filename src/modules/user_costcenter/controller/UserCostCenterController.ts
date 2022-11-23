@@ -3,6 +3,7 @@ import { ServiceCreateUserCostCenter } from "../services/ServiceCreateUserCostCe
 import { ServiceDeleteUserCostCenter } from "../services/ServiceDeleteUserCostCenter";
 import { ServiceFindUserCostCenter } from "../services/ServiceFindUserCostCenter";
 import { ServiceListUserCostCenter } from "../services/ServiceListUserCostCenter";
+import { ServiceUpdateUserCostCenter } from "../services/ServiceUpdateUserCostCenter";
 
 export default class UserController {
 

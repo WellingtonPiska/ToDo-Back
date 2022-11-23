@@ -1,9 +1,5 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Profile from '../entities/Profile';
-
-import { ServiceFindProfile } from './ServiceFindProfile';
+import StatusRepository from '../../status/repository/StatusRepository';
+import ProfileRepository from '../repository/ProfileRepository';
 
 interface IUpdateProfile {
   id: string;
@@ -14,34 +10,29 @@ interface IUpdateProfile {
 
 export class ServiceUpdateProfile {
   async execute({ id, name, obs, status }: IUpdateProfile) {
-    const repo = dataSource.getRepository(Profile);
-    const serviceFindProfile = new ServiceFindProfile();
-    const profile = await serviceFindProfile.execute({ id });
-
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
-
-    const profileValid = await repo
-      .createQueryBuilder('profile')
-      .where(
-        'profile.pro_id_s <> :id and (profile.pro_name_s = :name)',
-        {
-          id,
-          name
-        }
-      )
-      .getOne();
-
-    if (profileValid) {
-      throw new Error('Duplicate register');
+    const repo = new ProfileRepository();
+    const profile = await repo.findById(id);
+    if (!profile) {
+      throw new Error('Profile não existe')
     }
 
-    const obj = await repo.save({
-      id: profile.id,
-      name,
-      obs,
-      status: statusRef.id
-    });
-    return obj;
+    const repoStatus = new StatusRepository();
+    const statusRef = await repoStatus.findById(status);
+
+    if (!statusRef) {
+      throw new Error('Status não encontrado')
+    }
+
+    const profileValid = await repo.findValidUpdate(id, name);
+
+    if (profileValid) {
+      throw new Error('Profile duplicado');
+    }
+
+    profile.name = name;
+    profile.obs = obs;
+    profile.status = statusRef.id;
+    await repo.update(profile);
+    return profile;
   }
 }

@@ -1,15 +1,28 @@
 import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
 import CostCenter from '../entities/CostCenter';
+import CostCenterRepository from '../repository/CostCenterRepository';
+
+interface ISearchParams {
+  page: number;
+  limit: number;
+  ref: string;
+}
+
+interface IResponseCostCenter {
+  per_page: number;
+  total: number;
+  current_page: number;
+  data: CostCenter[];
+}
 
 export class ServiceListCostCenter {
-  async execute() {
-    const repo = dataSource.getRepository(CostCenter);
-    const costCenter = await repo.find({
-      relations: {
-        statusRef: true
-      }
-    });
-    return costCenter;
+  async execute({ page, limit, ref }: ISearchParams): Promise<IResponseCostCenter> {
+    const take = limit;
+    const skip = (Number(page) - 1) * take;
+
+    const repo = new CostCenterRepository();
+    const list = await repo.findAll({ page, skip, take, ref })
+    return list;
   }
 }
+

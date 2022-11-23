@@ -1,6 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import CostCenter from '../entities/CostCenter';
+import CostCenterRepository from "../repository/CostCenterRepository";
 
 interface IDeleteCostCenter {
   id: string;
@@ -8,15 +6,15 @@ interface IDeleteCostCenter {
 
 export class ServiceDeleteCostCenter {
   async execute({ id }: IDeleteCostCenter) {
-    const repo = dataSource.getRepository(CostCenter);
+    const repo = new CostCenterRepository();
 
-    const costCenter = await repo.findOneBy({ id });
+    const costCenter = await repo.findById(id);
 
     if (!costCenter) {
-      throw new Error('Not Found');
+      throw new Error('CostCenter não existe');
     }
 
-    await repo.delete({ id });
+    await repo.remove(costCenter);
 
     return 'Deleted';
   }

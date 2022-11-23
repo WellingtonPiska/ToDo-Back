@@ -101,14 +101,10 @@ export default class StatusRepository {
     return data;
   }
 
-  public async create({
-    name,
-    reference,
-    color,
-  }: ICreateStatus): Promise<Status> {
-    const status = this.repo.create({ name, reference, color });
+  public async create(status: Status): Promise<Status> {
+    const data = this.repo.create(status);
     await this.repo.save(status);
-    return status;
+    return data;
   }
 
   public async update(status: Status): Promise<Status> {

@@ -9,11 +9,14 @@ import { ServiceUpdateCostCenter } from '../services/ServiceUpdateCostCenter';
 export default class CostCenterController {
 
   public async list(request: Request, response: Response): Promise<Response> {
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
+    const ref = request.query.ref ? String(request.query.ref) : 'A';
     const serviceListCostCenter = new ServiceListCostCenter();
 
-    const CostCenter = await serviceListCostCenter.execute();
+    const costCenter = await serviceListCostCenter.execute({ page, limit, ref });
 
-    return response.json(CostCenter);
+    return response.json(costCenter)
   }
 
   public async find(request: Request, response: Response): Promise<Response> {

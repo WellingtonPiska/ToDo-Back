@@ -1,6 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import Profile from '../entities/Profile';
+import ProfileRepository from '../repository/ProfileRepository';
 
 
 interface IDeleteProfile {
@@ -9,15 +7,15 @@ interface IDeleteProfile {
 
 export class ServiceDeleteProfile {
   async execute({ id }: IDeleteProfile) {
-    const repo = dataSource.getRepository(Profile);
+    const repo = new ProfileRepository();
 
-    const profile = await repo.findOneBy({ id });
+    const profile = await repo.findById(id);
 
     if (!profile) {
-      throw new Error('Not Found');
+      throw new Error('Profile não existe');
     }
 
-    await repo.delete({ id });
+    await repo.remove(profile);
 
     return 'Deleted';
   }

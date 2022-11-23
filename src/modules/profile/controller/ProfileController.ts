@@ -7,11 +7,13 @@ import { ServiceUpdateProfile } from '../services/ServiceUpdateProfile';
 
 export default class ProfileController {
   public async list(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Perfil']
-    //#swagger.summary = 'List All Perfil'
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
+    const ref = request.query.ref ? String(request.query.ref) : 'A';
     const serviceListProfile = new ServiceListProfile();
 
-    const profile = await serviceListProfile.execute();
+
+    const profile = await serviceListProfile.execute({ page, limit, ref });
 
     return response.json(profile);
   }
@@ -40,7 +42,7 @@ export default class ProfileController {
     return response.json(result);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['CentroCusto']
+
     const { name, obs, status } = request.body;
     const { id } = request.params;
 

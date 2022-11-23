@@ -1,7 +1,7 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import StatusRepository from '../../status/repository/StatusRepository';
 import Profile from '../entities/Profile';
+import ProfileRepository from '../repository/ProfileRepository';
+
 
 interface ICreateProfile {
   name: string;
@@ -11,28 +11,27 @@ interface ICreateProfile {
 
 export class ServiceCreateProfile {
   async execute({ name, obs, status }: ICreateProfile) {
-    const repo = dataSource.getRepository(Profile);
+    const repo = new ProfileRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
+    const repoStatus = new StatusRepository();
 
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const statusRef = await repoStatus.findById(status);
 
-    const profileValid = await repo
-      .createQueryBuilder('status')
-      .where('status.pro_name_s = :name', {
-        name,
-      })
-      .getOne();
+    if (!statusRef) {
+      throw new Error('Status não cadastrado');
+    }
+
+    const profileValid = await repo.findByName(name);
 
     if (profileValid) {
-      throw new Error('Duplicate register');
+      throw new Error('Profile já existe');
     }
 
     const profile = new Profile();
     profile.name = name;
     profile.obs = obs;
     profile.status = statusRef.id;
-    const obj = await repo.save(profile);
+    const obj = await repo.create(profile);
 
     return obj;
   }

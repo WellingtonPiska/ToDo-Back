@@ -7,9 +7,14 @@ import { ServiceUpdateSector } from '../services/ServiceUpdateSector';
 
 export default class SectorController {
   public async list(request: Request, response: Response): Promise<Response> {
-    const svcList = new ServiceListSector();
-    const data = await svcList.execute();
-    return response.json(data);
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
+    const ref = request.query.ref ? String(request.query.ref) : 'A';
+    const serviceListSector = new ServiceListSector();
+
+    const sector = await serviceListSector.execute({ page, limit, ref });
+
+    return response.json(sector)
   }
 
   public async find(request: Request, response: Response): Promise<Response> {
