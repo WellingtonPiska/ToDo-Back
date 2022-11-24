@@ -1,23 +1,17 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import Apportion from '../entities/Apportion';
+import ApportionRepository from '../repository/ApportionRepository';
+import { ServiceFindApportion } from './ServiceFindApportion';
+
 
 interface IDeleteApportion {
   id: string;
 }
 
 export class ServiceDeleteApportion {
-  async execute({ id }: IDeleteApportion) {
-    const repo = dataSource.getRepository(Apportion);
-
-    const apportion = await repo.findOneBy({ id });
-
-    if (!apportion) {
-      throw new Error('Not Found');
-    }
-
-    await repo.delete({ id });
-
-    return 'Deleted';
+  async execute({ id }: IDeleteApportion): Promise<Boolean> {
+    const repo = new ApportionRepository();
+    const serviceFindApportion = new ServiceFindApportion();
+    const apportion = await serviceFindApportion.execute({ id });
+    await repo.remove(apportion);
+    return true;
   }
 }

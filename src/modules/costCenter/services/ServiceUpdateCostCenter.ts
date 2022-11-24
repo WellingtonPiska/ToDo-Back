@@ -1,5 +1,7 @@
-import StatusRepository from "../../status/repository/StatusRepository";
+import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
+import CostCenter from "../entities/CostCenter";
 import CostCenterRepository from "../repository/CostCenterRepository";
+import { ServiceFindCostCenter } from "./ServiceFindCostCenter";
 
 interface IUpdateCostCenter {
   id: string;
@@ -10,18 +12,14 @@ interface IUpdateCostCenter {
 }
 
 export class ServiceUpdateCostCenter {
-  async execute({ id, name, obs, status, apportion }: IUpdateCostCenter) {
+  async execute({ id, name, obs, status }: IUpdateCostCenter): Promise<CostCenter> {
     const repo = new CostCenterRepository();
-    const costCenter = await repo.findById(id);
-    if (!costCenter) {
-      throw new Error('CostCenter não existe')
-    }
-    const repoStatus = new StatusRepository();
-    const statusRef = await repoStatus.findById(status);
 
-    if (!statusRef) {
-      throw new Error('Status não encontrado')
-    }
+    const serviceFindCostCenter = new ServiceFindCostCenter();
+    const costCenter = await serviceFindCostCenter.execute({ id: status });
+
+    const serviceFindStatus = new ServiceFindStatus();
+    const statusRef = await serviceFindStatus.execute({ id: status });
 
     const costCenterValid = await repo.findValidUpdate(id, name);
 
@@ -32,8 +30,8 @@ export class ServiceUpdateCostCenter {
     costCenter.name = name;
     costCenter.obs = obs;
     costCenter.status = statusRef.id;
-    costCenter.apportion = apportion;
     await repo.update(costCenter);
     return costCenter;
   }
 }
+

@@ -15,9 +15,6 @@ interface IResponseProfile {
   data: Profile[];
 }
 
-
-
-
 export class ServiceListProfile {
   async execute({ page, limit, ref }: ISearchParams): Promise<IResponseProfile> {
     const take = limit;

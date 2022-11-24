@@ -9,10 +9,14 @@ import { ServiceUpdateApportion } from "../services/ServiceUpdateApportion";
 export default class CostCenterController {
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const serviceListApportion = new ServiceListApportion
-    const CostCenter = await serviceListApportion.execute();
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
+    const serviceListApportion = new ServiceListApportion();
 
-    return response.json(CostCenter);
+
+    const apportion = await serviceListApportion.execute({ page, limit });
+
+    return response.json(apportion);
   }
   public async find(request: Request, response: Response): Promise<Response> {
 

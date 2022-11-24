@@ -1,15 +1,26 @@
 import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
 import Apportion from '../entities/Apportion';
+import ApportionRepository from '../repository/ApportionRepository';
 
+interface ISearchParams {
+  page: number;
+  limit: number;
+}
 
-
-
+interface IResponseApportion {
+  per_page: number;
+  total: number;
+  current_page: number;
+  data: Apportion[];
+}
 
 export class ServiceListApportion {
-  async execute() {
-    const repo = dataSource.getRepository(Apportion);
-    const apportion = await repo.find();
-    return apportion;
+  async execute({ page, limit, }: ISearchParams): Promise<IResponseApportion> {
+    const take = limit;
+    const skip = (Number(page) - 1) * take;
+
+    const repo = new ApportionRepository();
+    const list = await repo.findAll({ page, skip, take });
+    return list;
   }
 }

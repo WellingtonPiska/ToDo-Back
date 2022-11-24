@@ -1,4 +1,4 @@
-import StatusRepository from "../../status/repository/StatusRepository";
+import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
 import CostCenter from "../entities/CostCenter";
 import CostCenterRepository from "../repository/CostCenterRepository";
 
@@ -10,16 +10,11 @@ interface ICreateCostCenter {
 }
 
 export class ServiceCreateCostCenter {
-  async execute({ name, obs, status, apportion }: ICreateCostCenter) {
+  async execute({ name, obs, status, apportion }: ICreateCostCenter): Promise<CostCenter> {
     const repo = new CostCenterRepository();
 
-    const repoStatus = new StatusRepository();
-
-    const statusRef = await repoStatus.findById(status)
-
-    if (!statusRef) {
-      throw new Error('Status não cadastrado')
-    }
+    const serviceFindStatus = new ServiceFindStatus();
+    const statusRef = await serviceFindStatus.execute({ id: status });
 
     const costCenterValid = await repo.findByName(name);
 
@@ -27,13 +22,12 @@ export class ServiceCreateCostCenter {
       throw new Error('CostCenter já existe');
     }
 
-    const costCenter = new CostCenter();
-    costCenter.name = name;
-    costCenter.obs = obs;
-    costCenter.status = statusRef.id;
-    costCenter.apportion = apportion;
-
-    const obj = await repo.create(costCenter);
+    const cc = new CostCenter();
+    cc.name = name;
+    cc.obs = obs;
+    cc.status = statusRef.id;
+    cc.apportion = apportion;
+    const obj = await repo.create(cc);
 
     return obj;
   }

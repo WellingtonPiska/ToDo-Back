@@ -1,21 +1,16 @@
 import CostCenterRepository from "../repository/CostCenterRepository";
+import { ServiceFindCostCenter } from "./ServiceFindCostCenter";
 
 interface IDeleteCostCenter {
   id: string;
 }
 
 export class ServiceDeleteCostCenter {
-  async execute({ id }: IDeleteCostCenter) {
+  async execute({ id }: IDeleteCostCenter): Promise<Boolean> {
     const repo = new CostCenterRepository();
-
-    const costCenter = await repo.findById(id);
-
-    if (!costCenter) {
-      throw new Error('CostCenter não existe');
-    }
-
-    await repo.remove(costCenter);
-
-    return 'Deleted';
+    const serviceFindCosCenter = new ServiceFindCostCenter();
+    const profile = await serviceFindCosCenter.execute({ id });
+    await repo.remove(profile);
+    return true;
   }
 }
