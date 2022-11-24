@@ -1,5 +1,6 @@
-import StatusRepository from '../repository/StatusRepository';
 import Status from '../entities/Status';
+import StatusRepository from '../repository/StatusRepository';
+import { ServiceFindStatus } from './ServiceFindStatus';
 
 interface IUpdateStatus {
   id: string;
@@ -17,11 +18,9 @@ export class ServiceUpdateStatus {
   }: IUpdateStatus): Promise<Status> {
     const repo = new StatusRepository();
 
-    const status = await repo.findById(id);
+    const serviceFindStatus = new ServiceFindStatus();
 
-    if (!status) {
-      throw new Error('Registro não encontrado.');
-    }
+    const status = await serviceFindStatus.execute({ id });
 
     const valid = await repo.findValidUpdate(id, name, reference);
 

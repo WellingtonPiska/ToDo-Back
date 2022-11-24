@@ -1,5 +1,8 @@
-import StatusRepository from "../../status/repository/StatusRepository";
+import { ServiceFindCostCenter } from "../../costCenter/services/ServiceFindCostCenter";
+import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
+import Sector from "../entities/Sector";
 import SectorRepository from "../repository/SectorRepository";
+import { ServiceFindSector } from "./ServiceFindSector";
 
 interface ICreateSector {
   name: string;
@@ -13,18 +16,24 @@ interface ICreateSector {
 }
 
 export class ServiceCreateSector {
-  async execute({ name, obs, type, dn, guid, status, sectorFather, costCenter }: ICreateSector) {
+  async execute({ name, obs, type, dn, guid, status, sectorFather, costCenter }: ICreateSector): Promise<Sector> {
+
     const repo = new SectorRepository();
 
-    const repoStatus = new StatusRepository();
+    const serviceFindStatus = new ServiceFindStatus();
+    const statusRef = await serviceFindStatus.execute({ id: status });
 
-    const statusRef = await repoStatus.findById(status);
-
-    if (!statusRef) {
-      throw new Error('Status não cadastrado')
+    let sectorFatherRef = null;
+    if (sectorFather) {
+      const serviceFindSector = new ServiceFindSector();
+      sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
     }
 
-
+    let costCenterRef = null;
+    if (costCenter) {
+      const serviceFindCostCenter = new ServiceFindCostCenter();
+      costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    }
 
     const sectorValid = await repo.findByName(name);
 
@@ -32,5 +41,18 @@ export class ServiceCreateSector {
       throw new Error('Sector já existe');
     }
 
+
+    const sector = new Sector();
+    sector.type = type;
+    sector.dn = dn;
+    sector.guid = guid;
+    sector.name = name;
+    sector.obs = obs;
+    sector.costCenter = costCenterRef?.id;
+    sector.sectorFather = sectorFatherRef?.id;
+    sector.status = statusRef.id;
+    const obj = await repo.create(sector);
+
+    return obj;
   }
 }

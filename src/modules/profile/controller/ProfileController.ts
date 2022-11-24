@@ -60,10 +60,9 @@ export default class ProfileController {
     //#swagger.tags = ['Profile']
     const { id } = request.params;
     const serviceDeleteProfile = new ServiceDeleteProfile();
-    const profile = await serviceDeleteProfile.execute({
+    const deleted = await serviceDeleteProfile.execute({
       id,
     });
-
-    return response.json(profile);
+    return response.json(deleted);
   }
 }

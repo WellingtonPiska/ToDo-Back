@@ -44,10 +44,10 @@ export default class SectorController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const serviceDeleteSector = new ServiceDeleteSector();
-    const data = await serviceDeleteSector.execute({
+    const deleted = await serviceDeleteSector.execute({
       id,
     });
-    return response.json(data);
+    return response.json(deleted);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

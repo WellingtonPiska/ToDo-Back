@@ -1,4 +1,4 @@
-import StatusRepository from '../../status/repository/StatusRepository';
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import Profile from '../entities/Profile';
 import ProfileRepository from '../repository/ProfileRepository';
 
@@ -10,16 +10,11 @@ interface ICreateProfile {
 }
 
 export class ServiceCreateProfile {
-  async execute({ name, obs, status }: ICreateProfile) {
+  async execute({ name, obs, status }: ICreateProfile): Promise<Profile> {
     const repo = new ProfileRepository();
 
-    const repoStatus = new StatusRepository();
-
-    const statusRef = await repoStatus.findById(status);
-
-    if (!statusRef) {
-      throw new Error('Status não cadastrado');
-    }
+    const serviceFindStatus = new ServiceFindStatus();
+    const statusRef = await serviceFindStatus.execute({ id: status });
 
     const profileValid = await repo.findByName(name);
 

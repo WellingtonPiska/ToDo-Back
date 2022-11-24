@@ -1,5 +1,7 @@
-import StatusRepository from '../../status/repository/StatusRepository';
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import Profile from '../entities/Profile';
 import ProfileRepository from '../repository/ProfileRepository';
+import { ServiceFindProfile } from './ServiceFindProfile';
 
 interface IUpdateProfile {
   id: string;
@@ -9,19 +11,14 @@ interface IUpdateProfile {
 }
 
 export class ServiceUpdateProfile {
-  async execute({ id, name, obs, status }: IUpdateProfile) {
+  async execute({ id, name, obs, status }: IUpdateProfile): Promise<Profile> {
     const repo = new ProfileRepository();
-    const profile = await repo.findById(id);
-    if (!profile) {
-      throw new Error('Profile não existe')
-    }
 
-    const repoStatus = new StatusRepository();
-    const statusRef = await repoStatus.findById(status);
+    const serviceFindProfile = new ServiceFindProfile();
+    const profile = await serviceFindProfile.execute({ id: status });
 
-    if (!statusRef) {
-      throw new Error('Status não encontrado')
-    }
+    const serviceFindStatus = new ServiceFindStatus();
+    const statusRef = await serviceFindStatus.execute({ id: status });
 
     const profileValid = await repo.findValidUpdate(id, name);
 

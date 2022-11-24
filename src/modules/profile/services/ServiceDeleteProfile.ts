@@ -1,4 +1,5 @@
 import ProfileRepository from '../repository/ProfileRepository';
+import { ServiceFindProfile } from './ServiceFindProfile';
 
 
 interface IDeleteProfile {
@@ -6,17 +7,11 @@ interface IDeleteProfile {
 }
 
 export class ServiceDeleteProfile {
-  async execute({ id }: IDeleteProfile) {
+  async execute({ id }: IDeleteProfile): Promise<Boolean> {
     const repo = new ProfileRepository();
-
-    const profile = await repo.findById(id);
-
-    if (!profile) {
-      throw new Error('Profile não existe');
-    }
-
+    const serviceFindProfile = new ServiceFindProfile();
+    const profile = await serviceFindProfile.execute({ id });
     await repo.remove(profile);
-
-    return 'Deleted';
+    return true;
   }
 }

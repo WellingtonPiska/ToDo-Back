@@ -1,5 +1,5 @@
-import StatusRepository from '../repository/StatusRepository';
 import Status from '../entities/Status';
+import StatusRepository from '../repository/StatusRepository';
 
 interface ICreateStatus {
   name: string;
@@ -8,7 +8,7 @@ interface ICreateStatus {
 }
 
 export class ServiceCreateStatus {
-  async execute({ name, reference, color }: ICreateStatus) {
+  async execute({ name, reference, color }: ICreateStatus): Promise<Status> {
     const repo = new StatusRepository();
 
     const statusValid = await repo.findValid(name, reference);

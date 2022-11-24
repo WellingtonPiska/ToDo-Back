@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import Place from '../entities/Sector';
+import { default as Place, default as Sector } from '../entities/Sector';
 import { ServiceFindSector } from './ServiceFindSector';
 
 interface IUpdatePlace {
@@ -18,7 +18,7 @@ interface IUpdatePlace {
 }
 
 export class ServiceUpdateSector {
-  async execute({ id, name, obs, dn, status, guid, sectorFather, costCenter, type }: IUpdatePlace) {
+  async execute({ id, name, obs, dn, status, guid, sectorFather, costCenter, type }: IUpdatePlace): Promise<Sector> {
     const repo = dataSource.getRepository(Place);
 
     const serviceFindSector = new ServiceFindSector();

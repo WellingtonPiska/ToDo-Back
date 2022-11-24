@@ -54,10 +54,10 @@ export default class StatusController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const serviceDeleteStatus = new ServiceDeleteStatus();
-    const status = await serviceDeleteStatus.execute({
+    const deleted = await serviceDeleteStatus.execute({
       id,
     });
 
-    return response.json(status);
+    return response.json(deleted);
   }
 }

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import Sector from '../entities/Sector';
+import { ServiceFindSector } from './ServiceFindSector';
 
 
 interface IDeleteSector {
@@ -8,17 +9,11 @@ interface IDeleteSector {
 }
 
 export class ServiceDeleteSector {
-  async execute({ id }: IDeleteSector) {
+  async execute({ id }: IDeleteSector): Promise<Boolean> {
     const repo = dataSource.getRepository(Sector);
-
-    const data = await repo.findOneBy({ id });
-
-    if (!data) {
-      throw new Error('Registro não encontrado.');
-    }
-
-    await repo.delete({ id });
-
-    return { "message": "Registro excluído."};
+    const serviceFindSector = new ServiceFindSector();
+    const sector = await serviceFindSector.execute({ id });
+    await repo.delete({ id: sector.id });
+    return true;
   }
 }
