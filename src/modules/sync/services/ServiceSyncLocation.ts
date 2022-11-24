@@ -68,9 +68,16 @@ export class ServiceSyncLocation {
           }
         }
       }
-
-      const del = await repo.findNotSyncLocaton(sync);
-      console.log(del);
+      const remove = await repo.findNotSyncLocaton(sync);
+      if (remove) {
+        for (const rem of remove) {
+          const remStatus = await repoStatus.findByRef('I');
+          if (remStatus) {
+            rem.status = remStatus?.id;
+            await repo.update(rem);
+          }
+        }
+      }
     } else {
       throw Error('Erro na sincronização de locais.');
     }
