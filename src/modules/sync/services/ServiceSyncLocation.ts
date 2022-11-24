@@ -12,9 +12,14 @@ interface IResponseSyncSector {
 }
 
 interface ILdapOu {
-  name: string;
-  distinguishedName: string;
-  objectGUID: string;
+  status: number;
+  data: [
+    {
+      name: string;
+      distinguishedName: string;
+      objectGUID: string;
+    }
+  ];
 }
 
 export class ServiceSyncLocation {
@@ -24,53 +29,48 @@ export class ServiceSyncLocation {
       subou: false,
     };
     const sync = uuid();
+    const res = (await ldap.post('/ldap/ou/list', param)) as ILdapOu;
 
-    const res = await ldap.post('/ldap/ou/list', param);
     if (res.status == 200) {
       const repo = new SectorRepository();
       const repoStatus = new StatusRepository();
 
       const obs = 'Registro adicionado pela sincronização.';
       const type = 'L';
-      const costCenter = undefined;
-      const sectorFather = undefined;
-
       const dataStatus = await repoStatus.findByRef('P');
 
       if (!dataStatus) {
         throw Error('Status não cadastrado');
       }
 
-      res.data.forEach(
-        async ({ name, distinguishedName, objectGUID }: ILdapOu) => {
-          let sector = await repo.findByGuid(objectGUID);
+      for (const { name, distinguishedName, objectGUID } of res.data) {
+        let sector = await repo.findByGuid(objectGUID);
 
-          if (sector) {
-            //UPDATE
-            sector.name = name;
-            sector.dn = distinguishedName;
-            sector.sync = sync;
-            await repo.update(sector);
-          } else {
-            //INSERT
-            const sectorValid = await repo.findValidSyncLocation(name);
-
-            if (!sectorValid) {
-              const add = new Sector();
-              add.name = name;
-              add.obs = obs;
-              add.type = type;
-              add.status = dataStatus.id;
-              add.costCenter = costCenter;
-              add.sectorFather = sectorFather;
-              add.dn = distinguishedName;
-              add.guid = objectGUID;
-              add.sync = sync;
-              await repo.create(add);
-            }
+        if (sector) {
+          //UPDATE
+          sector.name = name;
+          sector.dn = distinguishedName;
+          sector.sync = sync;
+          await repo.update(sector);
+        } else {
+          //INSERT
+          const sectorValid = await repo.findValidSyncLocation(name);
+          if (!sectorValid) {
+            const add = new Sector();
+            add.name = name;
+            add.obs = obs;
+            add.type = type;
+            add.status = dataStatus.id;
+            add.dn = distinguishedName;
+            add.guid = objectGUID;
+            add.sync = sync;
+            await repo.create(add);
           }
         }
-      );
+      }
+
+      const del = await repo.findNotSyncLocaton(sync);
+      console.log(del);
     } else {
       throw Error('Erro na sincronização de locais.');
     }
