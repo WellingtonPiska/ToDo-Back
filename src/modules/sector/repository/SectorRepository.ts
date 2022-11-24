@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
 import Sector from '../entities/Sector';
 
@@ -23,7 +23,7 @@ interface ICreateSector {
   type: string;
   obs: string;
   dn: string;
-  guid: string
+  guid: string;
 }
 
 export default class SectorRepository {
@@ -68,26 +68,50 @@ export default class SectorRepository {
     return data;
   }
 
+  public async findByGuid(guid: string): Promise<Sector | null> {
+    const data = await this.repo.findOneBy({
+      guid,
+    });
+    return data;
+  }
+
+  public async findNotSyncLocaton(sync: string): Promise<Sector[] | null> {
+    const data = await this.repo
+      .createQueryBuilder('sector')
+      .where(`sector.sec_sync_s <> :sync and sector.sec_type_s = 'L'`, {
+        sync,
+      })
+      .getMany();
+    return data;
+  }
+
+  public async findValidSyncLocation(name: string): Promise<Sector | null> {
+    const data = await this.repo
+      .createQueryBuilder('sector')
+      .where(`sector.sec_name_s = :name and sector.sec_type_s = 'L'`, {
+        name,
+      })
+      .getOne();
+    return data;
+  }
+
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<Sector | null> {
     const data = await this.repo
       .createQueryBuilder('sector')
-      .where(
-        'sec_center.pro_id_s <> :id and sec_center.pro_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('sec_center.pro_id_s <> :id and sec_center.pro_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;
   }
 
   public async create(sector: Sector): Promise<Sector> {
-    const data = this.repo.save(sector);
+    const data = await this.repo.save(sector);
     return data;
   }
 

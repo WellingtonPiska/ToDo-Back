@@ -63,7 +63,7 @@ export class Place1668716577911 implements MigrationInterface {
           {
             name: 'sec_sync_s',
             type: 'varchar',
-            length: '15',
+            length: '36',
             isNullable: true,
           },
           {

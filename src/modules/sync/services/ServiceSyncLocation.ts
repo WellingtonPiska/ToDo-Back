@@ -1,9 +1,9 @@
-import 'reflect-metadata';
 import 'dotenv/config';
-import { dataSource } from '../../../shared/database';
 import ldap from '../../../config/axios/ldap';
-import Status from '../../status/entities/Status';
+import SectorRepository from '../../sector/repository/SectorRepository';
+import StatusRepository from '../../status/repository/StatusRepository';
 import Sector from '../../sector/entities/Sector';
+import { v4 as uuid } from 'uuid';
 
 interface IResponseSyncSector {
   name: string;
@@ -23,24 +23,19 @@ export class ServiceSyncLocation {
       ou: process.env.LDAP_DN,
       subou: false,
     };
+    const sync = uuid();
+
     const res = await ldap.post('/ldap/ou/list', param);
     if (res.status == 200) {
-      const repo = dataSource.getRepository(Sector);
-
-      const repoStatus = dataSource.getRepository(Status);
-      const dataStatus = await repoStatus.findOneBy({ name: 'Ativo' });
+      const repo = new SectorRepository();
+      const repoStatus = new StatusRepository();
 
       const obs = 'Registro adicionado pela sincronização.';
       const type = 'L';
       const costCenter = undefined;
       const sectorFather = undefined;
-      const d = new Date();
-      let dt = d.getFullYear().toString();
-      dt += (d.getMonth() + 1).toString();
-      dt += d.getDay().toString();
-      dt += d.getHours().toString();
-      dt += d.getMinutes().toString();
-      dt += d.getSeconds().toString();
+
+      const dataStatus = await repoStatus.findByRef('P');
 
       if (!dataStatus) {
         throw Error('Status não cadastrado');
@@ -48,25 +43,17 @@ export class ServiceSyncLocation {
 
       res.data.forEach(
         async ({ name, distinguishedName, objectGUID }: ILdapOu) => {
-          const sector = await repo.findOne({
-            where: {
-              guid: objectGUID,
-            },
-          });
+          let sector = await repo.findByGuid(objectGUID);
+
           if (sector) {
             //UPDATE
             sector.name = name;
             sector.dn = distinguishedName;
-            sector.sync = dt;
-            await repo.save(sector);
+            sector.sync = sync;
+            await repo.update(sector);
           } else {
             //INSERT
-            const sectorValid = await repo
-              .createQueryBuilder('sector')
-              .where(`sector.sec_name_s = :name and sector.sec_type_s = 'L'`, {
-                name,
-              })
-              .getOne();
+            const sectorValid = await repo.findValidSyncLocation(name);
 
             if (!sectorValid) {
               const add = new Sector();
@@ -78,14 +65,12 @@ export class ServiceSyncLocation {
               add.sectorFather = sectorFather;
               add.dn = distinguishedName;
               add.guid = objectGUID;
-              add.sync = dt;
-              await repo.save(add);
+              add.sync = sync;
+              await repo.create(add);
             }
           }
         }
       );
-      //Desativar não sincronizados.
-      //const rem = repo.findNotSync(dt);
     } else {
       throw Error('Erro na sincronização de locais.');
     }
