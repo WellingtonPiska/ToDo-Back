@@ -75,10 +75,31 @@ export default class SectorRepository {
     return data;
   }
 
+  public async findAllByType(type: string, status: string): Promise<Sector[]> {
+    const data = await this.repo
+      .createQueryBuilder('sector')
+      .where(`sector.sec_type_s = :type and  sector.sec_status_s = :status`, {
+        type,
+        status,
+      })
+      .getMany();
+    return data;
+  }
+
   public async findNotSyncLocaton(sync: string): Promise<Sector[] | null> {
     const data = await this.repo
       .createQueryBuilder('sector')
       .where(`sector.sec_sync_s <> :sync and sector.sec_type_s = 'L'`, {
+        sync,
+      })
+      .getMany();
+    return data;
+  }
+
+  public async findNotSyncSector(sync: string): Promise<Sector[] | null> {
+    const data = await this.repo
+      .createQueryBuilder('sector')
+      .where(`sector.sec_sync_s <> :sync and sector.sec_type_s = 'S'`, {
         sync,
       })
       .getMany();
@@ -95,13 +116,30 @@ export default class SectorRepository {
     return data;
   }
 
+  public async findValidSyncSector(
+    name: string,
+    fatherId: string
+  ): Promise<Sector | null> {
+    const data = await this.repo
+      .createQueryBuilder('sector')
+      .where(
+        `sector.sec_name_s = :name and sector.sec_type_s = 'S' and sector.sec_sector_s = :fatherId`,
+        {
+          name,
+          fatherId,
+        }
+      )
+      .getOne();
+    return data;
+  }
+
   public async findValidUpdate(
     id: string,
     name: string
   ): Promise<Sector | null> {
     const data = await this.repo
       .createQueryBuilder('sector')
-      .where('sec_center.pro_id_s <> :id and sec_center.pro_name_s = :name', {
+      .where('sec_center.sec_id_s <> :id and sec_center.pro_name_s = :name', {
         id,
         name,
       })

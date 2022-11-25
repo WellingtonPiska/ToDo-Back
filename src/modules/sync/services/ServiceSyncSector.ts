@@ -1,11 +1,9 @@
-import 'reflect-metadata';
 import 'dotenv/config';
-import { dataSource } from '../../../shared/database';
 import ldap from '../../../config/axios/ldap';
-
-import Status from '../../status/entities/Status';
+import SectorRepository from '../../sector/repository/SectorRepository';
+import StatusRepository from '../../status/repository/StatusRepository';
 import Sector from '../../sector/entities/Sector';
-import { create } from 'domain';
+import { v4 as uuid } from 'uuid';
 
 interface IResponseSyncSector {
   name: string;
@@ -14,84 +12,77 @@ interface IResponseSyncSector {
 }
 
 interface ILdapOu {
-  name: string;
-  distinguishedName: string;
-  objectGUID: string;
+  status: number;
+  data: [
+    {
+      name: string;
+      distinguishedName: string;
+      objectGUID: string;
+    }
+  ];
 }
 
 export class ServiceSyncSector {
   async execute(): Promise<void> {
-    const repo = dataSource.getRepository(Sector);
-    const repoStatus = dataSource.getRepository(Status);
-    const dataStatus = await repoStatus.findOneBy({ name: 'Ativo' });
+    const repo = new SectorRepository();
+    const repoStatus = new StatusRepository();
+    const dataStatus = await repoStatus.findByRef('A');
     const obs = 'Registro adicionado pela sincronização.';
     const type = 'S';
-    const costCenter = undefined;
-    const sectorFather = undefined;
+    const sync = uuid();
 
     if (!dataStatus) {
       throw Error('Status não cadastrado');
     }
 
-    const list = await repo.find({
-      where: {
-        type: 'L',
-        status: dataStatus?.id,
-      },
-    });
+    const list = await repo.findAllByType('L', dataStatus.id);
 
-    list.forEach(async ({ id, name, dn }: Sector) => {
+    for (const { id, dn } of list) {
       const fatherId = id;
-      const fatherName = name;
-      const fatherDn = dn;
       const param = {
         ou: dn,
         subou: false,
       };
+
       const res = await ldap.post('/ldap/ou/list', param);
       if (res.status == 200) {
-        res.data.forEach(
-          async ({ name, distinguishedName, objectGUID }: ILdapOu) => {
-            const sector = await repo.findOne({
-              where: {
-                guid: objectGUID,
-              },
-            });
+        for (const { name, distinguishedName, objectGUID } of res.data) {
+          const sector = await repo.findByGuid(objectGUID);
+          if (sector) {
+            sector.name = name;
+            sector.dn = distinguishedName;
+            sector.sync = sync;
+            await repo.update(sector);
+          } else {
+            const sectorValid = await repo.findValidSyncSector(name, fatherId);
 
-            if (sector) {
-              sector.name = name;
-              sector.dn = distinguishedName;
-              await repo.save(sector);
-            } else {
-              create;
-              const sectorValid = await repo
-                .createQueryBuilder('sector')
-                .where(
-                  `sector.sec_name_s = :name and sector.sec_type_s = 'S' and sector.sec_sector_s = :fatherId`,
-                  {
-                    name,
-                    fatherId,
-                  }
-                )
-                .getOne();
-              if (!sectorValid) {
-                const add = new Sector();
-                add.name = name;
-                add.obs = obs;
-                add.type = type;
-                add.status = dataStatus.id;
-                add.costCenter = costCenter;
-                add.sectorFather = fatherId;
-                add.dn = distinguishedName;
-                add.guid = objectGUID;
-                await repo.save(add);
-              }
+            if (!sectorValid) {
+              const add = new Sector();
+              add.name = name;
+              add.obs = obs;
+              add.type = type;
+              add.status = dataStatus.id;
+              add.sectorFather = fatherId;
+              add.dn = distinguishedName;
+              add.guid = objectGUID;
+              add.sync = sync;
+              await repo.create(add);
             }
           }
-        );
+        }
       } else {
         throw Error('Erro na sincronização de setores.');
       }
-    });
+    }
+    const remove = await repo.findNotSyncSector(sync);
+    if (remove) {
+      for (const rem of remove) {
+        const remStatus = await repoStatus.findByRef('I');
+        if (remStatus) {
+          rem.status = remStatus?.id;
+          await repo.update(rem);
+        }
+      }
+    }
   }
 }

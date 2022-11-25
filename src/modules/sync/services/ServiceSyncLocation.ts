@@ -37,7 +37,7 @@ export class ServiceSyncLocation {
 
       const obs = 'Registro adicionado pela sincronização.';
       const type = 'L';
-      const dataStatus = await repoStatus.findByRef('P');
+      const dataStatus = await repoStatus.findByRef('A');
 
       if (!dataStatus) {
         throw Error('Status não cadastrado');
