@@ -1,25 +1,24 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
-import { default as Place, default as Sector } from '../entities/Sector';
+import Sector from '../entities/Sector';
+import SectorRepository from '../repository/SectorRepository';
 import { ServiceFindSector } from './ServiceFindSector';
 
-interface IUpdatePlace {
+interface IUpdateSector {
   id: string;
   name: string;
   obs: string;
+  type: string;
   dn?: string;
   guid?: string;
   status: string;
   sectorFather?: string;
-  costCenter: string;
-  type: string;
+  costCenter?: string;
 }
 
 export class ServiceUpdateSector {
-  async execute({ id, name, obs, dn, status, guid, sectorFather, costCenter, type }: IUpdatePlace): Promise<Sector> {
-    const repo = dataSource.getRepository(Place);
+  async execute({ id, name, obs, type, dn, guid, status, sectorFather, costCenter }: IUpdateSector): Promise<Sector> {
+    const repo = new SectorRepository();
 
     const serviceFindSector = new ServiceFindSector();
     const sector = await serviceFindSector.execute({ id });
@@ -27,8 +26,11 @@ export class ServiceUpdateSector {
     const serviceFindStatus = new ServiceFindStatus();
     const statusRef = await serviceFindStatus.execute({ id: status });
 
-    const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    let costCenterRef = null
+    if (costCenter) {
+      const serviceFindCostCenter = new ServiceFindCostCenter();
+      costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    }
 
     let sectorFatherRef = null
     if (sectorFather) {
@@ -36,33 +38,21 @@ export class ServiceUpdateSector {
       sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
     }
 
-    const placeValid = await repo
-      .createQueryBuilder('sector')
-      .where(
-        'sector.sec_id_s <> :id and (sector.sec_name_s = :name and sector.sec_type_s = :type )',
-        {
-          id,
-          name,
-          type,
-        }
-      )
-      .getOne();
+    const profileValid = await repo.findValidUpdate(id, name);
 
-    if (placeValid) {
-      throw new Error('Duplicate register');
+    if (profileValid) {
+      throw new Error('Profile duplicado');
     }
+    sector.dn = dn;
+    sector.guid = guid;
+    sector.type = type;
+    sector.name = name;
+    sector.obs = obs;
+    sector.costCenter = costCenterRef?.id;
+    sector.status = statusRef.id
+    sector.sectorFather = sectorFatherRef?.id;
 
-    const obj = await repo.save({
-      id: sector.id,
-      status: statusRef.id,
-      placeFather: sectorFatherRef?.id,
-      costCenter: costCenterRef.id,
-      name,
-      obs,
-      type,
-      guid,
-      dn
-    });
-    return obj;
+    await repo.update(sector);
+    return sector;
   }
 }

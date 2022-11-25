@@ -8,11 +8,11 @@ import { ServiceUpdateUserCostCenter } from "../services/ServiceUpdateUserCostCe
 export default class UserController {
 
   public async list(request: Request, response: Response): Promise<Response> {
-
-
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
     const serviceListUserCostCenter = new ServiceListUserCostCenter();
 
-    const ucc = await serviceListUserCostCenter.execute();
+    const ucc = await serviceListUserCostCenter.execute({ page, limit });
 
     return response.json(ucc);
   }

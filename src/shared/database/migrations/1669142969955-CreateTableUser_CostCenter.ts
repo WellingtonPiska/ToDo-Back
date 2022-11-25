@@ -5,7 +5,7 @@ export class CreateTableUserCostCenter1669142969955 implements MigrationInterfac
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user_cost_center',
+        name: 'user_costcenter',
         columns: [
           {
             name: 'ucc_id_s',
@@ -38,7 +38,7 @@ export class CreateTableUserCostCenter1669142969955 implements MigrationInterfac
       })
     );
     await queryRunner.createForeignKey(
-      'user_cost_center',
+      'user_costcenter',
       new TableForeignKey({
         columnNames: ['ucc_user_s'],
         referencedColumnNames: ['use_id_s'],
@@ -47,7 +47,7 @@ export class CreateTableUserCostCenter1669142969955 implements MigrationInterfac
       })
     );
     await queryRunner.createForeignKey(
-      'user_cost_center',
+      'user_costcenter',
       new TableForeignKey({
         columnNames: ['ucc_costcenter_s'],
         referencedColumnNames: ['cce_id_s'],
@@ -59,6 +59,7 @@ export class CreateTableUserCostCenter1669142969955 implements MigrationInterfac
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('user_costcenter');
   }
 
 }

@@ -14,13 +14,14 @@ import { ServiceUpdateUser } from '../services/ServiceUpdateUser';
 export default class UserController {
 
   public async list(request: Request, response: Response): Promise<Response> {
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
+    const ref = request.query.ref ? String(request.query.ref) : 'A';
+    const serviceListUser = new ServiceListUser();
 
+    const user = await serviceListUser.execute({ page, limit, ref });
 
-    const svcList = new ServiceListUser();
-
-    const data = await svcList.execute();
-
-    return response.json(data);
+    return response.json(user)
   }
   public async find(request: Request, response: Response): Promise<Response> {
 

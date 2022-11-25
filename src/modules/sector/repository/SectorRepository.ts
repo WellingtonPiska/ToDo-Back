@@ -1,5 +1,6 @@
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Sector from '../entities/Sector';
 
 interface ISearchParams {
@@ -37,11 +38,15 @@ export default class SectorRepository {
     page,
     skip,
     take,
+    ref
   }: ISearchParams): Promise<IResponseSector> {
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const status = await serviceFindRefStatus.execute({ ref });
     const [cost_center, count] = await this.repo
       .createQueryBuilder()
       .skip(skip)
       .take(take)
+      .where('sector.sec_status_s = :ref', { ref: status.id })
       .getManyAndCount();
 
     const result = {

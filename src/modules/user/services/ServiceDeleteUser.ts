@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import User from '../entities/User';
+import { ServiceFindUser } from './ServiceFindUser';
 
 
 interface IDeleteUser {
@@ -8,17 +9,11 @@ interface IDeleteUser {
 }
 
 export class ServiceDeleteUser {
-  async execute({ id }: IDeleteUser) {
+  async execute({ id }: IDeleteUser): Promise<Boolean> {
     const repo = dataSource.getRepository(User);
-
-    const data = await repo.findOneBy({ id });
-
-    if (!data) {
-      throw new Error('Registro não encontrado.');
-    }
-
-    await repo.delete({ id });
-
-    return { "message": "Registro excluído." };
+    const serviceFindUser = new ServiceFindUser();
+    const user = await serviceFindUser.execute({ id });
+    await repo.delete({ id: user.id });
+    return true;
   }
 }

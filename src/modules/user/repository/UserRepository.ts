@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
-import Profile from '../entities/Profile';
+import User from '../entities/User';
 
 interface ISearchParams {
   page: number;
@@ -10,23 +10,34 @@ interface ISearchParams {
   ref: string;
 }
 
-interface IResponseProfile {
+interface IResponseUser {
   per_page: number;
   total: number;
   current_page: number;
-  data: Profile[];
+  data: User[];
 }
 
-interface ICreateProfile {
+interface ICreateUser {
   name: string;
-  obs: string;
+  lastName: string;
+  display: string;
+  login: string;
+  password?: string;
+  cpf?: string;
+  mail?: string;
+  dn?: string;
+  sid?: string;
+  status: string;
+  sector: string;
+  costCenter?: string;
+  profile: string;
 }
 
-export default class ProfileRepository {
-  private repo: Repository<Profile>;
+export default class UserRepository {
+  private repo: Repository<User>;
 
   constructor() {
-    this.repo = dataSource.getRepository(Profile);
+    this.repo = dataSource.getRepository(User);
   }
 
   public async findAll({
@@ -34,34 +45,34 @@ export default class ProfileRepository {
     skip,
     take,
     ref,
-  }: ISearchParams): Promise<IResponseProfile> {
+  }: ISearchParams): Promise<IResponseUser> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
-    const [profile, count] = await this.repo
-      .createQueryBuilder('profile')
+    const [user, count] = await this.repo
+      .createQueryBuilder('user')
       .skip(skip)
       .take(take)
-      .where('profile.pro_status_s = :ref', { ref: status.id })
+      .where('user.use_status_s = :ref', { ref: status.id })
       .getManyAndCount();
 
     const result = {
       per_page: take,
       total: count,
       current_page: page,
-      data: profile,
+      data: user,
     };
 
     return result;
   }
 
-  public async findById(id: string): Promise<Profile | null> {
+  public async findById(id: string): Promise<User | null> {
     const data = await this.repo.findOneBy({
       id,
     });
     return data;
   }
 
-  public async findByName(name: string): Promise<Profile | null> {
+  public async findByName(name: string): Promise<User | null> {
     const data = await this.repo.findOneBy({
       name,
     });
@@ -71,11 +82,11 @@ export default class ProfileRepository {
   public async findValidUpdate(
     id: string,
     name: string,
-  ): Promise<Profile | null> {
+  ): Promise<User | null> {
     const data = await this.repo
-      .createQueryBuilder('profile')
+      .createQueryBuilder('user')
       .where(
-        'profile.pro_id_s <> :id and profile.pro_name_s = :name',
+        'user.use_id_s <> :id and user.use_name_s = :name',
         {
           id,
           name,
@@ -86,17 +97,17 @@ export default class ProfileRepository {
     return data;
   }
 
-  public async create(profile: Profile): Promise<Profile> {
-    const data = this.repo.save(profile);
+  public async create(user: User): Promise<User> {
+    const data = this.repo.save(user);
     return data;
   }
 
-  public async update(profile: Profile): Promise<Profile> {
-    await this.repo.save(profile);
-    return profile;
+  public async update(user: User): Promise<User> {
+    await this.repo.save(user);
+    return user;
   }
 
-  public async remove(profile: Profile): Promise<void> {
-    await this.repo.remove(profile);
+  public async remove(user: User): Promise<void> {
+    await this.repo.remove(user);
   }
 }
