@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
-import CostCenter from '../entities/CostCenter';
+import Group from '../entities/Group';
 
 interface ISearchParams {
   page: number;
@@ -10,25 +10,28 @@ interface ISearchParams {
   ref: string;
 }
 
-interface IResponseCostCenter {
+interface IResponseGroup {
   per_page: number;
   total: number;
   current_page: number;
-  data: CostCenter[];
+  data: Group[];
 }
 
-interface ICreateCostCenter {
+interface ICreateGroup {
   name: string;
   status: string;
-  apportion: string;
-  obs?: string;
+  type: string;
+  mail: string;
+  dn: string;
+  sid: string;
+  sync: string;
 }
 
-export default class CostCenterRepository {
-  private repo: Repository<CostCenter>;
+export default class GroupRepository {
+  private repo: Repository<Group>;
 
   constructor() {
-    this.repo = dataSource.getRepository(CostCenter);
+    this.repo = dataSource.getRepository(Group);
   }
 
   public async findAll({
@@ -36,34 +39,34 @@ export default class CostCenterRepository {
     skip,
     take,
     ref,
-  }: ISearchParams): Promise<IResponseCostCenter> {
+  }: ISearchParams): Promise<IResponseGroup> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
-    const [costCenter, count] = await this.repo
-      .createQueryBuilder('cost_center')
+    const [group, count] = await this.repo
+      .createQueryBuilder('group')
       .skip(skip)
       .take(take)
-      .where('cost_center.cce_status_s = :ref', { ref: status.id })
+      .where('group.gro_status_s = :ref', { ref: status.id })
       .getManyAndCount();
 
     const result = {
       per_page: take,
       total: count,
       current_page: page,
-      data: costCenter,
+      data: group,
     };
 
     return result;
   }
 
-  public async findById(id: string): Promise<CostCenter | null> {
+  public async findById(id: string): Promise<Group | null> {
     const data = await this.repo.findOneBy({
       id,
     });
     return data;
   }
 
-  public async findByName(name: string): Promise<CostCenter | null> {
+  public async findByName(name: string): Promise<Group | null> {
     const data = await this.repo.findOneBy({
       name,
     });
@@ -73,11 +76,11 @@ export default class CostCenterRepository {
   public async findValidUpdate(
     id: string,
     name: string,
-  ): Promise<CostCenter | null> {
+  ): Promise<Group | null> {
     const data = await this.repo
-      .createQueryBuilder('cost_center')
+      .createQueryBuilder('group')
       .where(
-        'cost_center.cce_id_s <> :id and cost_center.cce_name_s = :name',
+        'group.gro_id_s <> :id and group.gro_name_s = :name',
         {
           id,
           name,
@@ -88,17 +91,17 @@ export default class CostCenterRepository {
     return data;
   }
 
-  public async create(cost_center: CostCenter): Promise<CostCenter> {
-    const data = this.repo.save(cost_center);
+  public async create(group: Group): Promise<Group> {
+    const data = this.repo.save(group);
     return data;
   }
 
-  public async update(cost_center: CostCenter): Promise<CostCenter> {
-    await this.repo.save(cost_center);
-    return cost_center;
+  public async update(group: Group): Promise<Group> {
+    await this.repo.save(group);
+    return group;
   }
 
-  public async remove(cost_center: CostCenter): Promise<void> {
-    await this.repo.remove(cost_center);
+  public async remove(group: Group): Promise<void> {
+    await this.repo.remove(group);
   }
 }

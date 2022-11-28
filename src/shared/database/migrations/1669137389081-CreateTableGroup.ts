@@ -2,7 +2,7 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey,
+  TableForeignKey
 } from 'typeorm';
 
 export class CreateTableGroup1669137389081 implements MigrationInterface {
@@ -49,6 +49,11 @@ export class CreateTableGroup1669137389081 implements MigrationInterface {
             name: 'gro_sid_s',
             type: 'varchar',
             length: '50',
+          },
+          {
+            name: 'gro_sync_s',
+            type: 'varchar',
+            length: '36',
           },
           {
             name: 'gro_created_d',
