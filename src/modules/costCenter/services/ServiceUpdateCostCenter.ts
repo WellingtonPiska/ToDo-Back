@@ -12,11 +12,11 @@ interface IUpdateCostCenter {
 }
 
 export class ServiceUpdateCostCenter {
-  async execute({ id, name, obs, status }: IUpdateCostCenter): Promise<CostCenter> {
+  async execute({ id, name, obs, status, apportion }: IUpdateCostCenter): Promise<CostCenter> {
     const repo = new CostCenterRepository();
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenter = await serviceFindCostCenter.execute({ id: status });
+    const costCenter = await serviceFindCostCenter.execute({ id });
 
     const serviceFindStatus = new ServiceFindStatus();
     const statusRef = await serviceFindStatus.execute({ id: status });
@@ -26,7 +26,7 @@ export class ServiceUpdateCostCenter {
     if (costCenterValid) {
       throw new Error('CostCenter duplicado');
     }
-
+    costCenter.apportion = apportion;
     costCenter.name = name;
     costCenter.obs = obs;
     costCenter.status = statusRef.id;

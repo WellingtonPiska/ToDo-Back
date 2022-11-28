@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import UserCostCenter from '../entities/UserCostCenter';
+import { ServiceFindUserCostCenter } from './ServiceFindUserCostCenter';
 
 
 interface IDeleteUserCostCenter {
@@ -8,17 +9,11 @@ interface IDeleteUserCostCenter {
 }
 
 export class ServiceDeleteUserCostCenter {
-  async execute({ id }: IDeleteUserCostCenter) {
+  async execute({ id }: IDeleteUserCostCenter): Promise<Boolean> {
     const repo = dataSource.getRepository(UserCostCenter);
-
-    const data = await repo.findOneBy({ id });
-
-    if (!data) {
-      throw new Error('Registro não encontrado.');
-    }
-
-    await repo.delete({ id });
-
-    return { "message": "Registro excluído." };
+    const serviceFindUserCostCenter = new ServiceFindUserCostCenter();
+    const ucc = await serviceFindUserCostCenter.execute({ id });
+    await repo.delete({ id: ucc.id });
+    return true;
   }
 }

@@ -1,22 +1,19 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import User from '../entities/User';
+import User from "../entities/User";
+import UserRepository from "../repository/UserRepository";
 
 interface IFindUser {
   id: string;
 }
 
 export class ServiceFindUser {
-  async execute({ id }: IFindUser) {
+  async execute({ id }: IFindUser): Promise<User> {
+    const repo = new UserRepository();
 
-    const repo = dataSource.getRepository(User);
-    const data = await repo.findOneBy({ id });
+    const data = await repo.findById(id)
 
     if (!data) {
-      throw new Error('Registro não encontrado.');
+      throw new Error('User não encontrado')
     }
-
     return data;
-
   }
 }

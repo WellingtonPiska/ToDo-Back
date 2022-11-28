@@ -45,7 +45,6 @@ export class ServiceUpdateUser {
     const serviceFindSector = new ServiceFindSector();
     const sectorRef = await serviceFindSector.execute({ id: sector });
 
-
     const userValid = await repo
       .createQueryBuilder('user')
       .where(
@@ -53,11 +52,9 @@ export class ServiceUpdateUser {
         {
           id,
           display,
-
         }
       )
       .getOne();
-
 
     if (userValid) {
       throw new Error('Duplicate register');
@@ -74,7 +71,8 @@ export class ServiceUpdateUser {
     data.sector = sectorRef.id;
     data.profile = profileRef.id;
     data.costCenter = costCenterRef?.id;
-
+    data.login = login;
+    data.sid = sid;
 
     const obj = await repo.save(data);
     return obj;

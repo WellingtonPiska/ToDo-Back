@@ -70,9 +70,9 @@ export default class CostCenterRepository {
     name: string,
   ): Promise<CostCenter | null> {
     const data = await this.repo
-      .createQueryBuilder('profile')
+      .createQueryBuilder('cost_center')
       .where(
-        'cost_center.pro_id_s <> :id and cost_center.pro_name_s = :name',
+        'cost_center.cce_id_s <> :id and cost_center.cce_name_s = :name',
         {
           id,
           name,

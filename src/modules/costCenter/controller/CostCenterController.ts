@@ -47,6 +47,7 @@ export default class CostCenterController {
     const { name, apportion, obs, status } = request.body;
     const { id } = request.params;
 
+
     const serviceUpdateCostCenter = new ServiceUpdateCostCenter();
     const costCenter = await serviceUpdateCostCenter.execute({
       id,

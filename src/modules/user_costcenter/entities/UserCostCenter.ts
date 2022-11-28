@@ -27,10 +27,10 @@ class UserCostCenter {
 
 
 
-  @CreateDateColumn({ name: 'pro_created_d' })
+  @CreateDateColumn({ name: 'ucc_created_d' })
   create: Date;
 
-  @UpdateDateColumn({ name: 'pro_updated_d' })
+  @UpdateDateColumn({ name: 'ucc_updated_d' })
   update: Date;
 
   constructor() {

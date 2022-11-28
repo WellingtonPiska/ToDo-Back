@@ -1,22 +1,21 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
 import Apportion from '../entities/Apportion';
+import ApportionRepository from '../repository/ApportionRepository';
+
 
 interface IFindApportion {
   id: string;
 }
 
 export class ServiceFindApportion {
-  async execute({ id }: IFindApportion) {
+  async execute({ id }: IFindApportion): Promise<Apportion> {
+    const repo = new ApportionRepository();
 
-    const repo = dataSource.getRepository(Apportion);
-    const data = await repo.findOneBy({ id });
+    const data = await repo.findById(id)
 
     if (!data) {
-      throw new Error('Registro não encontrado.');
+      throw new Error('Apportion not found');
     }
 
     return data;
-
   }
 }

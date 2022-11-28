@@ -21,7 +21,6 @@ interface ICreateUser {
   costCenter?: string;
   profile: string;
 }
-
 export class ServiceCreateUser {
   async execute({
     name,
@@ -81,11 +80,7 @@ export class ServiceCreateUser {
     user.sid = sid;
     user.mail = mail;
 
-
-
-
     const obj = await repo.save(user);
-
     return obj;
   }
 }
