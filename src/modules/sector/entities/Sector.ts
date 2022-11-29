@@ -5,7 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import CostCenter from '../../costCenter/entities/CostCenter';
@@ -44,7 +44,7 @@ class Sector {
   name: string;
 
   @Column({ name: 'sec_obs_s', nullable: true })
-  obs: string;
+  obs?: string;
 
   @Column({ name: 'sec_dn_s', nullable: true })
   dn?: string;

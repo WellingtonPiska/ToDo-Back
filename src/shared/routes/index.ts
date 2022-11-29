@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
 import routerApportion from '../../modules/apportion/routes';
+import routerCompany from '../../modules/company/routes';
+import routerContactType from '../../modules/contactType/routes';
 import routerCostCenter from '../../modules/costCenter/routes';
 import routerGroup from '../../modules/group/routes';
 import routerLocation from '../../modules/location/routes';
@@ -25,5 +27,6 @@ routes.use('/apportion', routerApportion)
 routes.use('/user_costcenter', routerUserCostCenter)
 routes.use('/group', routerGroup)
 routes.use('/menu', routerMenu)
-
+routes.use('/contact_type', routerContactType)
+routes.use('/company', routerCompany)
 export default routes;
