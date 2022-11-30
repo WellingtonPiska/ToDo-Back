@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
-const schemaParamCompanyContact = yup.object({
+const validParamContactFind = yup.object({
   company: yup
     .string()
     .required('Company é necessário')
@@ -9,7 +9,7 @@ const schemaParamCompanyContact = yup.object({
   id: yup
     .string()
     .required('Id é necessário')
-    .matches(regexUuidV4, 'ID inválido'),
+    .matches(regexUuidV4, 'UUID inválido'),
 });
 
-export default schemaParamCompanyContact;
+export default validParamContactFind;

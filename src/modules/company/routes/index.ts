@@ -6,7 +6,8 @@ import schemaValidationCompanyCreate from '../validation/schemaValidationCreate'
 import schemaValidationCompanyDelete from '../validation/schemaValidationDelete';
 import schemaValidationCompanyFind from '../validation/schemaValidationFind';
 import schemaValidationCompanyUpdate from '../validation/schemaValidationUpdate';
-import schemaValidationCompanyFindContact from '../validation/schemaParamCompanyContact';
+import validContactList from '../validation/validContactList';
+import validContactFind from '../validation/validContactFind';
 
 const controllerCompany = new ControllerCompany();
 const controllerContact = new ControllerCompanyContact();
@@ -35,10 +36,14 @@ routerCompany.delete(
 );
 routerCompany.get(
   '/:company/contact',
-
+  ensureValidationYupRequest(validContactList),
   controllerContact.list
 );
 
-routerCompany.get('/:company/contact/:id', controllerContact.find);
+routerCompany.get(
+  '/:company/contact/:id',
+  ensureValidationYupRequest(validContactFind),
+  controllerContact.find
+);
 
 export default routerCompany;
