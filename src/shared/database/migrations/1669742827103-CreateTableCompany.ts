@@ -1,7 +1,11 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class CreateTableCompany1669742827103 implements MigrationInterface {
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -22,13 +26,13 @@ export class CreateTableCompany1669742827103 implements MigrationInterface {
           {
             name: 'com_name_s',
             type: 'varchar',
-            length: '30',
+            length: '100',
             isUnique: true,
           },
           {
             name: 'com_fantasy_s',
             type: 'varchar',
-            length: '100',
+            length: '50',
           },
           {
             name: 'com_type_s',
@@ -44,46 +48,53 @@ export class CreateTableCompany1669742827103 implements MigrationInterface {
             name: 'com_zipcode_s',
             type: 'varchar',
             length: '10',
+            isNullable: true,
           },
           {
             name: 'com_street_s',
             type: 'varchar',
-            length: '100',
+            length: '150',
+            isNullable: true,
           },
           {
             name: 'com_complement_s',
             type: 'varchar',
-            length: '50',
+            length: '100',
+            isNullable: true,
           },
           {
             name: 'com_number_s',
             type: 'varchar',
             length: '20',
+            isNullable: true,
           },
           {
             name: 'com_district_s',
             type: 'varchar',
             length: '30',
+            isNullable: true,
           },
           {
             name: 'com_city_s',
             type: 'varchar',
             length: '30',
+            isNullable: true,
           },
           {
             name: 'com_state_s',
             type: 'varchar',
             length: '30',
+            isNullable: true,
           },
           {
             name: 'com_created_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'com_updated_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       })
@@ -103,5 +114,4 @@ export class CreateTableCompany1669742827103 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('company');
   }
-
 }

@@ -38,15 +38,18 @@ export default class SectorRepository {
     page,
     skip,
     take,
-    ref
+    ref,
   }: ISearchParams): Promise<IResponseSector> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
+
     const [cost_center, count] = await this.repo
-      .createQueryBuilder()
+      .createQueryBuilder('sector')
       .skip(skip)
       .take(take)
-      .where('sector.sec_status_s = :ref', { ref: status.id })
+      .where(`sector.sec_status_s = :ref and sector.sec_type_s = 'L'`, {
+        ref: status.id,
+      })
       .getManyAndCount();
 
     const result = {
