@@ -2,7 +2,7 @@
 import * as yup from 'yup';
 import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
-const schemaBodyContactType = yup.object().shape({
+const schemaBodyCompany = yup.object().shape({
   name: yup.string().required('Name is required'),
   type: yup
     .string()
@@ -25,4 +25,4 @@ const schemaBodyContactType = yup.object().shape({
 
 });
 
-export default schemaBodyContactType;
+export default schemaBodyCompany;

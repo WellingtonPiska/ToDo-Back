@@ -147,7 +147,7 @@ export default class SectorRepository {
   ): Promise<Sector | null> {
     const data = await this.repo
       .createQueryBuilder('sector')
-      .where('sec_center.sec_id_s <> :id and sec_center.pro_name_s = :name', {
+      .where('sector.sec_id_s <> :id and sector.sec_name_s = :name', {
         id,
         name,
       })

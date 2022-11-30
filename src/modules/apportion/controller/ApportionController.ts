@@ -29,8 +29,6 @@ export default class CostCenterController {
   }
   public async create(request: Request, response: Response): Promise<Response> {
     const { value, costCenter, apportion } = request.body;
-    // console.log(value, costCenter, apportion);
-    // return response.json('a');
     const serviceCreateApportion = new ServiceCreateApportion();
     const app = await serviceCreateApportion.execute({
       value,

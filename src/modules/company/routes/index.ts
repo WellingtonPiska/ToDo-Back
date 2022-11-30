@@ -1,13 +1,15 @@
 import { Router } from 'express';
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
-import ControllerCompany from '../controller/CompanyController';
 import ControllerCompanyContact from '../controller/CompanyContactController';
+import ControllerCompany from '../controller/CompanyController';
+import schemaValidationCompanyContactList from '../validation/schemaValidationContactList';
 import schemaValidationCompanyCreate from '../validation/schemaValidationCreate';
+import schemaValidationCompanyContactCreate from '../validation/schemaValidationCreateContact';
 import schemaValidationCompanyDelete from '../validation/schemaValidationDelete';
 import schemaValidationCompanyFind from '../validation/schemaValidationFind';
+import schemaValidationCompanyContactFind from '../validation/schemaValidationFindContact';
 import schemaValidationCompanyUpdate from '../validation/schemaValidationUpdate';
-import validContactList from '../validation/validContactList';
-import validContactFind from '../validation/validContactFind';
+import schemaValidationCompanyContactUpdate from '../validation/schemaValidationUpdateContact';
 
 const controllerCompany = new ControllerCompany();
 const controllerContact = new ControllerCompanyContact();
@@ -36,14 +38,29 @@ routerCompany.delete(
 );
 routerCompany.get(
   '/:company/contact',
-  ensureValidationYupRequest(validContactList),
+  ensureValidationYupRequest(schemaValidationCompanyContactList),
   controllerContact.list
 );
 
 routerCompany.get(
   '/:company/contact/:id',
-  ensureValidationYupRequest(validContactFind),
+  ensureValidationYupRequest(schemaValidationCompanyContactFind),
   controllerContact.find
+);
+routerCompany.post(
+  '/:company/contact/',
+  ensureValidationYupRequest(schemaValidationCompanyContactCreate),
+  controllerContact.create
+);
+routerCompany.delete(
+  '/:company/contact/:id',
+  ensureValidationYupRequest(schemaValidationCompanyDelete),
+  controllerContact.delete
+);
+routerCompany.put(
+  '/:company/contact/:id',
+  ensureValidationYupRequest(schemaValidationCompanyContactUpdate),
+  controllerContact.update
 );
 
 export default routerCompany;

@@ -17,19 +17,14 @@ interface IResponseCompanyContact {
   data: CompanyContact[];
 }
 
-// interface ICreateCompany {
-//   name: string;
-//   status: string;
-//   fantasy: string;
-//   type: string;
-//   inscription: string;
-//   zipCode?: string;
-//   complement?: string;
-//   number?: string;
-//   district?: string;
-//   city?: string;
-//   state?: string;
-// }
+interface ICreateCompany {
+  name: string;
+  contactType: string;
+  mail: string;
+  phone: string;
+  mobile: string;
+  company: string;
+}
 
 export default class CompanyContactRepository {
   private repo: Repository<CompanyContact>;
@@ -86,39 +81,39 @@ export default class CompanyContactRepository {
     return data;
   }
 
-  // public async findByName(name: string): Promise<Company | null> {
-  //   const data = await this.repo.findOneBy({
-  //     name,
-  //   });
-  //   return data;
-  // }
+  public async findByName(name: string): Promise<CompanyContact | null> {
+    const data = await this.repo.findOneBy({
+      name,
+    });
+    return data;
+  }
 
-  // public async findValidUpdate(
-  //   id: string,
-  //   name: string
-  // ): Promise<Company | null> {
-  //   const data = await this.repo
-  //     .createQueryBuilder('company')
-  //     .where('company.com_id_s <> :id and company.com_name_s = :name', {
-  //       id,
-  //       name,
-  //     })
-  //     .getOne();
+  public async findValidUpdate(
+    id: string,
+    name: string
+  ): Promise<CompanyContact | null> {
+    const data = await this.repo
+      .createQueryBuilder('company_contact')
+      .where('company_contact.cco_id_s <> :id and company_contact.cco_name_s = :name', {
+        id,
+        name,
+      })
+      .getOne();
 
-  //   return data;
-  // }
+    return data;
+  }
 
-  // public async create(company: Company): Promise<Company> {
-  //   const data = this.repo.save(company);
-  //   return data;
-  // }
+  public async create(company_contact: CompanyContact): Promise<CompanyContact> {
+    const data = this.repo.save(company_contact);
+    return data;
+  }
 
-  // public async update(company: Company): Promise<Company> {
-  //   await this.repo.save(company);
-  //   return company;
-  // }
+  public async update(company_contact: CompanyContact): Promise<CompanyContact> {
+    await this.repo.save(company_contact);
+    return company_contact;
+  }
 
-  // public async remove(company: Company): Promise<void> {
-  //   await this.repo.remove(company);
-  // }
+  public async remove(company_contact: CompanyContact): Promise<void> {
+    await this.repo.remove(company_contact);
+  }
 }

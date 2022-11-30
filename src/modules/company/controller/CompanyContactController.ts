@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
-import { ServiceListCompanyContact } from '../services/ServiceListCompanyContact';
+import { ServiceCreateCompanyContact } from '../services/ServiceCreateCompanyContact';
+import { ServiceDeleteCompanyContact } from '../services/ServiceDeleteCompanyContact';
 import { ServiceFindCompanyContact } from '../services/ServiceFindCompanyContact';
+import { ServiceListCompanyContact } from '../services/ServiceListCompanyContact';
+import { ServiceUpdateCompanyContact } from '../services/ServiceUpdateCompanyContact';
 
 export default class CompanyContactController {
   public async list(request: Request, response: Response): Promise<Response> {
@@ -27,5 +30,49 @@ export default class CompanyContactController {
     const serviceFindCompanyContact = new ServiceFindCompanyContact();
     const data = await serviceFindCompanyContact.execute({ company, id });
     return response.json(data);
+  }
+  public async create(request: Request, response: Response): Promise<Response> {
+    const { name, contactType, mail, phone, mobile } = request.body;
+    const { company } = request.params;
+
+    const serviceCreateCompanyContact = new ServiceCreateCompanyContact();
+    const contactCompany = await serviceCreateCompanyContact.execute({
+      name,
+      contactType,
+      company,
+      mail,
+      phone,
+      mobile
+    });
+
+    return response.json(contactCompany);
+  }
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { id, company } = request.params;
+    const serviceDeleteCompanyContact = new ServiceDeleteCompanyContact();
+    const companyContact = await serviceDeleteCompanyContact.execute({
+      id,
+      company
+    });
+
+    return response.json(companyContact);
+  }
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { name, mail, phone, mobile, contactType } = request.body;
+    const { id, company } = request.params;
+
+
+    const serviceUpdateCompanyContact = new ServiceUpdateCompanyContact();
+    const companyContact = await serviceUpdateCompanyContact.execute({
+      id,
+      name,
+      mail,
+      phone,
+      mobile,
+      contactType,
+      company
+    });
+
+    return response.json(companyContact);
   }
 }

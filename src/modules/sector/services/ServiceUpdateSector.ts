@@ -38,10 +38,10 @@ export class ServiceUpdateSector {
       sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
     }
 
-    const profileValid = await repo.findValidUpdate(id, name);
+    const sectorValid = await repo.findValidUpdate(id, name);
 
-    if (profileValid) {
-      throw new Error('Profile duplicado');
+    if (sectorValid) {
+      throw new Error('Sector duplicado');
     }
     sector.dn = dn;
     sector.guid = guid;

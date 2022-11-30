@@ -5,7 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import ContactType from '../../contactType/entities/ContactType';
@@ -27,8 +27,8 @@ class CompanyContact {
   @JoinColumn({ name: 'cco_contacttype_s' })
   contactTypeRef: ContactType;
 
-  @Column({ name: 'cco_company_s' })
-  concatcType: string;
+  @Column({ name: 'cco_contacttype_s' })
+  contactType: string;
 
   @Column({ name: 'cco_name_s' })
   name: string;
