@@ -1,17 +1,17 @@
 import { ServiceFindCostCenter } from "../../costCenter/services/ServiceFindCostCenter";
 import { ServiceFindUser } from "../../user/services/ServiceFindUser";
-import UserCostCenter from "../entities/UserCostCenter";
-import UserCostCenterRepository from "../repository/UserCostCenterRepository";
+import UserSector from "../entities/UserSector";
+import UserSectorRepository from "../repository/UserSectorRepository";
 
-interface ICreateUserCostCenter {
+interface ICreateUserSector {
   user: string;
   costCenter: string;
 }
 
-export class ServiceCreateUserCostCenter {
-  async execute({ user, costCenter }: ICreateUserCostCenter): Promise<UserCostCenter> {
+export class ServiceCreateUserSector {
+  async execute({ user, costCenter }: ICreateUserSector): Promise<UserSector> {
 
-    const repo = new UserCostCenterRepository();
+    const repo = new UserSectorRepository();
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
     const CostCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
@@ -19,7 +19,7 @@ export class ServiceCreateUserCostCenter {
     const serviceFindUser = new ServiceFindUser();
     const userRef = await serviceFindUser.execute({ id: user });
 
-    const ucc = new UserCostCenter();
+    const ucc = new UserSector();
     ucc.costCenter = CostCenterRef.id;
     ucc.user = userRef.id
     const obj = await repo.create(ucc);

@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
+import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindProfile } from '../../profile/services/ServiceFindProfile';
 import { ServiceFindSector } from '../../sector/services/ServiceFindSector';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
@@ -35,8 +36,8 @@ export class ServiceUpdateUser {
 
     let costCenterRef = null
     if (costCenter) {
-      const serviceFindSector = new ServiceFindSector();
-      costCenterRef = await serviceFindSector.execute({ id: costCenter });
+      const serviceFindCostCenter = new ServiceFindCostCenter();
+      costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
     }
 
     const serviceFindProfile = new ServiceFindProfile();
