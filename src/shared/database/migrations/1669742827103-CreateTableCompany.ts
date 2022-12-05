@@ -2,8 +2,9 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey,
+  TableForeignKey
 } from 'typeorm';
+import { SeedCompany } from '../seed/SeedComapany';
 
 export class CreateTableCompany1669742827103 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -109,6 +110,7 @@ export class CreateTableCompany1669742827103 implements MigrationInterface {
         name: 'FK_COMPANY_STATUS',
       })
     );
+    await queryRunner.manager.getRepository('company').save(SeedCompany);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

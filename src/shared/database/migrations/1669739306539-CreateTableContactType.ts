@@ -2,8 +2,9 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey,
+  TableForeignKey
 } from 'typeorm';
+import { SeedContactType } from '../seed/SeedContactType';
 
 export class CreateTableContactType1669739306539 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -51,6 +52,7 @@ export class CreateTableContactType1669739306539 implements MigrationInterface {
         name: 'FK_CONTACTTYPE_STATUS',
       })
     );
+    await queryRunner.manager.getRepository('contact_type').save(SeedContactType);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

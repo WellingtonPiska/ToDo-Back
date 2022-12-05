@@ -1,0 +1,48 @@
+import { v4 as uuid } from 'uuid';
+
+export const SeedCompanyContact = [
+  {
+    id: uuid(),
+    company: '8a4aa320-dbd2-4fae-b33a-fadc3bc4ffea',
+    name: 'Roberto',
+    phone: '1231321',
+    mobile: 'aaa',
+    mail: 'roberto@gmail.com',
+    contactType: '4a81762e-0d16-4607-8baf-c9774f524edb',
+    created: `${new Date()}`,
+    updated: `${new Date()}`,
+  },
+  {
+    id: uuid(),
+    company: '8a4aa320-dbd2-4fae-b33a-fadc3bc4ffea',
+    name: 'Alberto',
+    phone: '5541323323',
+    mobile: 'aaa',
+    mail: 'alberto@gmail.com',
+    contactType: 'abd73d0c-e327-4903-a799-8153c77698f9',
+    created: `${new Date()}`,
+    updated: `${new Date()}`,
+  },
+  {
+    id: uuid(),
+    company: '8a4aa320-dbd2-4fae-b33a-fadc3bc4ffea',
+    name: 'Gustavo',
+    phone: '41551111111',
+    mobile: 'laden',
+    mail: 'gustavo@gmail.com',
+    contactType: '658a61f4-6d97-4926-a00d-b36c4d797f04',
+    created: `${new Date()}`,
+    updated: `${new Date()}`,
+  },
+  {
+    id: uuid(),
+    company: '8a4aa320-dbd2-4fae-b33a-fadc3bc4ffea',
+    name: 'Ranghel',
+    phone: '4113131313',
+    mobile: 'lula',
+    mail: 'ranghel@gmail.com',
+    contactType: 'de7b4289-f1c3-4b39-bab7-b0e318716eb3',
+    created: `${new Date()}`,
+    updated: `${new Date()}`,
+  },
+]
