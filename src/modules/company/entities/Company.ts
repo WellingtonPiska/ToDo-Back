@@ -1,8 +1,9 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn
+  CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import CompanyContact from '../../companyContact/entities/CompanyContact';
 import Status from '../../status/entities/Status';
 
 @Entity('company')
@@ -56,6 +57,9 @@ class Company {
 
   @UpdateDateColumn({ name: 'com_updated_d' })
   update: Date;
+
+  @OneToMany(() => CompanyContact, (contact) => contact.companyRef)
+  contacts: CompanyContact[];
 
   constructor() {
     if (!this.id) {

@@ -73,10 +73,18 @@ export default class CompanyRepository {
   }
 
   public async findById(id: string): Promise<Company | null> {
-    const data = await this.repo.findOneBy({
-      id,
+    const data = await this.repo.find({
+      where: {
+        id
+      },
+      relations:
+        ['contacts', 'contacts.contactTypeRef']
+      ,
     });
-    return data;
+    if (data.length > 0) {
+      return data[0];
+    }
+    return null;
   }
 
   public async findByName(name: string): Promise<Company | null> {
