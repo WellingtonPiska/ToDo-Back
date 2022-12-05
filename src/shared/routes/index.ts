@@ -23,16 +23,16 @@ routes.use('/location', routerLocation);
 routes.use('/sync', routerSync);
 routes.use('/status', routerStatus);
 routes.use('/profile', routerProfile);
-routes.use('/costcenter', routerCostCenter);
-routes.use('/user_costcenter', routerUserCostCenter)
+routes.use('/costCenter', routerCostCenter);
+routes.use('/userCostCenter', routerUserCostCenter)
 routes.use('/sector', routerSector);
-routes.use('/user_sector', routerUserSector)
+routes.use('/userSector', routerUserSector)
 routes.use('/user', routerUser);
 routes.use('/apportion', routerApportion)
 routes.use('/group', routerGroup)
 routes.use('/menu', routerMenu)
-routes.use('/contact_type', routerContactType)
+routes.use('/contactType', routerContactType)
 routes.use('/company', routerCompany)
 routes.use('/company', routerCompanyContact)
-routes.use('/device_type', routerDeviceType)
+routes.use('/deviceType', routerDeviceType)
 export default routes;
