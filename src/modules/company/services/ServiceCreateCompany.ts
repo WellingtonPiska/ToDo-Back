@@ -1,3 +1,5 @@
+import CompanyContact from '../../companyContact/entities/CompanyContact';
+import { ICreateCompanyContact } from '../../companyContact/services/ServiceCreateCompanyContact';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import Company from '../entities/Company';
 import CompanyRepository from '../repository/CompanyRepository';
@@ -15,6 +17,7 @@ type ICreateCompany = {
   district?: string;
   city?: string;
   state?: string;
+  contacts?: ICreateCompanyContact[];
 };
 
 export class ServiceCreateCompany {
@@ -31,6 +34,7 @@ export class ServiceCreateCompany {
     district,
     city,
     state,
+    contacts,
   }: ICreateCompany): Promise<Company> {
     const repo = new CompanyRepository();
 
@@ -56,7 +60,23 @@ export class ServiceCreateCompany {
     com.district = district;
     com.city = city;
     com.state = state;
-    const obj = await repo.create(com);
+
+    const contactsCompany: CompanyContact[] = [];
+
+    if (contacts) {
+      // eslint-disable-next-line no-restricted-syntax
+      for await (const contact of contacts) {
+        const contactCompany = new CompanyContact();
+        contactCompany.name = contact.name;
+        contactCompany.contactType = contact.contactType;
+        contactCompany.mail = contact.mail;
+        contactCompany.phone = contact.phone;
+        contactCompany.mobile = contact.mobile;
+        contactsCompany.push(contactCompany);
+      }
+    }
+
+    const obj = await repo.create(com, contactsCompany);
 
     return obj;
   }

@@ -3,7 +3,7 @@ import { ServiceFindContactType } from '../../contactType/services/ServiceFindCo
 import CompanyContact from '../entities/CompanyContact';
 import CompanyContactRepository from '../repository/CompanyContactRepository';
 
-type ICreateCompanyContact = {
+export type ICreateCompanyContact = {
   name: string;
   contactType: string;
   mail: string;

@@ -77,6 +77,7 @@ export class CreateTableCompanyContact1669812133013
         referencedColumnNames: ['com_id_s'],
         referencedTableName: 'company',
         name: 'FK_COMPANYCONTACT_COMPANY',
+        onDelete: 'CASCADE',
       })
     );
 

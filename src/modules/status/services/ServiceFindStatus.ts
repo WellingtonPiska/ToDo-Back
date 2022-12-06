@@ -10,7 +10,7 @@ export class ServiceFindStatus {
     const repo = new StatusRepository();
     const data = await repo.findById(id);
     if (!data) {
-      throw new Error('Registro não encontrado.');
+      throw new Error('Status não encontrado.');
     }
     return data;
   }

@@ -1,6 +1,7 @@
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 import { dataSource } from '../../../shared/database';
+import CompanyContact from '../../companyContact/entities/CompanyContact';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Company from '../entities/Company';
 
@@ -97,9 +98,30 @@ export default class CompanyRepository {
     return data;
   }
 
-  public async create(company: Company): Promise<Company> {
-    const data = this.repo.save(company);
-    return data;
+  public async create(
+    company: Company,
+    contactsCompany: CompanyContact[] | null
+  ): Promise<Company> {
+    const obj = await dataSource.manager.transaction(
+      async (transactionalEntityManager: EntityManager) => {
+        const obj = await transactionalEntityManager.save<Company>(company);
+        if (contactsCompany && contactsCompany.length > 0) {
+          // eslint-disable-next-line no-restricted-syntax
+          for await (const contactCompany of contactsCompany) {
+            contactCompany.company = obj.id;
+            obj.contacts = [];
+            obj.contacts.push(
+              await transactionalEntityManager.save<CompanyContact>(
+                contactCompany
+              )
+            );
+          }
+        }
+
+        return obj;
+      }
+    );
+    return obj;
   }
 
   public async update(company: Company): Promise<Company> {

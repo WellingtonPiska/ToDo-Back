@@ -49,6 +49,7 @@ export default class CompanyController {
       district,
       city,
       state,
+      contacts,
     } = request.body;
 
     const serviceCreateCompany = new ServiceCreateCompany();
@@ -65,6 +66,7 @@ export default class CompanyController {
       district,
       city,
       state,
+      contacts,
     });
 
     return response.json(company);
