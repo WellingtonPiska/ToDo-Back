@@ -6,9 +6,9 @@ import CompanyContactRepository from '../repository/CompanyContactRepository';
 export type ICreateCompanyContact = {
   name: string;
   contactType: string;
-  mail: string;
-  phone: string;
-  mobile: string;
+  mail?: string;
+  phone?: string;
+  mobile?: string;
   company: string;
 };
 

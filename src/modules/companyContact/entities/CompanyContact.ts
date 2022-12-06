@@ -34,14 +34,14 @@ class CompanyContact {
   @Column({ name: 'cco_name_s' })
   name: string;
 
-  @Column({ name: 'cco_mail_s' })
-  mail: string;
+  @Column({ name: 'cco_mail_s', nullable: true })
+  mail?: string;
 
-  @Column({ name: 'cco_phone_s' })
-  phone: string;
+  @Column({ name: 'cco_phone_s', nullable: true })
+  phone?: string;
 
-  @Column({ name: 'cco_mobile_s' })
-  mobile: string;
+  @Column({ name: 'cco_mobile_s', nullable: true })
+  mobile?: string;
 
   @CreateDateColumn({ name: 'cco_created_d' })
   create: Date;

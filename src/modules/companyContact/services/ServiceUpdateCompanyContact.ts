@@ -7,9 +7,9 @@ import { ServiceFindCompanyContact } from './ServiceFindCompanyContact';
 type IUpdateCompanyContact = {
   id: string;
   name: string;
-  mail: string;
-  phone: string;
-  mobile: string;
+  mail?: string;
+  phone?: string;
+  mobile?: string;
   company: string;
   contactType: string;
 };
