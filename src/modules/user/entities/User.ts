@@ -1,6 +1,11 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import CostCenter from '../../costCenter/entities/CostCenter';
@@ -14,28 +19,28 @@ class User {
   id: string;
 
   @ManyToOne(() => Status)
-  @JoinColumn({ name: "use_status_s" })
+  @JoinColumn({ name: 'use_status_s' })
   statusRef: Status;
 
   @Column({ name: 'use_status_s' })
   status: string;
 
   @ManyToOne(() => Sector)
-  @JoinColumn({ name: "use_sector_s" })
+  @JoinColumn({ name: 'use_sector_s' })
   sectorRef: Sector;
 
   @Column({ name: 'use_sector_s' })
   sector: string;
 
   @ManyToOne(() => Profile)
-  @JoinColumn({ name: "use_profile_s" })
+  @JoinColumn({ name: 'use_profile_s' })
   profileRef: Profile;
 
   @Column({ name: 'use_profile_s' })
   profile: string;
 
   @ManyToOne(() => CostCenter)
-  @JoinColumn({ name: "use_costcenter_s" })
+  @JoinColumn({ name: 'use_costcenter_s' })
   costCenterRef: CostCenter;
 
   @Column({ name: 'use_costcenter_s', nullable: true })
@@ -67,6 +72,9 @@ class User {
 
   @Column({ name: 'use_sid_s', nullable: true })
   sid?: string;
+
+  @Column({ name: 'use_sync_s', nullable: true })
+  sync?: string;
 
   @CreateDateColumn({ name: 'use_created_d' })
   create: Date;

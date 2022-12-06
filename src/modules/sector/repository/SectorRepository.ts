@@ -63,10 +63,16 @@ export default class SectorRepository {
   }
 
   public async findById(id: string): Promise<Sector | null> {
-    const data = await this.repo.findOneBy({
-      id,
+    const data = await this.repo.find({
+      where: {
+        id,
+      },
+      relations: ['child'],
     });
-    return data;
+    if (data.length > 0) {
+      return data[0];
+    }
+    return null;
   }
 
   public async findByName(name: string): Promise<Sector | null> {

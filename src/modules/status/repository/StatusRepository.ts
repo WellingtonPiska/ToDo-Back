@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
 import Status from '../entities/Status';

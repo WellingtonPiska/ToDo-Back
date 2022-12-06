@@ -5,7 +5,8 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import CostCenter from '../../costCenter/entities/CostCenter';
@@ -60,6 +61,9 @@ class Sector {
 
   @UpdateDateColumn({ name: 'sec_updated_d' })
   update: Date;
+
+  @OneToMany(() => Sector, sector => sector.sectorFatherRef)
+  child: Sector[];
 
   constructor() {
     if (!this.id) {

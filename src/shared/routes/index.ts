@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import routerPopulate from '../../modules/_populate/routes';
 import routerApportion from '../../modules/apportion/routes';
 import routerCompany from '../../modules/company/routes';
 import routerCompanyContact from '../../modules/companyContact/routes';
@@ -19,20 +20,21 @@ import routerUserSector from '../../modules/user_Sector/routes';
 
 const routes = Router();
 
+routes.use('/populate', routerPopulate);
 routes.use('/location', routerLocation);
 routes.use('/sync', routerSync);
 routes.use('/status', routerStatus);
 routes.use('/profile', routerProfile);
 routes.use('/costCenter', routerCostCenter);
-routes.use('/userCostCenter', routerUserCostCenter)
+routes.use('/userCostCenter', routerUserCostCenter);
 routes.use('/sector', routerSector);
-routes.use('/userSector', routerUserSector)
+routes.use('/userSector', routerUserSector);
 routes.use('/user', routerUser);
-routes.use('/apportion', routerApportion)
-routes.use('/group', routerGroup)
-routes.use('/menu', routerMenu)
-routes.use('/contactType', routerContactType)
-routes.use('/company', routerCompany)
-routes.use('/company', routerCompanyContact)
-routes.use('/deviceType', routerDeviceType)
+routes.use('/apportion', routerApportion);
+routes.use('/group', routerGroup);
+routes.use('/menu', routerMenu);
+routes.use('/contactType', routerContactType);
+routes.use('/company', routerCompany);
+routes.use('/company', routerCompanyContact);
+routes.use('/deviceType', routerDeviceType);
 export default routes;

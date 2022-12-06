@@ -7,5 +7,6 @@ const routerSync = Router();
 
 routerSync.get('/location', controllerSync.location);
 routerSync.get('/sector', controllerSync.sector);
+routerSync.get('/user', controllerSync.user);
 
 export default routerSync;

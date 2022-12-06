@@ -79,19 +79,31 @@ export default class UserRepository {
     return data;
   }
 
-  public async findValidUpdate(
-    id: string,
-    name: string,
-  ): Promise<User | null> {
+  public async findBySid(sid: string): Promise<User | null> {
+    const data = await this.repo.findOneBy({
+      sid,
+    });
+    return data;
+  }
+
+  public async findValidUpdate(id: string, name: string): Promise<User | null> {
     const data = await this.repo
       .createQueryBuilder('user')
-      .where(
-        'user.use_id_s <> :id and user.use_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('user.use_id_s <> :id and user.use_name_s = :name', {
+        id,
+        name,
+      })
+      .getOne();
+
+    return data;
+  }
+
+  public async findValidSyncUser(login: string): Promise<User | null> {
+    const data = await this.repo
+      .createQueryBuilder('user')
+      .where(' user.use_login_s = :login', {
+        login,
+      })
       .getOne();
 
     return data;
