@@ -1,9 +1,9 @@
 import Menu from '../entities/Menu';
 import MenuRepository from '../repository/MenuRepository';
 
-interface IFindMenu {
+type IFindMenu = {
   id: string;
-}
+};
 
 export class ServiceFindMenu {
   async execute({ id }: IFindMenu): Promise<Menu> {

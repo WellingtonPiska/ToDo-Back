@@ -1,5 +1,5 @@
-
 import * as yup from 'yup';
+
 import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
 const schemaBodyCompanyContact = yup.object().shape({
@@ -11,7 +11,6 @@ const schemaBodyCompanyContact = yup.object().shape({
     .string()
     .required('Id ContactType is required')
     .matches(regexUuidV4, 'Invalid UUID'),
-
 });
 
 export default schemaBodyCompanyContact;

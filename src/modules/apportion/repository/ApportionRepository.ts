@@ -1,19 +1,20 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import Apportion from '../entities/Apportion';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
-}
+};
 
-interface IResponseApportion {
+type IResponseApportion = {
   per_page: number;
   total: number;
   current_page: number;
   data: Apportion[];
-}
+};
 
 export default class ProfileRepository {
   private repo: Repository<Apportion>;
@@ -25,9 +26,8 @@ export default class ProfileRepository {
   public async findAll({
     page,
     skip,
-    take
+    take,
   }: ISearchParams): Promise<IResponseApportion> {
-
     const [apportion, count] = await this.repo
       .createQueryBuilder('apportion')
       .skip(skip)
@@ -54,7 +54,7 @@ export default class ProfileRepository {
   public async findValidUpdate(
     id: string,
     costCenter: string,
-    apportion: string,
+    apportion: string
   ): Promise<Apportion | null> {
     const data = await this.repo
       .createQueryBuilder('apportion')
@@ -63,7 +63,7 @@ export default class ProfileRepository {
         {
           id,
           costCenter,
-          apportion
+          apportion,
         }
       )
       .getOne();

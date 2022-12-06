@@ -1,12 +1,12 @@
-import CostCenterRepository from "../repository/CostCenterRepository";
-import { ServiceFindCostCenter } from "./ServiceFindCostCenter";
+import CostCenterRepository from '../repository/CostCenterRepository';
+import { ServiceFindCostCenter } from './ServiceFindCostCenter';
 
-interface IDeleteCostCenter {
+type IDeleteCostCenter = {
   id: string;
-}
+};
 
 export class ServiceDeleteCostCenter {
-  async execute({ id }: IDeleteCostCenter): Promise<Boolean> {
+  async execute({ id }: IDeleteCostCenter): Promise<boolean> {
     const repo = new CostCenterRepository();
     const serviceFindCosCenter = new ServiceFindCostCenter();
     const profile = await serviceFindCosCenter.execute({ id });

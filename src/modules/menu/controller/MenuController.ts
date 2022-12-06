@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
-import { ServiceCreateMenu } from "../services/ServiceCreateMenu";
-import { ServiceDeleteMenu } from "../services/ServiceDeleteMenu";
-import { ServiceFindMenu } from "../services/ServiceFindMenu";
-import { ServiceListMenu } from "../services/ServiceListMenu";
-import { ServiceUpdateMenu } from "../services/ServiceUpdateMenu";
+import { Request, Response } from 'express';
+
+import { ServiceCreateMenu } from '../services/ServiceCreateMenu';
+import { ServiceDeleteMenu } from '../services/ServiceDeleteMenu';
+import { ServiceFindMenu } from '../services/ServiceFindMenu';
+import { ServiceListMenu } from '../services/ServiceListMenu';
+import { ServiceUpdateMenu } from '../services/ServiceUpdateMenu';
 
 export default class StatusController {
   public async list(request: Request, response: Response): Promise<Response> {
@@ -52,5 +53,4 @@ export default class StatusController {
     });
     return response.json(deleted);
   }
-
 }

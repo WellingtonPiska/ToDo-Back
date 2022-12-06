@@ -3,22 +3,27 @@ import Apportion from '../entities/Apportion';
 import ApportionRepository from '../repository/ApportionRepository';
 import { ServiceFindApportion } from './ServiceFindApportion';
 
-
-interface ICreateApportion {
+type ICreateApportion = {
   value: number;
   costCenter: string;
   apportion: string;
-}
+};
 
 export class ServiceCreateApportion {
-  async execute({ value, costCenter, apportion }: ICreateApportion): Promise<Apportion> {
+  async execute({
+    value,
+    costCenter,
+    apportion,
+  }: ICreateApportion): Promise<Apportion> {
     const repo = new ApportionRepository();
 
     const serviceFindApportion = new ServiceFindApportion();
     const apportionRef = await serviceFindApportion.execute({ id: apportion });
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    const costCenterRef = await serviceFindCostCenter.execute({
+      id: costCenter,
+    });
 
     const app = new Apportion();
     app.value = value;

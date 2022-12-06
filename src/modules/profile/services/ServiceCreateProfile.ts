@@ -2,12 +2,11 @@ import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import Profile from '../entities/Profile';
 import ProfileRepository from '../repository/ProfileRepository';
 
-
-interface ICreateProfile {
+type ICreateProfile = {
   name: string;
   obs: string;
   status: string;
-}
+};
 
 export class ServiceCreateProfile {
   async execute({ name, obs, status }: ICreateProfile): Promise<Profile> {

@@ -1,8 +1,7 @@
-import ControllerProfile from '../controller/ProfileController';
-
-
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
+import ControllerProfile from '../controller/ProfileController';
 import schemaValidationProfileCreate from '../validation/schemaValidationCreate';
 import schemaValidationProfileDelete from '../validation/schemaValidationDelete';
 import schemaValidationProfileFind from '../validation/schemaValidationFind';

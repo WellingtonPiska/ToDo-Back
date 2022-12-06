@@ -1,5 +1,5 @@
-
 import * as yup from 'yup';
+
 import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
 const schemaBodyGroup = yup.object().shape({

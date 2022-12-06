@@ -1,8 +1,14 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import CostCenter from '../../costCenter/entities/CostCenter';
 import User from '../../user/entities/User';
 
@@ -12,14 +18,14 @@ class UserSector {
   id: string;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: "use_user_s" })
+  @JoinColumn({ name: 'use_user_s' })
   userRef: User;
 
   @Column({ name: 'use_user_s' })
   user: string;
 
   @ManyToOne(() => CostCenter)
-  @JoinColumn({ name: "use_costcenter_s" })
+  @JoinColumn({ name: 'use_costcenter_s' })
   costCenterRef: CostCenter;
 
   @Column({ name: 'use_costcenter_s' })

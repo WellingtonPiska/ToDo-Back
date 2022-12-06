@@ -2,12 +2,12 @@ import Status from '../entities/Status';
 import StatusRepository from '../repository/StatusRepository';
 import { ServiceFindStatus } from './ServiceFindStatus';
 
-interface IUpdateStatus {
+type IUpdateStatus = {
   id: string;
   name: string;
   reference: string;
   color: string;
-}
+};
 
 export class ServiceUpdateStatus {
   async execute({

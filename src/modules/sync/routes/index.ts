@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import ControllerSync from '../controller/SyncController';
 
 const controllerSync = new ControllerSync();

@@ -1,13 +1,12 @@
+import ContactTypeRepository from '../repository/ContactTypeRepository';
+import { ServiceFindContactType } from './ServiceFindContactType';
 
-import ContactTypeRepository from "../repository/ContactTypeRepository";
-import { ServiceFindContactType } from "./ServiceFindContactType";
-
-interface IDeleteContactType {
+type IDeleteContactType = {
   id: string;
-}
+};
 
 export class ServiceDeleteContactType {
-  async execute({ id }: IDeleteContactType): Promise<Boolean> {
+  async execute({ id }: IDeleteContactType): Promise<boolean> {
     const repo = new ContactTypeRepository();
     const serviceFindContactType = new ServiceFindContactType();
     const contactType = await serviceFindContactType.execute({ id });

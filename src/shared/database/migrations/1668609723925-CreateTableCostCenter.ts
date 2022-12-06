@@ -2,7 +2,7 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey
+  TableForeignKey,
 } from 'typeorm';
 
 export class CreateTableCostCenter1668609723925 implements MigrationInterface {
@@ -41,12 +41,12 @@ export class CreateTableCostCenter1668609723925 implements MigrationInterface {
           {
             name: 'cce_created_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'cce_updated_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       })

@@ -1,25 +1,20 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import UserCostCenter from '../entities/UserCostCenter';
 
-
-interface ICreateUserCostCenter {
-  user: string;
-  costCenter: string;
-}
-
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
-}
+};
 
-interface IResponseUseCostCenter {
+type IResponseUseCostCenter = {
   per_page: number;
   total: number;
   current_page: number;
   data: UserCostCenter[];
-}
+};
 
 export default class UserCostCenterRepository {
   private repo: Repository<UserCostCenter>;
@@ -53,19 +48,12 @@ export default class UserCostCenterRepository {
     return data;
   }
 
-
-
-  public async findValidUpdate(
-    id: string,
-  ): Promise<UserCostCenter | null> {
+  public async findValidUpdate(id: string): Promise<UserCostCenter | null> {
     const data = await this.repo
       .createQueryBuilder('user_costcenter')
-      .where(
-        'user_costcenter.ucc_id_s <> :id ',
-        {
-          id,
-        }
-      )
+      .where('user_costcenter.ucc_id_s <> :id ', {
+        id,
+      })
       .getOne();
 
     return data;

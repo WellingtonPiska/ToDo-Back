@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 
+import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerCompany from '../controller/CompanyController';
 import schemaValidationCompanyCreate from '../validation/schemaValidationCreate';
 import schemaValidationCompanyDelete from '../validation/schemaValidationDelete';
@@ -32,6 +32,5 @@ routerCompany.delete(
   ensureValidationYupRequest(schemaValidationCompanyDelete),
   controllerCompany.delete
 );
-
 
 export default routerCompany;

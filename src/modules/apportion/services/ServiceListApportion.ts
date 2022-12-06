@@ -2,20 +2,20 @@ import 'reflect-metadata';
 import Apportion from '../entities/Apportion';
 import ApportionRepository from '../repository/ApportionRepository';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   limit: number;
-}
+};
 
-interface IResponseApportion {
+type IResponseApportion = {
   per_page: number;
   total: number;
   current_page: number;
   data: Apportion[];
-}
+};
 
 export class ServiceListApportion {
-  async execute({ page, limit, }: ISearchParams): Promise<IResponseApportion> {
+  async execute({ page, limit }: ISearchParams): Promise<IResponseApportion> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
 

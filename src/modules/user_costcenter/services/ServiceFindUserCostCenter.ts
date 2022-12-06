@@ -2,13 +2,12 @@ import 'reflect-metadata';
 import { dataSource } from '../../../shared/database';
 import UserCostCenter from '../entities/UserCostCenter';
 
-interface IFindUserCostCenter {
+type IFindUserCostCenter = {
   id: string;
-}
+};
 
 export class ServiceFindUserCostCenter {
   async execute({ id }: IFindUserCostCenter) {
-
     const repo = dataSource.getRepository(UserCostCenter);
     const data = await repo.findOneBy({ id });
 
@@ -17,6 +16,5 @@ export class ServiceFindUserCostCenter {
     }
 
     return data;
-
   }
 }

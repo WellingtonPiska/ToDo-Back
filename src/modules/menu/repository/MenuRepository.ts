@@ -1,23 +1,20 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import Menu from '../entities/Menu';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
-}
+};
 
-interface IResponseMenu {
+type IResponseMenu = {
   per_page: number;
   total: number;
   current_page: number;
   data: Menu[];
-}
-
-interface ICreateMenu {
-  name: string;
-}
+};
 
 export default class MenuRepository {
   private repo: Repository<Menu>;
@@ -61,30 +58,20 @@ export default class MenuRepository {
     return data;
   }
 
-
-
-  public async findValid(
-    name: string,
-  ): Promise<Menu | null> {
+  public async findValid(name: string): Promise<Menu | null> {
     const data = await this.repo.findOneBy({
       name,
     });
     return data;
   }
 
-  public async findValidUpdate(
-    id: string,
-    name: string,
-  ): Promise<Menu | null> {
+  public async findValidUpdate(id: string, name: string): Promise<Menu | null> {
     const data = await this.repo
       .createQueryBuilder('menu')
-      .where(
-        'menu.men_id_s <> :id and menu.men_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('menu.men_id_s <> :id and menu.men_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;

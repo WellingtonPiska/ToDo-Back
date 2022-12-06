@@ -1,9 +1,9 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import Company from "../entities/Company";
-import CompanyRepository from "../repository/CompanyRepository";
-import { ServiceFindCompany } from "./ServiceFindCompany";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import Company from '../entities/Company';
+import CompanyRepository from '../repository/CompanyRepository';
+import { ServiceFindCompany } from './ServiceFindCompany';
 
-interface IUpdateCompany {
+type IUpdateCompany = {
   id: string;
   name: string;
   status: string;
@@ -17,10 +17,23 @@ interface IUpdateCompany {
   district?: string;
   city?: string;
   state?: string;
-}
+};
 
 export class ServiceUpdateCompany {
-  async execute({ id, name, status, fantasy, type, inscription, zipCode, street, complement, number, district, city, state
+  async execute({
+    id,
+    name,
+    status,
+    fantasy,
+    type,
+    inscription,
+    zipCode,
+    street,
+    complement,
+    number,
+    district,
+    city,
+    state,
   }: IUpdateCompany): Promise<Company> {
     const repo = new CompanyRepository();
 
@@ -52,4 +65,3 @@ export class ServiceUpdateCompany {
     return company;
   }
 }
-

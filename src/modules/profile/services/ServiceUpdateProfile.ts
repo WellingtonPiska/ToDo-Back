@@ -3,12 +3,12 @@ import Profile from '../entities/Profile';
 import ProfileRepository from '../repository/ProfileRepository';
 import { ServiceFindProfile } from './ServiceFindProfile';
 
-interface IUpdateProfile {
+type IUpdateProfile = {
   id: string;
   name: string;
   obs: string;
   status: string;
-}
+};
 
 export class ServiceUpdateProfile {
   async execute({ id, name, obs, status }: IUpdateProfile): Promise<Profile> {

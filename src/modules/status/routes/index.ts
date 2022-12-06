@@ -1,10 +1,11 @@
 import { Router } from 'express';
+
 import validationRequest from '../../../shared/middleware/validationRequest';
 import ControllerStatus from '../controller/StatusController';
-import schemaValidationStatusFind from '../validation/schemaValidationStatusFind';
 import schemaValidationStatusCreate from '../validation/schemaValidationStatusCreate';
-import schemaValidationStatusUpdate from '../validation/schemaValidationStatusUpdate';
 import schemaValidationStatusDelete from '../validation/schemaValidationStatusDelete';
+import schemaValidationStatusFind from '../validation/schemaValidationStatusFind';
+import schemaValidationStatusUpdate from '../validation/schemaValidationStatusUpdate';
 
 const controllerStatus = new ControllerStatus();
 const routerStatus = Router();

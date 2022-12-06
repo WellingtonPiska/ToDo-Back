@@ -1,26 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import DeviceType from '../entities/DeviceType';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseDeviceType {
+type IResponseDeviceType = {
   per_page: number;
   total: number;
   current_page: number;
   data: DeviceType[];
-}
-
-interface ICreateDeviceType {
-  name: string;
-  status: string;
-}
+};
 
 export default class DeviceTypeRepository {
   private repo: Repository<DeviceType>;
@@ -70,17 +66,14 @@ export default class DeviceTypeRepository {
 
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<DeviceType | null> {
     const data = await this.repo
       .createQueryBuilder('device_type')
-      .where(
-        'device_type.dty_id_s <> :id and device_type.dty_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('device_type.dty_id_s <> :id and device_type.dty_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;

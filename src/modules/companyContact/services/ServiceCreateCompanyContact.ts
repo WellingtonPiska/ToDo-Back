@@ -1,24 +1,32 @@
-import { ServiceFindCompany } from "../../company/services/ServiceFindCompany";
-import { ServiceFindContactType } from "../../contactType/services/ServiceFindContactType";
-import CompanyContact from "../entities/CompanyContact";
-import CompanyContactRepository from "../repository/CompanyContactRepository";
+import { ServiceFindCompany } from '../../company/services/ServiceFindCompany';
+import { ServiceFindContactType } from '../../contactType/services/ServiceFindContactType';
+import CompanyContact from '../entities/CompanyContact';
+import CompanyContactRepository from '../repository/CompanyContactRepository';
 
-
-interface ICreateCompanyContact {
+type ICreateCompanyContact = {
   name: string;
   contactType: string;
   mail: string;
   phone: string;
   mobile: string;
   company: string;
-}
+};
 
 export class ServiceCreateCompanyContact {
-  async execute({ name, contactType, mail, phone, mobile, company }: ICreateCompanyContact): Promise<CompanyContact> {
+  async execute({
+    name,
+    contactType,
+    mail,
+    phone,
+    mobile,
+    company,
+  }: ICreateCompanyContact): Promise<CompanyContact> {
     const repo = new CompanyContactRepository();
 
     const serviceFindContactType = new ServiceFindContactType();
-    const contactTypeRef = await serviceFindContactType.execute({ id: contactType });
+    const contactTypeRef = await serviceFindContactType.execute({
+      id: contactType,
+    });
 
     const serviceFindCompany = new ServiceFindCompany();
     const companyRef = await serviceFindCompany.execute({ id: company });

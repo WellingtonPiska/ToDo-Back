@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerDeviceType from '../controller/DeviceTypeController';
 import schemaValidationDeviceTypeCreate from '../validation/schemaValidationCreate';

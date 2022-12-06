@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { ServiceListState } from '../services/ServiceListState';
+
 import { ServiceFindState } from '../services/ServiceFindState';
+import { ServiceListState } from '../services/ServiceListState';
 
 export default class StateController {
   public async list(request: Request, response: Response): Promise<Response> {

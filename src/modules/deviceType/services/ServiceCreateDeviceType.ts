@@ -1,16 +1,21 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import DeviceType from "../entities/DeviceType";
-import DeviceTypeRepository from "../repository/DeviceTypeRepository";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import DeviceType from '../entities/DeviceType';
+import DeviceTypeRepository from '../repository/DeviceTypeRepository';
 
-interface ICreateDeviceType {
+type ICreateDeviceType = {
   name: string;
   status: string;
   cost: string;
   obs?: string;
-}
+};
 
 export class ServiceCreateDeviceType {
-  async execute({ name, status, cost, obs }: ICreateDeviceType): Promise<DeviceType> {
+  async execute({
+    name,
+    status,
+    cost,
+    obs,
+  }: ICreateDeviceType): Promise<DeviceType> {
     const repo = new DeviceTypeRepository();
 
     const serviceFindStatus = new ServiceFindStatus();

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { AnySchema } from 'yup';
+
 import validatorErrorYup from '../utils/validationErrorYup';
 
 const ensureValidationYupRequest =
@@ -15,6 +16,7 @@ const ensureValidationYupRequest =
         { strict: true, abortEarly: false }
       );
       next();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const object = validatorErrorYup(err);
       res.status(400).json(object);

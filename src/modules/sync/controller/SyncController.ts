@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { ServiceSyncLocation } from '../services/ServiceSyncLocation';
 import { ServiceSyncSector } from '../services/ServiceSyncSector';
 import { ServiceSyncUser } from '../services/ServiceSyncUser';

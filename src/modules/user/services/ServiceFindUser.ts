@@ -1,18 +1,18 @@
-import User from "../entities/User";
-import UserRepository from "../repository/UserRepository";
+import User from '../entities/User';
+import UserRepository from '../repository/UserRepository';
 
-interface IFindUser {
+type IFindUser = {
   id: string;
-}
+};
 
 export class ServiceFindUser {
   async execute({ id }: IFindUser): Promise<User> {
     const repo = new UserRepository();
 
-    const data = await repo.findById(id)
+    const data = await repo.findById(id);
 
     if (!data) {
-      throw new Error('User não encontrado')
+      throw new Error('User não encontrado');
     }
     return data;
   }

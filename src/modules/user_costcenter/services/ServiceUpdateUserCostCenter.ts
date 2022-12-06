@@ -4,22 +4,27 @@ import UserCostCenter from '../entities/UserCostCenter';
 import UserCostCenterRepository from '../repository/UserCostCenterRepository';
 import { ServiceFindUserCostCenter } from './ServiceFindUserCostCenter';
 
-interface IUpdateUserCostCenter {
+type IUpdateUserCostCenter = {
   id: string;
   user: string;
   costCenter: string;
-
-}
+};
 
 export class ServiceUpdateUserCostCenter {
-  async execute({ id, user, costCenter }: IUpdateUserCostCenter): Promise<UserCostCenter> {
+  async execute({
+    id,
+    user,
+    costCenter,
+  }: IUpdateUserCostCenter): Promise<UserCostCenter> {
     const repo = new UserCostCenterRepository();
 
     const serviceFindUserCostCenter = new ServiceFindUserCostCenter();
     const ucc = await serviceFindUserCostCenter.execute({ id });
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    const costCenterRef = await serviceFindCostCenter.execute({
+      id: costCenter,
+    });
 
     const serviceFindUser = new ServiceFindUser();
     const userRef = await serviceFindUser.execute({ id: user });

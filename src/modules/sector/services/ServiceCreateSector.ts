@@ -1,10 +1,10 @@
-import { ServiceFindCostCenter } from "../../costCenter/services/ServiceFindCostCenter";
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import Sector from "../entities/Sector";
-import SectorRepository from "../repository/SectorRepository";
-import { ServiceFindSector } from "./ServiceFindSector";
+import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import Sector from '../entities/Sector';
+import SectorRepository from '../repository/SectorRepository';
+import { ServiceFindSector } from './ServiceFindSector';
 
-interface ICreateSector {
+type ICreateSector = {
   name: string;
   obs: string;
   type: string;
@@ -13,11 +13,19 @@ interface ICreateSector {
   status: string;
   sectorFather?: string;
   costCenter?: string;
-}
+};
 
 export class ServiceCreateSector {
-  async execute({ name, obs, type, dn, guid, status, sectorFather, costCenter }: ICreateSector): Promise<Sector> {
-
+  async execute({
+    name,
+    obs,
+    type,
+    dn,
+    guid,
+    status,
+    sectorFather,
+    costCenter,
+  }: ICreateSector): Promise<Sector> {
     const repo = new SectorRepository();
 
     const serviceFindStatus = new ServiceFindStatus();
@@ -40,7 +48,6 @@ export class ServiceCreateSector {
     if (sectorValid) {
       throw new Error('Sector já existe');
     }
-
 
     const sector = new Sector();
     sector.type = type;

@@ -1,19 +1,19 @@
 import CompanyContact from '../entities/CompanyContact';
 import CompanyContactRepository from '../repository/CompanyContactRepository';
 
-interface ISearchParams {
+type ISearchParams = {
   company: string;
   page: number;
   limit: number;
   search?: string;
-}
+};
 
-interface IResponseCompanyContact {
+type IResponseCompanyContact = {
   per_page: number;
   total: number;
   current_page: number;
   data: CompanyContact[];
-}
+};
 
 export class ServiceListCompanyContact {
   async execute({

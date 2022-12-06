@@ -4,7 +4,7 @@ import Sector from '../entities/Sector';
 import SectorRepository from '../repository/SectorRepository';
 import { ServiceFindSector } from './ServiceFindSector';
 
-interface IUpdateSector {
+type IUpdateSector = {
   id: string;
   name: string;
   obs: string;
@@ -14,10 +14,20 @@ interface IUpdateSector {
   status: string;
   sectorFather?: string;
   costCenter?: string;
-}
+};
 
 export class ServiceUpdateSector {
-  async execute({ id, name, obs, type, dn, guid, status, sectorFather, costCenter }: IUpdateSector): Promise<Sector> {
+  async execute({
+    id,
+    name,
+    obs,
+    type,
+    dn,
+    guid,
+    status,
+    sectorFather,
+    costCenter,
+  }: IUpdateSector): Promise<Sector> {
     const repo = new SectorRepository();
 
     const serviceFindSector = new ServiceFindSector();
@@ -26,13 +36,13 @@ export class ServiceUpdateSector {
     const serviceFindStatus = new ServiceFindStatus();
     const statusRef = await serviceFindStatus.execute({ id: status });
 
-    let costCenterRef = null
+    let costCenterRef = null;
     if (costCenter) {
       const serviceFindCostCenter = new ServiceFindCostCenter();
       costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
     }
 
-    let sectorFatherRef = null
+    let sectorFatherRef = null;
     if (sectorFather) {
       const serviceFindSector = new ServiceFindSector();
       sectorFatherRef = await serviceFindSector.execute({ id: sectorFather });
@@ -49,7 +59,7 @@ export class ServiceUpdateSector {
     sector.name = name;
     sector.obs = obs;
     sector.costCenter = costCenterRef?.id;
-    sector.status = statusRef.id
+    sector.status = statusRef.id;
     sector.sectorFather = sectorFatherRef?.id;
 
     await repo.update(sector);

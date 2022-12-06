@@ -1,16 +1,20 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import ContactType from "../entities/ContactType";
-import ContactTypeRepository from "../repository/ContactTypeRepository";
-import { ServiceFindContactType } from "./ServiceFindContactType";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import ContactType from '../entities/ContactType';
+import ContactTypeRepository from '../repository/ContactTypeRepository';
+import { ServiceFindContactType } from './ServiceFindContactType';
 
-interface IUpdateContactType {
+type IUpdateContactType = {
   id: string;
   name: string;
   status: string;
-}
+};
 
 export class ServiceUpdateContactType {
-  async execute({ id, name, status }: IUpdateContactType): Promise<ContactType> {
+  async execute({
+    id,
+    name,
+    status,
+  }: IUpdateContactType): Promise<ContactType> {
     const repo = new ContactTypeRepository();
 
     const serviceFindContactType = new ServiceFindContactType();
@@ -31,4 +35,3 @@ export class ServiceUpdateContactType {
     return contactType;
   }
 }
-

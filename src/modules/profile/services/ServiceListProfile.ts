@@ -2,21 +2,25 @@ import 'reflect-metadata';
 import Profile from '../entities/Profile';
 import ProfileRepository from '../repository/ProfileRepository';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   limit: number;
   ref: string;
-}
+};
 
-interface IResponseProfile {
+type IResponseProfile = {
   per_page: number;
   total: number;
   current_page: number;
   data: Profile[];
-}
+};
 
 export class ServiceListProfile {
-  async execute({ page, limit, ref }: ISearchParams): Promise<IResponseProfile> {
+  async execute({
+    page,
+    limit,
+    ref,
+  }: ISearchParams): Promise<IResponseProfile> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
 

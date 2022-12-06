@@ -1,25 +1,20 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import UserSector from '../entities/UserSector';
 
-
-interface ICreateUserSector {
-  user: string;
-  costCenter: string;
-}
-
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
-}
+};
 
-interface IResponseUserSector {
+type IResponseUserSector = {
   per_page: number;
   total: number;
   current_page: number;
   data: UserSector[];
-}
+};
 
 export default class UserSectorRepository {
   private repo: Repository<UserSector>;
@@ -53,19 +48,12 @@ export default class UserSectorRepository {
     return data;
   }
 
-
-
-  public async findValidUpdate(
-    id: string,
-  ): Promise<UserSector | null> {
+  public async findValidUpdate(id: string): Promise<UserSector | null> {
     const data = await this.repo
       .createQueryBuilder('user_sector')
-      .where(
-        'user_sector.use_id_s <> :id ',
-        {
-          id,
-        }
-      )
+      .where('user_sector.use_id_s <> :id ', {
+        id,
+      })
       .getOne();
 
     return data;

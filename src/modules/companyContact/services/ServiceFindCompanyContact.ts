@@ -1,9 +1,9 @@
 import CompanyContactRepository from '../repository/CompanyContactRepository';
 
-interface IFindCompanyContact {
+type IFindCompanyContact = {
   company: string;
   id: string;
-}
+};
 
 export class ServiceFindCompanyContact {
   async execute({ company, id }: IFindCompanyContact) {

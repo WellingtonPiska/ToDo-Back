@@ -1,19 +1,27 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import Group from "../entities/Group";
-import GroupRepository from "../repository/GroupRepository";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import Group from '../entities/Group';
+import GroupRepository from '../repository/GroupRepository';
 
-interface ICreateGroup {
+type ICreateGroup = {
   name: string;
   status: string;
   type: string;
   mail?: string;
   dn: string;
   sid: string;
-  sync: string
-}
+  sync: string;
+};
 
 export class ServiceCreateGroup {
-  async execute({ name, status, type, mail, dn, sid, sync }: ICreateGroup): Promise<Group> {
+  async execute({
+    name,
+    status,
+    type,
+    mail,
+    dn,
+    sid,
+    sync,
+  }: ICreateGroup): Promise<Group> {
     const repo = new GroupRepository();
 
     const serviceFindStatus = new ServiceFindStatus();

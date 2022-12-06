@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import CostCenter from '../../costCenter/entities/CostCenter';
 import Profile from '../../profile/entities/Profile';
 import Sector from '../../sector/entities/Sector';

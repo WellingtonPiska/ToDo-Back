@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerMenu from '../controller/MenuController';
 import schemaValidationMenuCreate from '../validation/schemaValidationCreate';
@@ -30,6 +31,5 @@ routerMenu.delete(
   ensureValidationYupRequest(schemaValidationMenuDelete),
   controllerMenu.delete
 );
-
 
 export default routerMenu;

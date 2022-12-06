@@ -1,37 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import User from '../entities/User';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseUser {
+type IResponseUser = {
   per_page: number;
   total: number;
   current_page: number;
   data: User[];
-}
-
-interface ICreateUser {
-  name: string;
-  lastName: string;
-  display: string;
-  login: string;
-  password?: string;
-  cpf?: string;
-  mail?: string;
-  dn?: string;
-  sid?: string;
-  status: string;
-  sector: string;
-  costCenter?: string;
-  profile: string;
-}
+};
 
 export default class UserRepository {
   private repo: Repository<User>;

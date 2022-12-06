@@ -14,9 +14,9 @@ import routerProfile from '../../modules/profile/routes';
 import routerSector from '../../modules/sector/routes';
 import routerStatus from '../../modules/status/routes';
 import routerSync from '../../modules/sync/routes';
-import routerUser from '../../modules/user/routes';
 import routerUserCostCenter from '../../modules/user_costcenter/routes';
 import routerUserSector from '../../modules/user_Sector/routes';
+import routerUser from '../../modules/user/routes';
 
 const routes = Router();
 

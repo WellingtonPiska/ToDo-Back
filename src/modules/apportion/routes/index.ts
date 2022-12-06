@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerApportion from '../controller/ApportionController';
 import schemaValidationApportionCreate from '../validation/schemaValidationCreate';
@@ -6,11 +7,10 @@ import schemaValidationApportionDelete from '../validation/schemaValidationDelet
 import schemaValidationApportionFind from '../validation/schemaValidationFind';
 import schemaValidationApportionUpdate from '../validation/schemaValidationUpdate';
 
-
 const controllerApportion = new ControllerApportion();
 const routerApportion = Router();
 
-routerApportion.get('/', controllerApportion.list)
+routerApportion.get('/', controllerApportion.list);
 routerApportion.get(
   '/:id',
   ensureValidationYupRequest(schemaValidationApportionFind),

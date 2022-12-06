@@ -1,28 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import CostCenter from '../entities/CostCenter';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseCostCenter {
+type IResponseCostCenter = {
   per_page: number;
   total: number;
   current_page: number;
   data: CostCenter[];
-}
-
-interface ICreateCostCenter {
-  name: string;
-  status: string;
-  apportion: string;
-  obs?: string;
-}
+};
 
 export default class CostCenterRepository {
   private repo: Repository<CostCenter>;
@@ -72,17 +66,14 @@ export default class CostCenterRepository {
 
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<CostCenter | null> {
     const data = await this.repo
       .createQueryBuilder('cost_center')
-      .where(
-        'cost_center.cce_id_s <> :id and cost_center.cce_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('cost_center.cce_id_s <> :id and cost_center.cce_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;

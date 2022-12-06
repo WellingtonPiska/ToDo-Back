@@ -1,8 +1,8 @@
-import CompanyRepository from "../repository/CompanyRepository";
+import CompanyRepository from '../repository/CompanyRepository';
 
-interface IFindCompany {
+type IFindCompany = {
   id: string;
-}
+};
 
 export class ServiceFindCompany {
   async execute({ id }: IFindCompany) {
@@ -11,7 +11,7 @@ export class ServiceFindCompany {
     const data = await repo.findById(id);
 
     if (!data) {
-      throw new Error('Company não encontrado')
+      throw new Error('Company não encontrado');
     }
     return data;
   }

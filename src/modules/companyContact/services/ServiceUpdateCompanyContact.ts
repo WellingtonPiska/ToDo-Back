@@ -1,11 +1,10 @@
-import { ServiceFindCompany } from "../../company/services/ServiceFindCompany";
-import { ServiceFindContactType } from "../../contactType/services/ServiceFindContactType";
-import CompanyContact from "../entities/CompanyContact";
-import CompanyContactRepository from "../repository/CompanyContactRepository";
+import { ServiceFindCompany } from '../../company/services/ServiceFindCompany';
+import { ServiceFindContactType } from '../../contactType/services/ServiceFindContactType';
+import CompanyContact from '../entities/CompanyContact';
+import CompanyContactRepository from '../repository/CompanyContactRepository';
+import { ServiceFindCompanyContact } from './ServiceFindCompanyContact';
 
-import { ServiceFindCompanyContact } from "./ServiceFindCompanyContact";
-
-interface IUpdateCompanyContact {
+type IUpdateCompanyContact = {
   id: string;
   name: string;
   mail: string;
@@ -13,10 +12,17 @@ interface IUpdateCompanyContact {
   mobile: string;
   company: string;
   contactType: string;
-}
+};
 
 export class ServiceUpdateCompanyContact {
-  async execute({ id, name, mail, phone, mobile, company, contactType
+  async execute({
+    id,
+    name,
+    mail,
+    phone,
+    mobile,
+    company,
+    contactType,
   }: IUpdateCompanyContact): Promise<CompanyContact> {
     const repo = new CompanyContactRepository();
 
@@ -27,7 +33,9 @@ export class ServiceUpdateCompanyContact {
     const companyRef = await serviceFindCompany.execute({ id: company });
 
     const serviceFindContactType = new ServiceFindContactType();
-    const contactTypeRef = await serviceFindContactType.execute({ id: contactType });
+    const contactTypeRef = await serviceFindContactType.execute({
+      id: contactType,
+    });
 
     const companyValid = await repo.findValidUpdate(id, name);
 
@@ -46,4 +54,3 @@ export class ServiceUpdateCompanyContact {
     return companyC;
   }
 }
-

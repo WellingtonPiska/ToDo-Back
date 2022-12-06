@@ -1,18 +1,24 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import DeviceType from "../entities/DeviceType";
-import DeviceTypeRepository from "../repository/DeviceTypeRepository";
-import { ServiceFindDeviceType } from "./ServiceFindDeviceType";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import DeviceType from '../entities/DeviceType';
+import DeviceTypeRepository from '../repository/DeviceTypeRepository';
+import { ServiceFindDeviceType } from './ServiceFindDeviceType';
 
-interface IUpdateDeviceType {
+type IUpdateDeviceType = {
   id: string;
   name: string;
   status: string;
   cost: string;
   obs?: string;
-}
+};
 
 export class ServiceUpdateDeviceType {
-  async execute({ id, name, status, cost, obs }: IUpdateDeviceType): Promise<DeviceType> {
+  async execute({
+    id,
+    name,
+    status,
+    cost,
+    obs,
+  }: IUpdateDeviceType): Promise<DeviceType> {
     const repo = new DeviceTypeRepository();
 
     const serviceFindDeviceType = new ServiceFindDeviceType();
@@ -36,4 +42,3 @@ export class ServiceUpdateDeviceType {
     return deviceType;
   }
 }
-

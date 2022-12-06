@@ -9,6 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import CostCenter from '../../costCenter/entities/CostCenter';
 import Status from '../../status/entities/Status';
 
@@ -26,6 +27,7 @@ class Sector {
 
   @ManyToOne(() => Sector)
   @JoinColumn({ name: 'sec_sector_s' })
+  // eslint-disable-next-line no-use-before-define
   sectorFatherRef?: Sector;
 
   @Column({ name: 'sec_sector_s' })
@@ -63,6 +65,7 @@ class Sector {
   update: Date;
 
   @OneToMany(() => Sector, sector => sector.sectorFatherRef)
+  // eslint-disable-next-line no-use-before-define
   child: Sector[];
 
   constructor() {

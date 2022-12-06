@@ -7,7 +7,7 @@ import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import User from '../entities/User';
 import { ServiceFindUser } from './ServiceFindUser';
 
-interface IUpdateUser {
+type IUpdateUser = {
   id: string;
   name: string;
   lastName: string;
@@ -22,10 +22,25 @@ interface IUpdateUser {
   costCenter: string;
   profile: string;
   display: string;
-}
+};
 
 export class ServiceUpdateUser {
-  async execute({ id, name, lastName, login, password, cpf, mail, dn, sid, status, sector, costCenter, profile, display }: IUpdateUser) {
+  async execute({
+    id,
+    name,
+    lastName,
+    login,
+    password,
+    cpf,
+    mail,
+    dn,
+    sid,
+    status,
+    sector,
+    costCenter,
+    profile,
+    display,
+  }: IUpdateUser) {
     const repo = dataSource.getRepository(User);
 
     const serviceFindUser = new ServiceFindUser();
@@ -34,7 +49,7 @@ export class ServiceUpdateUser {
     const serviceFindStatus = new ServiceFindStatus();
     const statusRef = await serviceFindStatus.execute({ id: status });
 
-    let costCenterRef = null
+    let costCenterRef = null;
     if (costCenter) {
       const serviceFindCostCenter = new ServiceFindCostCenter();
       costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
@@ -48,13 +63,10 @@ export class ServiceUpdateUser {
 
     const userValid = await repo
       .createQueryBuilder('user')
-      .where(
-        'user.use_id_s <> :id and (user.use_display_s = :display )',
-        {
-          id,
-          display,
-        }
-      )
+      .where('user.use_id_s <> :id and (user.use_display_s = :display )', {
+        id,
+        display,
+      })
       .getOne();
 
     if (userValid) {

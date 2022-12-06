@@ -1,9 +1,9 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import Group from "../entities/Group";
-import GroupRepository from "../repository/GroupRepository";
-import { ServiceFindGroup } from "./ServiceFindGroup";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import Group from '../entities/Group';
+import GroupRepository from '../repository/GroupRepository';
+import { ServiceFindGroup } from './ServiceFindGroup';
 
-interface IUpdateGroup {
+type IUpdateGroup = {
   id: string;
   name: string;
   status: string;
@@ -12,10 +12,19 @@ interface IUpdateGroup {
   dn: string;
   sid: string;
   sync: string;
-}
+};
 
 export class ServiceUpdateGroup {
-  async execute({ id, name, status, type, mail, dn, sid, sync }: IUpdateGroup): Promise<Group> {
+  async execute({
+    id,
+    name,
+    status,
+    type,
+    mail,
+    dn,
+    sid,
+    sync,
+  }: IUpdateGroup): Promise<Group> {
     const repo = new GroupRepository();
 
     const serviceFindGroup = new ServiceFindGroup();
@@ -40,4 +49,3 @@ export class ServiceUpdateGroup {
     return group;
   }
 }
-

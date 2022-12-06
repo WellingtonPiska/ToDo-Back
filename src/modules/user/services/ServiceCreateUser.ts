@@ -6,7 +6,7 @@ import { ServiceFindSector } from '../../sector/services/ServiceFindSector';
 import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import User from '../entities/User';
 
-interface ICreateUser {
+type ICreateUser = {
   name: string;
   lastName: string;
   display: string;
@@ -20,7 +20,7 @@ interface ICreateUser {
   sector: string;
   costCenter?: string;
   profile: string;
-}
+};
 export class ServiceCreateUser {
   async execute({
     name,
@@ -34,7 +34,7 @@ export class ServiceCreateUser {
     display,
     sector,
     costCenter,
-    profile
+    profile,
   }: ICreateUser): Promise<User> {
     const repo = dataSource.getRepository(User);
 

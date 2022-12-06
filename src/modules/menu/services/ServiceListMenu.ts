@@ -1,17 +1,17 @@
 import Menu from '../entities/Menu';
 import MenuRepository from '../repository/MenuRepository';
 
-interface SearchParams {
+type SearchParams = {
   page: number;
   limit: number;
-}
+};
 
-interface IResponseMenu {
+type IResponseMenu = {
   per_page: number;
   total: number;
   current_page: number;
   data: Menu[];
-}
+};
 
 export class ServiceListMenu {
   async execute({ page, limit }: SearchParams): Promise<IResponseMenu> {

@@ -1,27 +1,21 @@
 import 'reflect-metadata';
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import Status from '../entities/Status';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
-}
+};
 
-interface IResponseStatus {
+type IResponseStatus = {
   per_page: number;
   total: number;
   current_page: number;
   data: Status[];
-}
-
-interface ICreateStatus {
-  name: string;
-  reference: string;
-  color: string;
-}
-
+};
 export default class StatusRepository {
   private repo: Repository<Status>;
 

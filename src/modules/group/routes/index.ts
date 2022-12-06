@@ -1,7 +1,7 @@
-import ControllerGroup from '../controller/GroupController';
-
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
+import ControllerGroup from '../controller/GroupController';
 import schemaValidationGroupCreate from '../validation/schemaValidationCreate';
 import schemaValidationGroupDelete from '../validation/schemaValidationDelete';
 import schemaValidationGroupFind from '../validation/schemaValidationFind';

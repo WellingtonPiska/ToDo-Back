@@ -1,11 +1,11 @@
 import Status from '../entities/Status';
 import StatusRepository from '../repository/StatusRepository';
 
-interface ICreateStatus {
+type ICreateStatus = {
   name: string;
   reference: string;
   color: string;
-}
+};
 
 export class ServiceCreateStatus {
   async execute({ name, reference, color }: ICreateStatus): Promise<Status> {

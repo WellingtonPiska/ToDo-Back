@@ -1,16 +1,21 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import CostCenter from "../entities/CostCenter";
-import CostCenterRepository from "../repository/CostCenterRepository";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import CostCenter from '../entities/CostCenter';
+import CostCenterRepository from '../repository/CostCenterRepository';
 
-interface ICreateCostCenter {
+type ICreateCostCenter = {
   name: string;
   obs: string;
   status: string;
   apportion: string;
-}
+};
 
 export class ServiceCreateCostCenter {
-  async execute({ name, obs, status, apportion }: ICreateCostCenter): Promise<CostCenter> {
+  async execute({
+    name,
+    obs,
+    status,
+    apportion,
+  }: ICreateCostCenter): Promise<CostCenter> {
     const repo = new CostCenterRepository();
 
     const serviceFindStatus = new ServiceFindStatus();

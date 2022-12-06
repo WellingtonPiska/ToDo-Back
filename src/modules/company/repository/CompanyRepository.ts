@@ -1,36 +1,23 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Company from '../entities/Company';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
   search?: string;
-}
+};
 
-interface IResponseCompany {
+type IResponseCompany = {
   per_page: number;
   total: number;
   current_page: number;
   data: Company[];
-}
-
-interface ICreateCompany {
-  name: string;
-  status: string;
-  fantasy: string;
-  type: string;
-  inscription: string;
-  zipCode?: string;
-  complement?: string;
-  number?: string;
-  district?: string;
-  city?: string;
-  state?: string;
-}
+};
 
 export default class CompanyRepository {
   private repo: Repository<Company>;
@@ -44,7 +31,7 @@ export default class CompanyRepository {
     skip,
     take,
     ref,
-    search
+    search,
   }: ISearchParams): Promise<IResponseCompany> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -53,9 +40,12 @@ export default class CompanyRepository {
       .createQueryBuilder('company')
       .skip(skip)
       .take(take)
-      .where(function (qb) {
+      .where(qb => {
         if (search !== undefined) {
-          qb.where(`company.com_status_s = :ref and company.com_name_s like :search`, { ref: status.id, search: `%${search}%` });
+          qb.where(
+            `company.com_status_s = :ref and company.com_name_s like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
         } else {
           qb.where(`company.com_status_s = :ref `, { ref: status.id });
         }
@@ -75,11 +65,9 @@ export default class CompanyRepository {
   public async findById(id: string): Promise<Company | null> {
     const data = await this.repo.find({
       where: {
-        id
+        id,
       },
-      relations:
-        ['contacts', 'contacts.contactTypeRef']
-      ,
+      relations: ['contacts', 'contacts.contactTypeRef'],
     });
     if (data.length > 0) {
       return data[0];
@@ -96,17 +84,14 @@ export default class CompanyRepository {
 
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<Company | null> {
     const data = await this.repo
       .createQueryBuilder('company')
-      .where(
-        'company.com_id_s <> :id and company.com_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('company.com_id_s <> :id and company.com_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;

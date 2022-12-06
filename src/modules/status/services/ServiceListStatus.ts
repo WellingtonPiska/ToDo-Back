@@ -1,17 +1,17 @@
-import StatusRepository from '../repository/StatusRepository';
 import Status from '../entities/Status';
+import StatusRepository from '../repository/StatusRepository';
 
-interface SearchParams {
+type SearchParams = {
   page: number;
   limit: number;
-}
+};
 
-interface IResponseStatus {
+type IResponseStatus = {
   per_page: number;
   total: number;
   current_page: number;
   data: Status[];
-}
+};
 
 export class ServiceListStatus {
   async execute({ page, limit }: SearchParams): Promise<IResponseStatus> {

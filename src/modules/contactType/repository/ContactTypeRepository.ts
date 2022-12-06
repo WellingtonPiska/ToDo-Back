@@ -1,26 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import ContactType from '../entities/ContactType';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseContactType {
+type IResponseContactType = {
   per_page: number;
   total: number;
   current_page: number;
   data: ContactType[];
-}
-
-interface ICreateContactType {
-  name: string;
-  status: string;
-}
+};
 
 export default class ContactTypeRepository {
   private repo: Repository<ContactType>;
@@ -70,7 +66,7 @@ export default class ContactTypeRepository {
 
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<ContactType | null> {
     const data = await this.repo
       .createQueryBuilder('contact_type')

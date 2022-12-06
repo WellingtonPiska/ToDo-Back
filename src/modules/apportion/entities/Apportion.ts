@@ -1,8 +1,14 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import CostCenter from '../../costCenter/entities/CostCenter';
 
 @Entity('apportion')
@@ -11,14 +17,14 @@ class Apportion {
   id: string;
 
   @ManyToOne(() => CostCenter)
-  @JoinColumn({ name: "app_costcenter_s" })
+  @JoinColumn({ name: 'app_costcenter_s' })
   costCenterRef: CostCenter;
 
   @Column({ name: 'app_costcenter_s' })
   costCenter: string;
 
   @ManyToOne(() => CostCenter)
-  @JoinColumn({ name: "app_apportion_s" })
+  @JoinColumn({ name: 'app_apportion_s' })
   apportionRef: CostCenter;
 
   @Column({ name: 'app_apportion_s' })

@@ -1,16 +1,16 @@
 import 'reflect-metadata';
 import ibge from '../../../config/axios/ibge';
 
-interface IResponseCidade {
+type IResponseCidade = {
   name: string;
   uf: string;
-}
+};
 
-interface IRequestUF {
+type IRequestUF = {
   uf: string;
-}
+};
 
-interface IObjectCidade {
+type IObjectCidade = {
   nome: string;
   microrregiao: {
     nome: string;
@@ -22,12 +22,12 @@ interface IObjectCidade {
       };
     };
   };
-}
+};
 
 export class ServiceListCity {
   async execute({ uf }: IRequestUF): Promise<IResponseCidade[]> {
     const res = await ibge.get(`/estados/${uf}/municipios`);
-    if (res.status == 200) {
+    if (res.status === 200) {
       const data = res.data.map(({ nome, microrregiao }: IObjectCidade) => {
         return {
           name: nome,

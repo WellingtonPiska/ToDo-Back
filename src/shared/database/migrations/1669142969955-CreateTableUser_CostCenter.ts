@@ -1,7 +1,13 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class CreateTableUserCostCenter1669142969955 implements MigrationInterface {
-
+export class CreateTableUserCostCenter1669142969955
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -27,12 +33,12 @@ export class CreateTableUserCostCenter1669142969955 implements MigrationInterfac
           {
             name: 'ucc_created_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'ucc_updated_d',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP'
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       })
@@ -55,11 +61,9 @@ export class CreateTableUserCostCenter1669142969955 implements MigrationInterfac
         name: 'FK_USER_COSTCENTER_COSTCENTER',
       })
     );
-
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('user_costcenter');
   }
-
 }

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { ServiceCreateSector } from '../services/ServiceCreateSector';
 import { ServiceDeleteSector } from '../services/ServiceDeleteSector';
 import { ServiceFindSector } from '../services/ServiceFindSector';
@@ -14,7 +15,7 @@ export default class SectorController {
 
     const sector = await serviceListSector.execute({ page, limit, ref });
 
-    return response.json(sector)
+    return response.json(sector);
   }
 
   public async find(request: Request, response: Response): Promise<Response> {

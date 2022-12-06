@@ -1,7 +1,7 @@
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerCompanyContact from '../controller/CompanyContactController';
-
 import schemaValidationCompanyContactList from '../validation/schemaValidationContactList';
 import schemaValidationCompanyContactCreate from '../validation/schemaValidationCreateContact';
 import schemaValidationCompanyContactDelete from '../validation/schemaValidationDeleteContact';

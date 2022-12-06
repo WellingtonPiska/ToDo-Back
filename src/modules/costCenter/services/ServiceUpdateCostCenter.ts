@@ -1,18 +1,24 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import CostCenter from "../entities/CostCenter";
-import CostCenterRepository from "../repository/CostCenterRepository";
-import { ServiceFindCostCenter } from "./ServiceFindCostCenter";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import CostCenter from '../entities/CostCenter';
+import CostCenterRepository from '../repository/CostCenterRepository';
+import { ServiceFindCostCenter } from './ServiceFindCostCenter';
 
-interface IUpdateCostCenter {
+type IUpdateCostCenter = {
   id: string;
   name: string;
   obs: string;
   status: string;
   apportion: string;
-}
+};
 
 export class ServiceUpdateCostCenter {
-  async execute({ id, name, obs, status, apportion }: IUpdateCostCenter): Promise<CostCenter> {
+  async execute({
+    id,
+    name,
+    obs,
+    status,
+    apportion,
+  }: IUpdateCostCenter): Promise<CostCenter> {
     const repo = new CostCenterRepository();
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
@@ -34,4 +40,3 @@ export class ServiceUpdateCostCenter {
     return costCenter;
   }
 }
-

@@ -3,13 +3,12 @@ import { dataSource } from '../../../shared/database';
 import UserSector from '../entities/UserSector';
 import { ServiceFindUserSector } from './ServiceFindUserSector';
 
-
-interface IDeleteUserSector {
+type IDeleteUserSector = {
   id: string;
-}
+};
 
 export class ServiceDeleteUserSector {
-  async execute({ id }: IDeleteUserSector): Promise<Boolean> {
+  async execute({ id }: IDeleteUserSector): Promise<boolean> {
     const repo = dataSource.getRepository(UserSector);
     const serviceFindUserSector = new ServiceFindUserSector();
     const ucc = await serviceFindUserSector.execute({ id });

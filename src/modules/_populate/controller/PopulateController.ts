@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { ServicePopulate } from '../services/ServicePopulate';
 
 export default class PopulateController {

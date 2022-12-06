@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { ServiceCreateCompanyContact } from '../services/ServiceCreateCompanyContact';
 import { ServiceDeleteCompanyContact } from '../services/ServiceDeleteCompanyContact';
 import { ServiceFindCompanyContact } from '../services/ServiceFindCompanyContact';
@@ -42,7 +43,7 @@ export default class ControllerCompanyContact {
       company,
       mail,
       phone,
-      mobile
+      mobile,
     });
 
     return response.json(contactCompany);
@@ -52,7 +53,7 @@ export default class ControllerCompanyContact {
     const serviceDeleteCompanyContact = new ServiceDeleteCompanyContact();
     const companyContact = await serviceDeleteCompanyContact.execute({
       id,
-      company
+      company,
     });
 
     return response.json(companyContact);
@@ -60,7 +61,6 @@ export default class ControllerCompanyContact {
   public async update(request: Request, response: Response): Promise<Response> {
     const { name, mail, phone, mobile, contactType } = request.body;
     const { id, company } = request.params;
-
 
     const serviceUpdateCompanyContact = new ServiceUpdateCompanyContact();
     const companyContact = await serviceUpdateCompanyContact.execute({
@@ -70,7 +70,7 @@ export default class ControllerCompanyContact {
       phone,
       mobile,
       contactType,
-      company
+      company,
     });
 
     return response.json(companyContact);

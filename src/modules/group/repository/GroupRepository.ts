@@ -1,31 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Group from '../entities/Group';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseGroup {
+type IResponseGroup = {
   per_page: number;
   total: number;
   current_page: number;
   data: Group[];
-}
-
-interface ICreateGroup {
-  name: string;
-  status: string;
-  type: string;
-  mail: string;
-  dn: string;
-  sid: string;
-  sync: string;
-}
+};
 
 export default class GroupRepository {
   private repo: Repository<Group>;
@@ -75,17 +66,14 @@ export default class GroupRepository {
 
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<Group | null> {
     const data = await this.repo
       .createQueryBuilder('group')
-      .where(
-        'group.gro_id_s <> :id and group.gro_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('group.gro_id_s <> :id and group.gro_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;

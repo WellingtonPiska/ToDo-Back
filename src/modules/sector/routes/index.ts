@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import PlaceController from '../controller/SectorController';
 import schemaValidationPlaceCreate from '../validation/schemaValidationCreate';

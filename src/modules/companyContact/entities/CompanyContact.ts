@@ -5,9 +5,10 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import Company from '../../company/entities/Company';
 import ContactType from '../../contactType/entities/ContactType';
 

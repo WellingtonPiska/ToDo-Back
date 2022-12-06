@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import PopulateController from '../controller/PopulateController';
 
 const controllerPopulate = new PopulateController();

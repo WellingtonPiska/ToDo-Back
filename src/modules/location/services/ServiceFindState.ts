@@ -1,19 +1,19 @@
 import 'reflect-metadata';
 import ibge from '../../../config/axios/ibge';
 
-interface IFindState {
+type IFindState = {
   uf: string;
-}
+};
 
-interface IResponseListState {
+type IResponseListState = {
   uf: string;
   name: string;
-}
+};
 
 export class ServiceFindState {
   async execute({ uf }: IFindState): Promise<IResponseListState> {
     const res = await ibge.get(`/estados/${uf}`);
-    if (res.status == 200) {
+    if (res.status === 200) {
       return {
         uf: res.data.sigla,
         name: res.data.nome,

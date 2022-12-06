@@ -1,9 +1,9 @@
 import Status from '../entities/Status';
 import StatusRepository from '../repository/StatusRepository';
 
-interface IFindStatus {
+type IFindStatus = {
   id: string;
-}
+};
 
 export class ServiceFindStatus {
   async execute({ id }: IFindStatus): Promise<Status> {

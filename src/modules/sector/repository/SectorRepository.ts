@@ -1,31 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Sector from '../entities/Sector';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseSector {
+type IResponseSector = {
   per_page: number;
   total: number;
   current_page: number;
   data: Sector[];
-}
-
-interface ICreateSector {
-  costCenter: string;
-  status: string;
-  name: string;
-  type: string;
-  obs: string;
-  dn: string;
-  guid: string;
-}
+};
 
 export default class SectorRepository {
   private repo: Repository<Sector>;

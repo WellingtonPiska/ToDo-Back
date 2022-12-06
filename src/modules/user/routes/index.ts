@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerUser from '../controller/UserController';
 import schemaValidationUserCreate from '../validation/schemaValidationUserCreate';
@@ -31,6 +32,5 @@ routerUser.delete(
   ensureValidationYupRequest(schemaValidationUserDelete),
   controllerUser.delete
 );
-
 
 export default routerUser;

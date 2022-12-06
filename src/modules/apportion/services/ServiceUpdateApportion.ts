@@ -4,12 +4,12 @@ import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCost
 import Apportion from '../entities/Apportion';
 import { ServiceFindApportion } from './ServiceFindApportion';
 
-interface IUpdateApportion {
+type IUpdateApportion = {
   id: string;
-  apportion: string
+  apportion: string;
   value: number;
   costCenter: string;
-}
+};
 
 export class ServiceUpdateApportion {
   async execute({ id, costCenter, value, apportion }: IUpdateApportion) {
@@ -19,9 +19,10 @@ export class ServiceUpdateApportion {
     const app = await serviceFindApportion.execute({ id });
 
     const serviceFindCostCenter = new ServiceFindCostCenter();
-    const costCenterRef = await serviceFindCostCenter.execute({ id: costCenter });
+    const costCenterRef = await serviceFindCostCenter.execute({
+      id: costCenter,
+    });
     const apportionRef = await serviceFindCostCenter.execute({ id: apportion });
-
 
     const apportionValid = await repo
       .createQueryBuilder('apportion')
@@ -30,19 +31,18 @@ export class ServiceUpdateApportion {
         {
           id,
           apportion,
-          costCenter
+          costCenter,
         }
       )
       .getOne();
-
 
     if (apportionValid) {
       throw new Error('Duplicate register');
     }
 
     app.value = value;
-    app.costCenter = costCenterRef.id
-    app.apportion = apportionRef.id
+    app.costCenter = costCenterRef.id;
+    app.apportion = apportionRef.id;
     const obj = await repo.save(app);
 
     return obj;

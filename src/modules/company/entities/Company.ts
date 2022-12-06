@@ -1,8 +1,15 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import CompanyContact from '../../companyContact/entities/CompanyContact';
 import Status from '../../status/entities/Status';
 
@@ -12,7 +19,7 @@ class Company {
   id: string;
 
   @ManyToOne(() => Status)
-  @JoinColumn({ name: "com_status_s" })
+  @JoinColumn({ name: 'com_status_s' })
   statusRef: Status;
 
   @Column({ name: 'com_status_s' })
@@ -23,7 +30,6 @@ class Company {
 
   @Column({ name: 'com_fantasy_s' })
   fantasy: string;
-
 
   @Column({ name: 'com_type_s' })
   type: string;
@@ -58,7 +64,7 @@ class Company {
   @UpdateDateColumn({ name: 'com_updated_d' })
   update: Date;
 
-  @OneToMany(() => CompanyContact, (contact) => contact.companyRef)
+  @OneToMany(() => CompanyContact, contact => contact.companyRef)
   contacts: CompanyContact[];
 
   constructor() {

@@ -1,8 +1,8 @@
-import { ServiceFindStatus } from "../../status/services/ServiceFindStatus";
-import Company from "../entities/Company";
-import CompanyRepository from "../repository/CompanyRepository";
+import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import Company from '../entities/Company';
+import CompanyRepository from '../repository/CompanyRepository';
 
-interface ICreateCompany {
+type ICreateCompany = {
   name: string;
   status: string;
   fantasy: string;
@@ -15,10 +15,23 @@ interface ICreateCompany {
   district?: string;
   city?: string;
   state?: string;
-}
+};
 
 export class ServiceCreateCompany {
-  async execute({ name, status, fantasy, type, inscription, zipCode, street, complement, number, district, city, state }: ICreateCompany): Promise<Company> {
+  async execute({
+    name,
+    status,
+    fantasy,
+    type,
+    inscription,
+    zipCode,
+    street,
+    complement,
+    number,
+    district,
+    city,
+    state,
+  }: ICreateCompany): Promise<Company> {
     const repo = new CompanyRepository();
 
     const serviceFindStatus = new ServiceFindStatus();

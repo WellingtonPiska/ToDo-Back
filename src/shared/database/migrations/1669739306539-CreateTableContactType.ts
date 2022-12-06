@@ -4,7 +4,6 @@ import {
   Table,
   TableForeignKey,
 } from 'typeorm';
-import { SeedContactType } from '../seed/SeedContactType';
 
 export class CreateTableContactType1669739306539 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

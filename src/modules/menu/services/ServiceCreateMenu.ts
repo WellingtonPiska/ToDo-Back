@@ -1,9 +1,9 @@
 import Menu from '../entities/Menu';
 import MenuRepository from '../repository/MenuRepository';
 
-interface ICreateMenu {
+type ICreateMenu = {
   name: string;
-}
+};
 
 export class ServiceCreateMenu {
   async execute({ name }: ICreateMenu): Promise<Menu> {

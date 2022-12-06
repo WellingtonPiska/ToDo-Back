@@ -1,10 +1,11 @@
-import { Router } from "express";
-import ensureValidationYupRequest from "../../../shared/middleware/validationRequest";
-import ControllerUserSector from "../controller/UserSectorController";
-import schemaValidationUserSectorCreate from "../validation/schemaValidationUserSectorCreate";
-import schemaValidationUserSectorDelete from "../validation/schemaValidationUserSectorDelete";
-import schemaValidationUserSectorFind from "../validation/schemaValidationUserSectorFind";
-import schemaValidationUserSectorUpdate from "../validation/schemaValidationUserSectorUpdate";
+import { Router } from 'express';
+
+import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
+import ControllerUserSector from '../controller/UserSectorController';
+import schemaValidationUserSectorCreate from '../validation/schemaValidationUserSectorCreate';
+import schemaValidationUserSectorDelete from '../validation/schemaValidationUserSectorDelete';
+import schemaValidationUserSectorFind from '../validation/schemaValidationUserSectorFind';
+import schemaValidationUserSectorUpdate from '../validation/schemaValidationUserSectorUpdate';
 
 const controllerUserSector = new ControllerUserSector();
 const routerUserSector = Router();

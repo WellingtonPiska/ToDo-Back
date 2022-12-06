@@ -12,14 +12,16 @@ export class ServicePopulate {
       return 'Status não encontrado';
     }
 
-    //Contact Type
+    // Contact Type
     const repoCT = new ContactTypeRepository();
-    for (const ct of FakeContactType) {
+    FakeContactType.forEach(async ct => {
       const add = new ContactType();
       add.name = ct.name;
       add.status = status.id;
       await repoCT.create(add);
-    }
+    });
+    // for (const ct of FakeContactType) {
+    // }
     return 'OK';
   }
 }

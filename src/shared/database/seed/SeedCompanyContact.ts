@@ -45,4 +45,4 @@ export const SeedCompanyContact = [
     created: `${new Date()}`,
     updated: `${new Date()}`,
   },
-]
+];

@@ -1,17 +1,19 @@
+import CompanyContactRepository from '../repository/CompanyContactRepository';
+import { ServiceFindCompanyContact } from './ServiceFindCompanyContact';
 
-import CompanyContactRepository from "../repository/CompanyContactRepository";
-import { ServiceFindCompanyContact } from "./ServiceFindCompanyContact";
-
-interface IDeleteCompanyContact {
+type IDeleteCompanyContact = {
   id: string;
   company: string;
-}
+};
 
 export class ServiceDeleteCompanyContact {
-  async execute({ id, company }: IDeleteCompanyContact): Promise<Boolean> {
+  async execute({ id, company }: IDeleteCompanyContact): Promise<boolean> {
     const repo = new CompanyContactRepository();
     const serviceFindCompanyContact = new ServiceFindCompanyContact();
-    const companyContact = await serviceFindCompanyContact.execute({ id, company });
+    const companyContact = await serviceFindCompanyContact.execute({
+      id,
+      company,
+    });
     await repo.remove(companyContact);
     return true;
   }

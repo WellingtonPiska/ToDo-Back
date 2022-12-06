@@ -1,26 +1,22 @@
 import { Repository } from 'typeorm';
+
 import { dataSource } from '../../../shared/database';
 import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Profile from '../entities/Profile';
 
-interface ISearchParams {
+type ISearchParams = {
   page: number;
   skip: number;
   take: number;
   ref: string;
-}
+};
 
-interface IResponseProfile {
+type IResponseProfile = {
   per_page: number;
   total: number;
   current_page: number;
   data: Profile[];
-}
-
-interface ICreateProfile {
-  name: string;
-  obs: string;
-}
+};
 
 export default class ProfileRepository {
   private repo: Repository<Profile>;
@@ -70,17 +66,14 @@ export default class ProfileRepository {
 
   public async findValidUpdate(
     id: string,
-    name: string,
+    name: string
   ): Promise<Profile | null> {
     const data = await this.repo
       .createQueryBuilder('profile')
-      .where(
-        'profile.pro_id_s <> :id and profile.pro_name_s = :name',
-        {
-          id,
-          name,
-        }
-      )
+      .where('profile.pro_id_s <> :id and profile.pro_name_s = :name', {
+        id,
+        name,
+      })
       .getOne();
 
     return data;

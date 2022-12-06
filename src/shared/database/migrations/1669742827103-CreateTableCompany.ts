@@ -2,8 +2,9 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey
+  TableForeignKey,
 } from 'typeorm';
+
 import { SeedCompany } from '../seed/SeedComapany';
 
 export class CreateTableCompany1669742827103 implements MigrationInterface {

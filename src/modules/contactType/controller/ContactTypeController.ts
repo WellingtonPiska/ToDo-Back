@@ -1,21 +1,25 @@
-import { Request, Response } from "express";
-import { ServiceCreateContactType } from "../services/ServiceCreateContactType";
-import { ServiceDeleteContactType } from "../services/ServiceDeleteContactType";
-import { ServiceFindContactType } from "../services/ServiceFindContactType";
-import { ServiceListContactType } from "../services/ServiceListContactType";
-import { ServiceUpdateContactType } from "../services/ServiceUpdateContactType";
+import { Request, Response } from 'express';
+
+import { ServiceCreateContactType } from '../services/ServiceCreateContactType';
+import { ServiceDeleteContactType } from '../services/ServiceDeleteContactType';
+import { ServiceFindContactType } from '../services/ServiceFindContactType';
+import { ServiceListContactType } from '../services/ServiceListContactType';
+import { ServiceUpdateContactType } from '../services/ServiceUpdateContactType';
 
 export default class CostCenterController {
-
   public async list(request: Request, response: Response): Promise<Response> {
     const page = request.query.page ? Number(request.query.page) : 1;
     const limit = request.query.limit ? Number(request.query.limit) : 15;
     const ref = request.query.ref ? String(request.query.ref) : 'A';
     const serviceListContactType = new ServiceListContactType();
 
-    const contactType = await serviceListContactType.execute({ page, limit, ref });
+    const contactType = await serviceListContactType.execute({
+      page,
+      limit,
+      ref,
+    });
 
-    return response.json(contactType)
+    return response.json(contactType);
   }
   public async find(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
@@ -32,7 +36,7 @@ export default class CostCenterController {
     const serviceCreateContactType = new ServiceCreateContactType();
     const contactType = await serviceCreateContactType.execute({
       name,
-      status
+      status,
     });
 
     return response.json(contactType);
@@ -41,12 +45,11 @@ export default class CostCenterController {
     const { name, status } = request.body;
     const { id } = request.params;
 
-
     const serviceUpdateContactType = new ServiceUpdateContactType();
     const contactType = await serviceUpdateContactType.execute({
       id,
       name,
-      status
+      status,
     });
 
     return response.json(contactType);
@@ -60,5 +63,4 @@ export default class CostCenterController {
 
     return response.json(contactType);
   }
-
 }

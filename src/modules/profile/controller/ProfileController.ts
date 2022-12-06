@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { ServiceCreateProfile } from '../services/ServiceCreateProfile';
 import { ServiceDeleteProfile } from '../services/ServiceDeleteProfile';
 import { ServiceFindProfile } from '../services/ServiceFindProfile';
@@ -12,14 +13,13 @@ export default class ProfileController {
     const ref = request.query.ref ? String(request.query.ref) : 'A';
     const serviceListProfile = new ServiceListProfile();
 
-
     const profile = await serviceListProfile.execute({ page, limit, ref });
 
     return response.json(profile);
   }
 
   public async find(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
+    // #swagger.tags = ['Status']
     const { id } = request.params;
 
     const serviceFindProfile = new ServiceFindProfile();
@@ -29,7 +29,7 @@ export default class ProfileController {
     return response.json(profile);
   }
   public async create(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Status']
+    // #swagger.tags = ['Status']
     const { name, obs, status } = request.body;
 
     const serviceCreateProfile = new ServiceCreateProfile();
@@ -42,7 +42,6 @@ export default class ProfileController {
     return response.json(result);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-
     const { name, obs, status } = request.body;
     const { id } = request.params;
 
@@ -57,7 +56,7 @@ export default class ProfileController {
     return response.json(profile);
   }
   public async delete(request: Request, response: Response): Promise<Response> {
-    //#swagger.tags = ['Profile']
+    // #swagger.tags = ['Profile']
     const { id } = request.params;
     const serviceDeleteProfile = new ServiceDeleteProfile();
     const deleted = await serviceDeleteProfile.execute({

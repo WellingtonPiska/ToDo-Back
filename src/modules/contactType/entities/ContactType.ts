@@ -1,8 +1,14 @@
 import {
   Column,
-  CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import Status from '../../status/entities/Status';
 
 @Entity('contact_type')
@@ -11,7 +17,7 @@ class ContactType {
   id: string;
 
   @ManyToOne(() => Status)
-  @JoinColumn({ name: "cty_status_s" })
+  @JoinColumn({ name: 'cty_status_s' })
   statusRef: Status;
 
   @Column({ name: 'cty_status_s' })

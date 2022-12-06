@@ -1,7 +1,8 @@
 import { Router } from 'express';
+
 import validationRequest from '../../../shared/middleware/validationRequest';
-import ControllerState from '../controller/StateController';
 import ControllerCity from '../controller/CityController';
+import ControllerState from '../controller/StateController';
 import schemaValidationState from '../validation/schemaValidationState';
 
 const controllerState = new ControllerState();

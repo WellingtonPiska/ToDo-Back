@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { ServiceListCity } from '../services/ServiceListCity';
 
 export default class CityController {
