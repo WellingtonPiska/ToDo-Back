@@ -17,7 +17,6 @@ export class ServiceFindZipCode {
   async execute({ cep }: IFindZipCode): Promise<IResponseFindCep> {
     const res = await viacep.get(`/${cep}/json`);
     if (res.status === 200) {
-      console.log(res.data);
       return {
         zipcode: res.data.cep,
         street: res.data.logradouro,

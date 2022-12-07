@@ -26,7 +26,7 @@ routerLocation.get(
 );
 
 routerLocation.get(
-  '/cep/:cep',
+  '/zipcode/:cep',
   validationRequest(schemaValidationZipCode),
   controllerZipCode.find
 );
