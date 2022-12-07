@@ -1,4 +1,3 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import Company from '../entities/Company';
 import CompanyRepository from '../repository/CompanyRepository';
 import { ServiceFindCompany } from './ServiceFindCompany';
@@ -6,7 +5,6 @@ import { ServiceFindCompany } from './ServiceFindCompany';
 type IUpdateCompany = {
   id: string;
   name: string;
-  status: string;
   fantasy: string;
   type: string;
   inscription: string;
@@ -23,7 +21,6 @@ export class ServiceUpdateCompany {
   async execute({
     id,
     name,
-    status,
     fantasy,
     type,
     inscription,
@@ -40,16 +37,12 @@ export class ServiceUpdateCompany {
     const serviceFindCompany = new ServiceFindCompany();
     const company = await serviceFindCompany.execute({ id });
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
-
     const companyValid = await repo.findValidUpdate(id, name);
 
     if (companyValid) {
       throw new Error('company duplicado');
     }
     company.name = name;
-    company.status = statusRef.id;
     company.fantasy = fantasy;
     company.type = type;
     company.inscription = inscription;

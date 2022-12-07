@@ -38,6 +38,7 @@ export default class ContactTypeRepository {
       .skip(skip)
       .take(take)
       .where('contact_type.cty_status_s = :ref', { ref: status.id })
+      .orderBy('contact_type.cty_name_s')
       .getManyAndCount();
 
     const result = {

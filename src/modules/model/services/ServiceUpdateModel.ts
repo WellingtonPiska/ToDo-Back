@@ -1,6 +1,5 @@
 import { ServiceFindCompany } from '../../company/services/ServiceFindCompany';
 import { ServiceFindDeviceType } from '../../deviceType/services/ServiceFindDeviceType';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import Model from '../entities/Model';
 import ModelRepository from '../repository/ModelRepository';
 import { ServiceFindModel } from './ServiceFindModel';
@@ -8,7 +7,6 @@ import { ServiceFindModel } from './ServiceFindModel';
 type IUpdateModel = {
   id: string;
   name: string;
-  status: string;
   company: string;
   deviceType: string;
   description?: string;
@@ -20,16 +18,12 @@ export class ServiceUpdateModel {
     name,
     company,
     deviceType,
-    status,
     description,
   }: IUpdateModel): Promise<Model> {
     const repo = new ModelRepository();
 
     const serviceFindModel = new ServiceFindModel();
     const model = await serviceFindModel.execute({ id });
-
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
 
     const serviceFindCompany = new ServiceFindCompany();
     const companyRef = await serviceFindCompany.execute({ id: company });
@@ -48,7 +42,6 @@ export class ServiceUpdateModel {
     model.name = name;
     model.description = description;
     model.deviceType = deviceTypeRef.id;
-    model.status = statusRef.id;
     await repo.update(model);
     return model;
   }

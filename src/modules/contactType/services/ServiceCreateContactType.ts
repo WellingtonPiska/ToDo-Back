@@ -1,18 +1,17 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import ContactType from '../entities/ContactType';
 import ContactTypeRepository from '../repository/ContactTypeRepository';
 
 type ICreateContactType = {
   name: string;
-  status: string;
 };
 
 export class ServiceCreateContactType {
-  async execute({ name, status }: ICreateContactType): Promise<ContactType> {
+  async execute({ name }: ICreateContactType): Promise<ContactType> {
     const repo = new ContactTypeRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const contactTypeValid = await repo.findByName(name);
 

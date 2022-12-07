@@ -31,25 +31,23 @@ export default class CostCenterController {
     return response.json(contactType);
   }
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, status } = request.body;
+    const { name } = request.body;
 
     const serviceCreateContactType = new ServiceCreateContactType();
     const contactType = await serviceCreateContactType.execute({
       name,
-      status,
     });
 
     return response.json(contactType);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, status } = request.body;
+    const { name } = request.body;
     const { id } = request.params;
 
     const serviceUpdateContactType = new ServiceUpdateContactType();
     const contactType = await serviceUpdateContactType.execute({
       id,
       name,
-      status,
     });
 
     return response.json(contactType);

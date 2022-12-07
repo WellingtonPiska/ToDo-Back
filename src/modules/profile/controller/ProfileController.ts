@@ -30,19 +30,18 @@ export default class ProfileController {
   }
   public async create(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['Status']
-    const { name, obs, status } = request.body;
+    const { name, obs } = request.body;
 
     const serviceCreateProfile = new ServiceCreateProfile();
     const result = await serviceCreateProfile.execute({
       name,
       obs,
-      status,
     });
 
     return response.json(result);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, obs, status } = request.body;
+    const { name, obs } = request.body;
     const { id } = request.params;
 
     const serviceUpdateProfile = new ServiceUpdateProfile();
@@ -50,7 +49,6 @@ export default class ProfileController {
       id,
       name,
       obs,
-      status,
     });
 
     return response.json(profile);

@@ -1,11 +1,10 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import CostCenter from '../entities/CostCenter';
 import CostCenterRepository from '../repository/CostCenterRepository';
 
 type ICreateCostCenter = {
   name: string;
   obs: string;
-  status: string;
   apportion: string;
 };
 
@@ -13,13 +12,12 @@ export class ServiceCreateCostCenter {
   async execute({
     name,
     obs,
-    status,
     apportion,
   }: ICreateCostCenter): Promise<CostCenter> {
     const repo = new CostCenterRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const costCenterValid = await repo.findByName(name);
 

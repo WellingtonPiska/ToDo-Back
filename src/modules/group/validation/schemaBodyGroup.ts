@@ -1,7 +1,5 @@
 import * as yup from 'yup';
 
-import regexUuidV4 from '../../../shared/utils/regexUuidV4';
-
 const schemaBodyGroup = yup.object().shape({
   name: yup.string().required('Name is required'),
   type: yup
@@ -12,10 +10,6 @@ const schemaBodyGroup = yup.object().shape({
   sid: yup.string().required('sid is required'),
   sync: yup.string().required('sync is required'),
   mail: yup.string().notRequired(),
-  status: yup
-    .string()
-    .required('Id status is required')
-    .matches(regexUuidV4, 'Invalid UUID'),
 });
 
 export default schemaBodyGroup;

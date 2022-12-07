@@ -1,25 +1,19 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import DeviceType from '../entities/DeviceType';
 import DeviceTypeRepository from '../repository/DeviceTypeRepository';
 
 type ICreateDeviceType = {
   name: string;
-  status: string;
   cost: string;
   obs?: string;
 };
 
 export class ServiceCreateDeviceType {
-  async execute({
-    name,
-    status,
-    cost,
-    obs,
-  }: ICreateDeviceType): Promise<DeviceType> {
+  async execute({ name, cost, obs }: ICreateDeviceType): Promise<DeviceType> {
     const repo = new DeviceTypeRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const deviceTypeValid = await repo.findByName(name);
 
@@ -28,8 +22,8 @@ export class ServiceCreateDeviceType {
     }
 
     const dty = new DeviceType();
-    dty.name = name;
     dty.status = statusRef.id;
+    dty.name = name;
     dty.cost = cost;
     dty.obs = obs;
 

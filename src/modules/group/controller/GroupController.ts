@@ -27,12 +27,11 @@ export default class GroupController {
     return response.json(group);
   }
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, status, type, mail, dn, sid, sync } = request.body;
+    const { name, type, mail, dn, sid, sync } = request.body;
 
     const serviceCreateGroup = new ServiceCreateGroup();
     const group = await serviceCreateGroup.execute({
       name,
-      status,
       type,
       mail,
       dn,
@@ -43,14 +42,13 @@ export default class GroupController {
     return response.json(group);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, status, type, mail, dn, sid, sync } = request.body;
+    const { name, type, mail, dn, sid, sync } = request.body;
     const { id } = request.params;
 
     const serviceUpdateGroup = new ServiceUpdateGroup();
     const group = await serviceUpdateGroup.execute({
       id,
       name,
-      status,
       type,
       mail,
       dn,

@@ -31,12 +31,11 @@ export default class ModelController {
     return response.json(model);
   }
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, status, company, deviceType, description } = request.body;
+    const { name, company, deviceType, description } = request.body;
 
     const serviceCreateModel = new ServiceCreateModel();
     const model = await serviceCreateModel.execute({
       name,
-      status,
       company,
       deviceType,
       description,
@@ -44,7 +43,7 @@ export default class ModelController {
     return response.json(model);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, company, status, description, deviceType } = request.body;
+    const { name, company, description, deviceType } = request.body;
     const { id } = request.params;
 
     const serviceUpdateModel = new ServiceUpdateModel();
@@ -53,7 +52,6 @@ export default class ModelController {
       name,
       company,
       deviceType,
-      status,
       description,
     });
 

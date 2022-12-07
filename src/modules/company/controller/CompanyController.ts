@@ -72,7 +72,6 @@ export default class CompanyController {
   public async update(request: Request, response: Response): Promise<Response> {
     const {
       name,
-      status,
       fantasy,
       type,
       inscription,
@@ -90,7 +89,6 @@ export default class CompanyController {
     const company = await serviceUpdateCompany.execute({
       id,
       name,
-      status,
       fantasy,
       type,
       inscription,

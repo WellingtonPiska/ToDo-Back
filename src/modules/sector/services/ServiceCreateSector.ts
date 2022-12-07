@@ -1,5 +1,5 @@
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Sector from '../entities/Sector';
 import SectorRepository from '../repository/SectorRepository';
 import { ServiceFindSector } from './ServiceFindSector';
@@ -10,7 +10,6 @@ type ICreateSector = {
   type: string;
   dn?: string;
   guid?: string;
-  status: string;
   sectorFather?: string;
   costCenter?: string;
 };
@@ -22,14 +21,13 @@ export class ServiceCreateSector {
     type,
     dn,
     guid,
-    status,
     sectorFather,
     costCenter,
   }: ICreateSector): Promise<Sector> {
     const repo = new SectorRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     let sectorFatherRef = null;
     if (sectorFather) {

@@ -3,7 +3,6 @@ import { dataSource } from '../../../shared/database';
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindProfile } from '../../profile/services/ServiceFindProfile';
 import { ServiceFindSector } from '../../sector/services/ServiceFindSector';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import User from '../entities/User';
 import { ServiceFindUser } from './ServiceFindUser';
 
@@ -17,7 +16,6 @@ type IUpdateUser = {
   mail?: string;
   dn?: string;
   sid: string;
-  status: string;
   sector: string;
   costCenter: string;
   profile: string;
@@ -35,7 +33,6 @@ export class ServiceUpdateUser {
     mail,
     dn,
     sid,
-    status,
     sector,
     costCenter,
     profile,
@@ -45,9 +42,6 @@ export class ServiceUpdateUser {
 
     const serviceFindUser = new ServiceFindUser();
     const data = await serviceFindUser.execute({ id });
-
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
 
     let costCenterRef = null;
     if (costCenter) {
@@ -80,7 +74,6 @@ export class ServiceUpdateUser {
     data.dn = dn;
     data.display = display;
     data.lastName = lastName;
-    data.status = statusRef.id;
     data.sector = sectorRef.id;
     data.profile = profileRef.id;
     data.costCenter = costCenterRef?.id;

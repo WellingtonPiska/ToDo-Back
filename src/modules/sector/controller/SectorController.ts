@@ -26,14 +26,13 @@ export default class SectorController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, type, dn, guid, obs, status, sectorFather, costCenter } =
+    const { name, type, dn, guid, obs, sectorFather, costCenter } =
       request.body;
     const serviceCreatePlace = new ServiceCreateSector();
     const result = await serviceCreatePlace.execute({
       name,
       type,
       obs,
-      status,
       dn,
       guid,
       sectorFather,
@@ -53,7 +52,7 @@ export default class SectorController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { name, type, dn, guid, obs, status, sectorFather, costCenter } =
+    const { name, type, dn, guid, obs, sectorFather, costCenter } =
       request.body;
 
     const serviceUpdateSector = new ServiceUpdateSector();
@@ -62,7 +61,6 @@ export default class SectorController {
       name,
       type,
       obs,
-      status,
       dn,
       guid,
       sectorFather,

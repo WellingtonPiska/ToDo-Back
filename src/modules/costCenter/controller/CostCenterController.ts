@@ -33,21 +33,20 @@ export default class CostCenterController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, apportion, obs, status } = request.body;
+    const { name, apportion, obs } = request.body;
 
     const serviceCreateCostCenter = new ServiceCreateCostCenter();
     const costCenter = await serviceCreateCostCenter.execute({
       name,
       apportion,
       obs,
-      status,
     });
 
     return response.json(costCenter);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, apportion, obs, status } = request.body;
+    const { name, apportion, obs } = request.body;
     const { id } = request.params;
 
     const serviceUpdateCostCenter = new ServiceUpdateCostCenter();
@@ -56,7 +55,6 @@ export default class CostCenterController {
       name,
       apportion,
       obs,
-      status,
     });
 
     return response.json(costCenter);

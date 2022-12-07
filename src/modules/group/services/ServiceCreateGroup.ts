@@ -1,10 +1,9 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Group from '../entities/Group';
 import GroupRepository from '../repository/GroupRepository';
 
 type ICreateGroup = {
   name: string;
-  status: string;
   type: string;
   mail?: string;
   dn: string;
@@ -15,7 +14,6 @@ type ICreateGroup = {
 export class ServiceCreateGroup {
   async execute({
     name,
-    status,
     type,
     mail,
     dn,
@@ -24,8 +22,8 @@ export class ServiceCreateGroup {
   }: ICreateGroup): Promise<Group> {
     const repo = new GroupRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const groupValid = await repo.findByName(name);
 

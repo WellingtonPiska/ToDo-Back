@@ -31,11 +31,10 @@ export default class RoutesController {
     return response.json(routes);
   }
   public async create(request: Request, response: Response): Promise<Response> {
-    const { method, description, uri, status } = request.body;
+    const { method, description, uri } = request.body;
 
     const serviceCreateRoutes = new ServiceCreateRoutes();
     const routes = await serviceCreateRoutes.execute({
-      status,
       method,
       description,
       uri,
@@ -44,7 +43,7 @@ export default class RoutesController {
     return response.json(routes);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { method, uri, description, status } = request.body;
+    const { method, uri, description } = request.body;
     const { id } = request.params;
 
     const serviceUpdateRoutes = new ServiceUpdateRoutes();
@@ -53,7 +52,6 @@ export default class RoutesController {
       method,
       uri,
       description,
-      status,
     });
 
     return response.json(routes);

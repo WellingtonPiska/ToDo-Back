@@ -31,12 +31,11 @@ export default class CostCenterController {
     return response.json(deviceType);
   }
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, status, obs, cost } = request.body;
+    const { name, obs, cost } = request.body;
 
     const serviceCreateDeviceType = new ServiceCreateDeviceType();
     const deviceType = await serviceCreateDeviceType.execute({
       name,
-      status,
       obs,
       cost,
     });
@@ -44,14 +43,13 @@ export default class CostCenterController {
     return response.json(deviceType);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, status, obs, cost } = request.body;
+    const { name, obs, cost } = request.body;
     const { id } = request.params;
 
     const serviceUpdateDeviceType = new ServiceUpdateDeviceType();
     const deviceType = await serviceUpdateDeviceType.execute({
       id,
       name,
-      status,
       cost,
       obs,
     });

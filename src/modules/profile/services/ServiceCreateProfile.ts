@@ -1,19 +1,18 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Profile from '../entities/Profile';
 import ProfileRepository from '../repository/ProfileRepository';
 
 type ICreateProfile = {
   name: string;
   obs: string;
-  status: string;
 };
 
 export class ServiceCreateProfile {
-  async execute({ name, obs, status }: ICreateProfile): Promise<Profile> {
+  async execute({ name, obs }: ICreateProfile): Promise<Profile> {
     const repo = new ProfileRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const profileValid = await repo.findByName(name);
 

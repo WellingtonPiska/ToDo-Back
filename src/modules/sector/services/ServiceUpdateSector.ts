@@ -1,5 +1,4 @@
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
 import Sector from '../entities/Sector';
 import SectorRepository from '../repository/SectorRepository';
 import { ServiceFindSector } from './ServiceFindSector';
@@ -11,7 +10,6 @@ type IUpdateSector = {
   type: string;
   dn?: string;
   guid?: string;
-  status: string;
   sectorFather?: string;
   costCenter?: string;
 };
@@ -24,7 +22,6 @@ export class ServiceUpdateSector {
     type,
     dn,
     guid,
-    status,
     sectorFather,
     costCenter,
   }: IUpdateSector): Promise<Sector> {
@@ -32,9 +29,6 @@ export class ServiceUpdateSector {
 
     const serviceFindSector = new ServiceFindSector();
     const sector = await serviceFindSector.execute({ id });
-
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
 
     let costCenterRef = null;
     if (costCenter) {
@@ -59,7 +53,6 @@ export class ServiceUpdateSector {
     sector.name = name;
     sector.obs = obs;
     sector.costCenter = costCenterRef?.id;
-    sector.status = statusRef.id;
     sector.sectorFather = sectorFatherRef?.id;
 
     await repo.update(sector);

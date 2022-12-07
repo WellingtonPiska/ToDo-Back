@@ -51,6 +51,7 @@ export default class CompanyRepository {
           qb.where(`company.com_status_s = :ref `, { ref: status.id });
         }
       })
+      .orderBy('company.com_fantasy_s')
       .getManyAndCount();
 
     const result = {

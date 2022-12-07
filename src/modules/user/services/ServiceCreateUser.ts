@@ -3,7 +3,7 @@ import { dataSource } from '../../../shared/database';
 import { ServiceFindCostCenter } from '../../costCenter/services/ServiceFindCostCenter';
 import { ServiceFindProfile } from '../../profile/services/ServiceFindProfile';
 import { ServiceFindSector } from '../../sector/services/ServiceFindSector';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import User from '../entities/User';
 
 type ICreateUser = {
@@ -16,7 +16,6 @@ type ICreateUser = {
   mail?: string;
   dn?: string;
   sid?: string;
-  status: string;
   sector: string;
   costCenter?: string;
   profile: string;
@@ -25,7 +24,6 @@ export class ServiceCreateUser {
   async execute({
     name,
     lastName,
-    status,
     login,
     cpf,
     sid,
@@ -38,8 +36,8 @@ export class ServiceCreateUser {
   }: ICreateUser): Promise<User> {
     const repo = dataSource.getRepository(User);
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const serviceFindSector = new ServiceFindSector();
     const sectorRef = await serviceFindSector.execute({ id: sector });

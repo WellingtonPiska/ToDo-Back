@@ -1,13 +1,12 @@
 import { ServiceFindCompany } from '../../company/services/ServiceFindCompany';
 import { ServiceFindDeviceType } from '../../deviceType/services/ServiceFindDeviceType';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Model from '../entities/Model';
 import ModelRepository from '../repository/ModelRepository';
 
 type ICreateModel = {
   name: string;
   description?: string;
-  status: string;
   company: string;
   deviceType: string;
 };
@@ -16,14 +15,13 @@ export class ServiceCreateModel {
   async execute({
     name,
     description,
-    status,
     company,
     deviceType,
   }: ICreateModel): Promise<Model> {
     const repo = new ModelRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const serviceFindDeviceType = new ServiceFindDeviceType();
     const deviceTypeRef = await serviceFindDeviceType.execute({

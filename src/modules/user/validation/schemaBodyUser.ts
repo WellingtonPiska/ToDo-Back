@@ -13,10 +13,6 @@ const schemaBodyUser = yup.object().shape({
   dn: yup.string().notRequired(),
   sid: yup.string().notRequired(),
 
-  status: yup
-    .string()
-    .required('Id status is required')
-    .matches(regexUuidV4, 'Invalid UUID'),
   profile: yup
     .string()
     .required('Id profile is required')

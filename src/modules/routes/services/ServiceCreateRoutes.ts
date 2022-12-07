@@ -1,4 +1,4 @@
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Routes from '../entities/Routes';
 import RoutesRepository from '../repository/RoutesRepository';
 
@@ -6,20 +6,14 @@ type ICreateRoutes = {
   uri: string;
   method: string;
   description: string;
-  status: string;
 };
 
 export class ServiceCreateRoutes {
-  async execute({
-    status,
-    method,
-    description,
-    uri,
-  }: ICreateRoutes): Promise<Routes> {
+  async execute({ method, description, uri }: ICreateRoutes): Promise<Routes> {
     const repo = new RoutesRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const rou = new Routes();
     rou.uri = uri;
