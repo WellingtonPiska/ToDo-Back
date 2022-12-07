@@ -38,7 +38,6 @@ export default class CompanyController {
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       name,
-      status,
       fantasy,
       type,
       inscription,
@@ -55,7 +54,6 @@ export default class CompanyController {
     const serviceCreateCompany = new ServiceCreateCompany();
     const company = await serviceCreateCompany.execute({
       name,
-      status,
       fantasy,
       type,
       inscription,

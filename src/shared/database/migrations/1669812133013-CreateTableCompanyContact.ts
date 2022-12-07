@@ -5,8 +5,6 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-import { SeedCompanyContact } from '../seed/SeedCompanyContact';
-
 export class CreateTableCompanyContact1669812133013
   implements MigrationInterface
 {
@@ -90,9 +88,6 @@ export class CreateTableCompanyContact1669812133013
         name: 'FK_COMPANYCONTACT_CONTACTTYPE',
       })
     );
-    await queryRunner.manager
-      .getRepository('company_contact')
-      .save(SeedCompanyContact);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

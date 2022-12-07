@@ -1,12 +1,11 @@
 import CompanyContact from '../../companyContact/entities/CompanyContact';
 import { ICreateCompanyContact } from '../../companyContact/services/ServiceCreateCompanyContact';
-import { ServiceFindStatus } from '../../status/services/ServiceFindStatus';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Company from '../entities/Company';
 import CompanyRepository from '../repository/CompanyRepository';
 
 type ICreateCompany = {
   name: string;
-  status: string;
   fantasy: string;
   type: string;
   inscription: string;
@@ -23,7 +22,6 @@ type ICreateCompany = {
 export class ServiceCreateCompany {
   async execute({
     name,
-    status,
     fantasy,
     type,
     inscription,
@@ -38,8 +36,8 @@ export class ServiceCreateCompany {
   }: ICreateCompany): Promise<Company> {
     const repo = new CompanyRepository();
 
-    const serviceFindStatus = new ServiceFindStatus();
-    const statusRef = await serviceFindStatus.execute({ id: status });
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const statusRef = await serviceFindRefStatus.execute({ ref: 'A' });
 
     const companyValid = await repo.findByName(name);
 
