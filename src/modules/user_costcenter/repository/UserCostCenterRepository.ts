@@ -9,7 +9,7 @@ type ISearchParams = {
   take: number;
 };
 
-type IResponseUseCostCenter = {
+type IResponseUserCostCenter = {
   per_page: number;
   total: number;
   current_page: number;
@@ -26,8 +26,8 @@ export default class UserCostCenterRepository {
     page,
     skip,
     take,
-  }: ISearchParams): Promise<IResponseUseCostCenter> {
-    const [cost_center, count] = await this.repo
+  }: ISearchParams): Promise<IResponseUserCostCenter> {
+    const [user_cost_center, count] = await this.repo
       .createQueryBuilder('user_costcenter')
       .skip(skip)
       .take(take)
@@ -37,7 +37,7 @@ export default class UserCostCenterRepository {
       per_page: take,
       total: count,
       current_page: page,
-      data: cost_center,
+      data: user_cost_center,
     };
     return result;
   }

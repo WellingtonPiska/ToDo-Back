@@ -8,9 +8,11 @@ type IFindMenu = {
 export class ServiceFindMenu {
   async execute({ id }: IFindMenu): Promise<Menu> {
     const repo = new MenuRepository();
+
     const data = await repo.findById(id);
+
     if (!data) {
-      throw new Error('Registro não encontrado.');
+      throw new Error('Menu não encontrado');
     }
     return data;
   }

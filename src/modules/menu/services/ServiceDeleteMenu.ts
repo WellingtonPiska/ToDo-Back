@@ -1,6 +1,4 @@
-import 'reflect-metadata';
-import { dataSource } from '../../../shared/database';
-import Menu from '../entities/Menu';
+import MenuRepository from '../repository/MenuRepository';
 import { ServiceFindMenu } from './ServiceFindMenu';
 
 type IDeleteMenu = {
@@ -9,10 +7,10 @@ type IDeleteMenu = {
 
 export class ServiceDeleteMenu {
   async execute({ id }: IDeleteMenu): Promise<boolean> {
-    const repo = dataSource.getRepository(Menu);
+    const repo = new MenuRepository();
     const serviceFindMenu = new ServiceFindMenu();
     const menu = await serviceFindMenu.execute({ id });
-    await repo.delete({ id: menu.id });
+    await repo.remove(menu);
     return true;
   }
 }

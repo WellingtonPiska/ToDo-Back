@@ -22,7 +22,7 @@ export class ServiceUpdateApportion {
     const costCenterRef = await serviceFindCostCenter.execute({
       id: costCenter,
     });
-    const apportionRef = await serviceFindCostCenter.execute({ id: apportion });
+    const apportionRef = await serviceFindApportion.execute({ id: apportion });
 
     const apportionValid = await repo
       .createQueryBuilder('apportion')

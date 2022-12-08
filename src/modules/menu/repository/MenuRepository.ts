@@ -1,12 +1,14 @@
 import { Repository } from 'typeorm';
 
 import { dataSource } from '../../../shared/database';
+import { ServiceFindRefStatus } from '../../status/services/ServiceFindRefStatus';
 import Menu from '../entities/Menu';
 
 type ISearchParams = {
   page: number;
   skip: number;
   take: number;
+  ref: string;
 };
 
 type IResponseMenu = {
@@ -27,11 +29,16 @@ export default class MenuRepository {
     page,
     skip,
     take,
+    ref,
   }: ISearchParams): Promise<IResponseMenu> {
+    const serviceFindRefStatus = new ServiceFindRefStatus();
+    const status = await serviceFindRefStatus.execute({ ref });
+
     const [menu, count] = await this.repo
-      .createQueryBuilder()
+      .createQueryBuilder('menu')
       .skip(skip)
       .take(take)
+      .where('menu.men_status_s = :ref', { ref: status.id })
       .getManyAndCount();
 
     const result = {
@@ -45,20 +52,19 @@ export default class MenuRepository {
   }
 
   public async findById(id: string): Promise<Menu | null> {
-    const data = await this.repo.findOneBy({
-      id,
+    const data = await this.repo.find({
+      where: {
+        id,
+      },
+      relations: ['child'],
     });
-    return data;
+    if (data.length > 0) {
+      return data[0];
+    }
+    return null;
   }
 
   public async findByName(name: string): Promise<Menu | null> {
-    const data = await this.repo.findOneBy({
-      name,
-    });
-    return data;
-  }
-
-  public async findValid(name: string): Promise<Menu | null> {
     const data = await this.repo.findOneBy({
       name,
     });
@@ -78,8 +84,7 @@ export default class MenuRepository {
   }
 
   public async create(menu: Menu): Promise<Menu> {
-    const data = this.repo.create(menu);
-    await this.repo.save(menu);
+    const data = await this.repo.save(menu);
     return data;
   }
 
