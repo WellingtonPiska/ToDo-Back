@@ -58,7 +58,6 @@ export default class SectorRepository {
       where: {
         id,
       },
-      relations: ['child'],
     });
     if (data.length > 0) {
       return data[0];

@@ -16,7 +16,7 @@ type IResponseApportion = {
   data: Apportion[];
 };
 
-export default class ProfileRepository {
+export default class ApportionRepository {
   private repo: Repository<Apportion>;
 
   constructor() {

@@ -94,6 +94,16 @@ export default class UserRepository {
     return data;
   }
 
+  public async findNotSyncUser(sync: string): Promise<User[] | null> {
+    const data = await this.repo
+      .createQueryBuilder('user')
+      .where(`user.use_sync_s <> :sync`, {
+        sync,
+      })
+      .getMany();
+    return data;
+  }
+
   public async create(user: User): Promise<User> {
     const data = this.repo.save(user);
     return data;

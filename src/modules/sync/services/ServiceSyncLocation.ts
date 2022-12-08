@@ -37,8 +37,10 @@ export class ServiceSyncLocation {
       if (!dataStatus) {
         throw Error('Status não cadastrado');
       }
-      res.data.forEach(async ({ name, distinguishedName, objectGUID }) => {
+
+      for (const { name, distinguishedName, objectGUID } of res.data) {
         const sector = await repo.findByGuid(objectGUID);
+
         if (sector) {
           // UPDATE
           sector.name = name;
@@ -60,55 +62,17 @@ export class ServiceSyncLocation {
             await repo.create(add);
           }
         }
-      });
-
+      }
       const remove = await repo.findNotSyncLocaton(sync);
       if (remove) {
-        remove.forEach(async rem => {
+        for (const rem of remove) {
           const remStatus = await repoStatus.findByRef('I');
           if (remStatus) {
-            // eslint-disable-next-line no-param-reassign
             rem.status = remStatus?.id;
             await repo.update(rem);
           }
-        });
+        }
       }
-
-      // for (const { name, distinguishedName, objectGUID } of res.data) {
-      //   const sector = await repo.findByGuid(objectGUID);
-
-      //   if (sector) {
-      //     // UPDATE
-      //     sector.name = name;
-      //     sector.dn = distinguishedName;
-      //     sector.sync = sync;
-      //     await repo.update(sector);
-      //   } else {
-      //     // INSERT
-      //     const sectorValid = await repo.findValidSyncLocation(name);
-      //     if (!sectorValid) {
-      //       const add = new Sector();
-      //       add.name = name;
-      //       add.obs = obs;
-      //       add.type = type;
-      //       add.status = dataStatus.id;
-      //       add.dn = distinguishedName;
-      //       add.guid = objectGUID;
-      //       add.sync = sync;
-      //       await repo.create(add);
-      //     }
-      //   }
-      // }
-      // const remove = await repo.findNotSyncLocaton(sync);
-      // if (remove) {
-      //   for (const rem of remove) {
-      //     const remStatus = await repoStatus.findByRef('I');
-      //     if (remStatus) {
-      //       rem.status = remStatus?.id;
-      //       await repo.update(rem);
-      //     }
-      //   }
-      // }
     } else {
       throw Error('Erro na sincronização de locais.');
     }

@@ -20,107 +20,53 @@ export class ServiceSyncSector {
     }
 
     const list = await repo.findAllByType('L', dataStatus.id);
-    list.forEach(async ({ id, dn }) => {
+
+    for (const { id, dn } of list) {
       const fatherId = id;
       const param = {
         ou: dn,
         subou: false,
       };
-      const res = await ldap.post('/ldap/ou/list', param);
-      if (res.status === 200) {
-        res.data.forEach(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          async ({ name, distinguishedName, objectGUID }: any) => {
-            const sector = await repo.findByGuid(objectGUID);
-            if (sector) {
-              sector.name = name;
-              sector.dn = distinguishedName;
-              sector.sync = sync;
-              await repo.update(sector);
-            } else {
-              const sectorValid = await repo.findValidSyncSector(
-                name,
-                fatherId
-              );
 
-              if (!sectorValid) {
-                const add = new Sector();
-                add.name = name;
-                add.obs = obs;
-                add.type = type;
-                add.status = dataStatus.id;
-                add.sectorFather = fatherId;
-                add.dn = distinguishedName;
-                add.guid = objectGUID;
-                add.sync = sync;
-                await repo.create(add);
-              }
+      const res = await ldap.post('/ldap/ou/list', param);
+      if (res.status == 200) {
+        for (const { name, distinguishedName, objectGUID } of res.data) {
+          const sector = await repo.findByGuid(objectGUID);
+          if (sector) {
+            sector.name = name;
+            sector.dn = distinguishedName;
+            sector.sync = sync;
+            await repo.update(sector);
+          } else {
+            const sectorValid = await repo.findValidSyncSector(name, fatherId);
+
+            if (!sectorValid) {
+              const add = new Sector();
+              add.name = name;
+              add.obs = obs;
+              add.type = type;
+              add.status = dataStatus.id;
+              add.sectorFather = fatherId;
+              add.dn = distinguishedName;
+              add.guid = objectGUID;
+              add.sync = sync;
+              await repo.create(add);
             }
           }
-        );
+        }
       } else {
         throw Error('Erro na sincronização de setores.');
       }
-    });
-
+    }
     const remove = await repo.findNotSyncSector(sync);
     if (remove) {
-      remove.forEach(async rem => {
+      for (const rem of remove) {
         const remStatus = await repoStatus.findByRef('I');
         if (remStatus) {
-          // eslint-disable-next-line no-param-reassign
           rem.status = remStatus?.id;
           await repo.update(rem);
         }
-      });
+      }
     }
-
-    // for (const { id, dn } of list) {
-    //   const fatherId = id;
-    //   const param = {
-    //     ou: dn,
-    //     subou: false,
-    //   };
-
-    //   const res = await ldap.post('/ldap/ou/list', param);
-    //   if (res.status == 200) {
-    //     for (const { name, distinguishedName, objectGUID } of res.data) {
-    //       const sector = await repo.findByGuid(objectGUID);
-    //       if (sector) {
-    //         sector.name = name;
-    //         sector.dn = distinguishedName;
-    //         sector.sync = sync;
-    //         await repo.update(sector);
-    //       } else {
-    //         const sectorValid = await repo.findValidSyncSector(name, fatherId);
-
-    //         if (!sectorValid) {
-    //           const add = new Sector();
-    //           add.name = name;
-    //           add.obs = obs;
-    //           add.type = type;
-    //           add.status = dataStatus.id;
-    //           add.sectorFather = fatherId;
-    //           add.dn = distinguishedName;
-    //           add.guid = objectGUID;
-    //           add.sync = sync;
-    //           await repo.create(add);
-    //         }
-    //       }
-    //     }
-    //   } else {
-    //     throw Error('Erro na sincronização de setores.');
-    //   }
-    // }
-    // const remove = await repo.findNotSyncSector(sync);
-    // if (remove) {
-    //   for (const rem of remove) {
-    //     const remStatus = await repoStatus.findByRef('I');
-    //     if (remStatus) {
-    //       rem.status = remStatus?.id;
-    //       await repo.update(rem);
-    //     }
-    //   }
-    // }
   }
 }
