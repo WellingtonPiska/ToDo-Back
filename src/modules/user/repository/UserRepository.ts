@@ -64,6 +64,13 @@ export default class UserRepository {
     return data;
   }
 
+  public async findByLogin(login: string): Promise<User | null> {
+    const data = await this.repo.findOneBy({
+      login,
+    });
+    return data;
+  }
+
   public async findBySid(sid: string): Promise<User | null> {
     const data = await this.repo.findOneBy({
       sid,

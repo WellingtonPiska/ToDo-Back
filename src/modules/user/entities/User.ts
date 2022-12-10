@@ -51,7 +51,7 @@ class User {
   name: string;
 
   @Column({ name: 'use_lastname_s' })
-  lastName: string;
+  lastName?: string;
 
   @Column({ name: 'use_display_s' })
   display: string;

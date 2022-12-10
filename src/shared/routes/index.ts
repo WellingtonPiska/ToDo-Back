@@ -23,9 +23,11 @@ import routerSync from '../../modules/sync/routes';
 import routerUserCostCenter from '../../modules/user_costcenter/routes';
 import routerUserSector from '../../modules/user_Sector/routes';
 import routerUser from '../../modules/user/routes';
+import routerAuth from '../../modules/authentication/routes';
 
 const routes = Router();
 
+routes.use('/auth', routerAuth);
 routes.use('/populate', routerPopulate);
 routes.use('/location', routerLocation);
 routes.use('/sync', routerSync);

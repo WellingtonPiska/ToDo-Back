@@ -49,6 +49,7 @@ export class CreateTableUser1668979511650 implements MigrationInterface {
             name: 'use_lastname_s',
             type: 'varchar',
             length: '30',
+            isNullable: true,
           },
           {
             name: 'use_display_s',
