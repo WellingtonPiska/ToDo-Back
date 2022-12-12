@@ -55,17 +55,4 @@ routes.use('/menu', routerMenu);
 routes.use('/menuRoutes', routerMenuRoutes);
 routes.use('/profileMenu', routerProfileMenu);
 
-routes.use('/tst/:id', (req, res) => {
-  const ret = {
-    method: req.method,
-    path: req.baseUrl,
-    param: req.params,
-    query: req.query,
-    body: req.body,
-    header: req.headers,
-    ip: req.socket.remoteAddress,
-  };
-  res.json(ret);
-});
-
 export default routes;

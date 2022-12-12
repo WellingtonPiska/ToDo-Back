@@ -10,7 +10,6 @@ const logRequest = (req: Request, res: Response, next: NextFunction) => {
     header: req.headers,
     ip: req.socket.remoteAddress,
   };
-  console.log(log);
   next();
 };
 
