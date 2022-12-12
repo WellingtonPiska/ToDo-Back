@@ -10,13 +10,13 @@ import schemaValidationStatusUpdate from '../validation/schemaValidationStatusUp
 const controllerStatus = new ControllerStatus();
 const routerStatus = Router();
 
-routerStatus.get('/', controllerStatus.list);
-
 routerStatus.get(
   '/:id',
   validationRequest(schemaValidationStatusFind),
   controllerStatus.find
 );
+
+routerStatus.get('/', controllerStatus.list);
 
 routerStatus.post(
   '/',
