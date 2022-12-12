@@ -34,7 +34,6 @@ export class CreateTableCompanyContact1669812133013
             name: 'cco_name_s',
             type: 'varchar',
             length: '100',
-            isUnique: true,
           },
           {
             name: 'cco_mail_s',
