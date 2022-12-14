@@ -19,7 +19,7 @@ export class ServiceCreateStatus {
 
     const status = new Status();
     status.name = name;
-    status.reference = reference;
+    status.reference = reference.toUpperCase();
     status.color = color;
     const obj = await repo.create(status);
 

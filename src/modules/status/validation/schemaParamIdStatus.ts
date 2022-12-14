@@ -8,7 +8,7 @@ const schemaParamIdStatus = yup.object({
     .string()
     .required('Id is required')
     .matches(regexUuidV4, 'Invalid UUID')
-    .test('id', 'Id not found', async (value: any) => {
+    .test('id', 'Status não cadastrado', async (value: any) => {
       const repo = new StatusRepository();
       const data = await repo.findById(value);
       if (data) {
