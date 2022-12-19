@@ -29,7 +29,7 @@ export class ServiceUpdateStatus {
     }
 
     status.name = name;
-    status.reference = reference;
+    status.reference = reference.toUpperCase();
     status.color = color;
     await repo.update(status);
 

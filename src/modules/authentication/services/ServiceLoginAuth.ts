@@ -24,7 +24,18 @@ export class ServiceLogin {
           subject: user.id,
           expiresIn: '1d',
         });
-        return { token: token };
+
+        const data = {
+          user: {
+            id: user.id,
+            name: user.display,
+            photo: '',
+          },
+          token: token,
+          menu: {},
+        };
+
+        return data;
       }
     } catch (err) {
       throw new Error('Login e/ou senha invalidos!');

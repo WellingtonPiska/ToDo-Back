@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import logRequest from '../middleware/logRequest';
+
 import routerPopulate from '../../modules/_populate/routes';
 import routerApportion from '../../modules/apportion/routes';
 import routerAuth from '../../modules/authentication/routes';
@@ -31,7 +33,7 @@ routes.use('/auth', routerAuth);
 routes.use('/populate', routerPopulate);
 routes.use('/location', routerLocation);
 routes.use('/sync', routerSync);
-routes.use('/status', routerStatus);
+routes.use('/status', logRequest, routerStatus);
 routes.use('/profile', routerProfile);
 routes.use('/costCenter', routerCostCenter);
 routes.use('/userCostCenter', routerUserCostCenter);
@@ -52,4 +54,5 @@ routes.use('/groupMenu', routerGroupMenu);
 routes.use('/menu', routerMenu);
 routes.use('/menuRoutes', routerMenuRoutes);
 routes.use('/profileMenu', routerProfileMenu);
+
 export default routes;
