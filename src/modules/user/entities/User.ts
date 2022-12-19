@@ -50,6 +50,9 @@ class User {
   @Column({ name: 'use_name_s' })
   name: string;
 
+  @Column({ name: 'use_avatar_s', nullable: true })
+  avatar?: string;
+
   @Column({ name: 'use_lastname_s' })
   lastName?: string;
 

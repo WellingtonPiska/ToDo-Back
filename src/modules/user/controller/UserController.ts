@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { ServicePutAvatar } from '../services/ServiceAvatarUser';
 import { ServiceCreateUser } from '../services/ServiceCreateUser';
 import { ServiceDeleteUser } from '../services/ServiceDeleteUser';
 import { ServiceFindUser } from '../services/ServiceFindUser';
@@ -103,6 +104,20 @@ export default class UserController {
     const data = await serviceDeleteUser.execute({
       id,
     });
+    return response.json(data);
+  }
+  public async avatar(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { file } = request;
+    if (!file) {
+      throw new Error('Envie a imagem');
+    }
+    const servicePutAvatar = new ServicePutAvatar();
+    const data = await servicePutAvatar.execute({
+      id,
+      avatar: file?.filename,
+    });
+
     return response.json(data);
   }
 }

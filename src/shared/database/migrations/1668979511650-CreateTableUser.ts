@@ -46,6 +46,12 @@ export class CreateTableUser1668979511650 implements MigrationInterface {
             length: '30',
           },
           {
+            name: 'use_avatar_s',
+            type: 'varchar',
+            length: '255',
+            isNullable: true,
+          },
+          {
             name: 'use_lastname_s',
             type: 'varchar',
             length: '30',

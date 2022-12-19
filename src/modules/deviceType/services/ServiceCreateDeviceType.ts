@@ -4,12 +4,11 @@ import DeviceTypeRepository from '../repository/DeviceTypeRepository';
 
 type ICreateDeviceType = {
   name: string;
-  cost: string;
   obs?: string;
 };
 
 export class ServiceCreateDeviceType {
-  async execute({ name, cost, obs }: ICreateDeviceType): Promise<DeviceType> {
+  async execute({ name, obs }: ICreateDeviceType): Promise<DeviceType> {
     const repo = new DeviceTypeRepository();
 
     const serviceFindRefStatus = new ServiceFindRefStatus();
@@ -24,7 +23,6 @@ export class ServiceCreateDeviceType {
     const dty = new DeviceType();
     dty.status = statusRef.id;
     dty.name = name;
-    dty.cost = cost;
     dty.obs = obs;
 
     const obj = await repo.create(dty);

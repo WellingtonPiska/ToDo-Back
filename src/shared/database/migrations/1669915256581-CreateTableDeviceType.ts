@@ -30,11 +30,6 @@ export class CreateTableDeviceType1669915256581 implements MigrationInterface {
             isUnique: true,
           },
           {
-            name: 'dty_cost_s',
-            type: 'decimal',
-            length: '6,2',
-          },
-          {
             name: 'dty_obs_s',
             type: 'varchar',
             length: '30',

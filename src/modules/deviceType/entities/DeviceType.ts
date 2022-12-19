@@ -26,9 +26,6 @@ class DeviceType {
   @Column({ name: 'dty_name_s' })
   name: string;
 
-  @Column({ name: 'dty_cost_s' })
-  cost: string;
-
   @Column({ name: 'dty_obs_s', nullable: true })
   obs?: string;
 

@@ -9,6 +9,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/public', express.static('public'));
+app.use('/files', express.static('tmp'));
 app.use(routes);
 
 app.use(

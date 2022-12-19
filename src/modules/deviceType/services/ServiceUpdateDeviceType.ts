@@ -5,17 +5,11 @@ import { ServiceFindDeviceType } from './ServiceFindDeviceType';
 type IUpdateDeviceType = {
   id: string;
   name: string;
-  cost: string;
   obs?: string;
 };
 
 export class ServiceUpdateDeviceType {
-  async execute({
-    id,
-    name,
-    cost,
-    obs,
-  }: IUpdateDeviceType): Promise<DeviceType> {
+  async execute({ id, name, obs }: IUpdateDeviceType): Promise<DeviceType> {
     const repo = new DeviceTypeRepository();
 
     const serviceFindDeviceType = new ServiceFindDeviceType();
@@ -28,7 +22,6 @@ export class ServiceUpdateDeviceType {
     }
 
     deviceType.name = name;
-    deviceType.cost = cost;
     deviceType.obs = obs;
 
     await repo.update(deviceType);

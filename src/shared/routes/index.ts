@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import routerPopulate from '../../modules/_populate/routes';
 import routerApportion from '../../modules/apportion/routes';
+import routerAuth from '../../modules/authentication/routes';
 import routerCompany from '../../modules/company/routes';
 import routerCompanyContact from '../../modules/companyContact/routes';
 import routerContactType from '../../modules/contactType/routes';
@@ -23,7 +24,6 @@ import routerSync from '../../modules/sync/routes';
 import routerUserCostCenter from '../../modules/user_costcenter/routes';
 import routerUserSector from '../../modules/user_Sector/routes';
 import routerUser from '../../modules/user/routes';
-import routerAuth from '../../modules/authentication/routes';
 
 const routes = Router();
 
