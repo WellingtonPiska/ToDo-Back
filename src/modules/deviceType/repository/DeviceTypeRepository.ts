@@ -34,6 +34,7 @@ export default class DeviceTypeRepository {
     search,
   }: ISearchParams): Promise<IResponseDeviceType> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
+
     const status = await serviceFindRefStatus.execute({ ref });
     const [deviceType, count] = await this.repo
       .createQueryBuilder('device_type')

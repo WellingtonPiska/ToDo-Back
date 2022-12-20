@@ -28,6 +28,7 @@ export class ServiceListDeviceType {
 
     const repo = new DeviceTypeRepository();
     const list = await repo.findAll({ page, skip, take, ref, search });
+
     return list;
   }
 }
