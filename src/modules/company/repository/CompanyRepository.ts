@@ -44,7 +44,7 @@ export default class CompanyRepository {
       .where(qb => {
         if (search !== undefined) {
           qb.where(
-            `company.com_status_s = :ref and company.com_name_s like :search`,
+            `company.com_status_s = :ref and LOWER(company.com_name_s) like :search`,
             { ref: status.id, search: `%${search}%` }
           );
         } else {

@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseProfile = {
@@ -30,14 +31,26 @@ export default class ProfileRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseProfile> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
+
     const [profile, count] = await this.repo
       .createQueryBuilder('profile')
       .skip(skip)
       .take(take)
-      .where('profile.pro_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `profile.pro_status_s = :ref and  LOWER(profile.pro_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`profile.pro_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('profile.pro_name_s')
       .getManyAndCount();
 
     const result = {

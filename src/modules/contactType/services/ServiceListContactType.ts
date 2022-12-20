@@ -6,6 +6,7 @@ type ISearchParams = {
   page: number;
   limit: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseContactType = {
@@ -20,12 +21,13 @@ export class ServiceListContactType {
     page,
     limit,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseContactType> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
 
     const repo = new ContactTypeRepository();
-    const list = await repo.findAll({ page, skip, take, ref });
+    const list = await repo.findAll({ page, skip, take, ref, search });
     return list;
   }
 }

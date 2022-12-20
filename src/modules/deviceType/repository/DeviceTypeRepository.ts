@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseDeviceType = {
@@ -30,6 +31,7 @@ export default class DeviceTypeRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseDeviceType> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -37,7 +39,17 @@ export default class DeviceTypeRepository {
       .createQueryBuilder('device_type')
       .skip(skip)
       .take(take)
-      .where('device_type.dty_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `device_type.dty_status_s = :ref and  LOWER(device_type.dty_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`device_type.dty_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('device_type.dty_name_s')
       .getManyAndCount();
 
     const result = {

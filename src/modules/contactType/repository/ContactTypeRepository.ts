@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseContactType = {
@@ -30,6 +31,7 @@ export default class ContactTypeRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseContactType> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -37,7 +39,16 @@ export default class ContactTypeRepository {
       .createQueryBuilder('contact_type')
       .skip(skip)
       .take(take)
-      .where('contact_type.cty_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `contact_type.cty_status_s = :ref and  LOWER(contact_type.cty_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`contact_type.cty_status_s = :ref `, { ref: status.id });
+        }
+      })
       .orderBy('contact_type.cty_name_s')
       .getManyAndCount();
 
