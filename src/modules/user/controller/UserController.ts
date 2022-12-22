@@ -17,9 +17,17 @@ export default class UserController {
     const page = request.query.page ? Number(request.query.page) : 1;
     const limit = request.query.limit ? Number(request.query.limit) : 15;
     const ref = request.query.ref ? String(request.query.ref) : 'A';
+    const search = request.query.search
+      ? String(request.query.search)
+      : undefined;
     const serviceListUser = new ServiceListUser();
 
-    const user = await serviceListUser.execute({ page, limit, ref });
+    const user = await serviceListUser.execute({
+      page,
+      limit,
+      ref,
+      search,
+    });
 
     return response.json(user);
   }

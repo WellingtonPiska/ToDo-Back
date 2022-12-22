@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseCostCenter = {
@@ -30,6 +31,7 @@ export default class CostCenterRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseCostCenter> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -37,7 +39,17 @@ export default class CostCenterRepository {
       .createQueryBuilder('cost_center')
       .skip(skip)
       .take(take)
-      .where('cost_center.cce_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `cost_center.cce_status_s = :ref and  LOWER(cost_center.cce_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`cost_center.cce_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('cost_center.cce_name_s')
       .getManyAndCount();
 
     const result = {

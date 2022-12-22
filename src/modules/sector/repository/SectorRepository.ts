@@ -9,6 +9,8 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
+  type: string;
 };
 
 type IResponseSector = {
@@ -30,6 +32,8 @@ export default class SectorRepository {
     skip,
     take,
     ref,
+    search,
+    type,
   }: ISearchParams): Promise<IResponseSector> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -38,9 +42,18 @@ export default class SectorRepository {
       .createQueryBuilder('sector')
       .skip(skip)
       .take(take)
-      .where(`sector.sec_status_s = :ref and sector.sec_type_s = 'L'`, {
-        ref: status.id,
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `sector.sec_status_s = :ref and  LOWER(sector.sec_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`sector.sec_status_s = :ref `, { ref: status.id });
+        }
+        qb.where(`sector.type = :type`, { type });
       })
+      .orderBy('sector.sec_name_s')
       .getManyAndCount();
 
     const result = {

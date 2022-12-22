@@ -11,10 +11,23 @@ export default class SectorController {
     const page = request.query.page ? Number(request.query.page) : 1;
     const limit = request.query.limit ? Number(request.query.limit) : 15;
     const ref = request.query.ref ? String(request.query.ref) : 'A';
+    const search = request.query.search
+      ? String(request.query.search)
+      : undefined;
+    const type = String(request.query.type);
     const serviceListSector = new ServiceListSector();
 
-    const sector = await serviceListSector.execute({ page, limit, ref });
+    if (!type) {
+      throw new Error('Não foi identificado o type');
+    }
 
+    const sector = await serviceListSector.execute({
+      page,
+      limit,
+      ref,
+      search,
+      type,
+    });
     return response.json(sector);
   }
 

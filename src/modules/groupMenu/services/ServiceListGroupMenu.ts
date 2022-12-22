@@ -6,6 +6,7 @@ type ISearchParams = {
   page: number;
   limit: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseGroupMenu = {
@@ -20,12 +21,13 @@ export class ServiceListGroupMenu {
     page,
     limit,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseGroupMenu> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
 
     const repo = new GroupMenuRepository();
-    const list = await repo.findAll({ page, skip, take, ref });
+    const list = await repo.findAll({ page, skip, take, ref, search });
     return list;
   }
 }

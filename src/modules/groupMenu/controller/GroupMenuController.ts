@@ -6,17 +6,21 @@ import { ServiceFindGroupMenu } from '../services/ServiceFindGroupMenu';
 import { ServiceListGroupMenu } from '../services/ServiceListGroupMenu';
 import { ServiceUpdateGroupMenu } from '../services/ServiceUpdateGroupMenu';
 
-export default class CostCenterController {
+export default class GroupMenuController {
   public async list(request: Request, response: Response): Promise<Response> {
     const page = request.query.page ? Number(request.query.page) : 1;
     const limit = request.query.limit ? Number(request.query.limit) : 15;
     const ref = request.query.ref ? String(request.query.ref) : 'A';
+    const search = request.query.search
+      ? String(request.query.search)
+      : undefined;
     const serviceListGroupMenu = new ServiceListGroupMenu();
 
     const groupMenu = await serviceListGroupMenu.execute({
       page,
       limit,
       ref,
+      search,
     });
 
     return response.json(groupMenu);

@@ -6,6 +6,8 @@ type ISearchParams = {
   page: number;
   limit: number;
   ref: string;
+  search?: string;
+  type: string;
 };
 
 type IResponseSector = {
@@ -16,12 +18,18 @@ type IResponseSector = {
 };
 
 export class ServiceListSector {
-  async execute({ page, limit, ref }: ISearchParams): Promise<IResponseSector> {
+  async execute({
+    page,
+    limit,
+    ref,
+    search,
+    type,
+  }: ISearchParams): Promise<IResponseSector> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
 
     const repo = new SectorRepository();
-    const list = await repo.findAll({ page, skip, take, ref });
+    const list = await repo.findAll({ page, skip, take, ref, search, type });
     return list;
   }
 }

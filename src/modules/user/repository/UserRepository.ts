@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseUser = {
@@ -30,6 +31,7 @@ export default class UserRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseUser> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -37,7 +39,17 @@ export default class UserRepository {
       .createQueryBuilder('user')
       .skip(skip)
       .take(take)
-      .where('user.use_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `user.use_status_s = :ref and  LOWER(user.use_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`user.use_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('user.use_name_s')
       .getManyAndCount();
 
     const result = {

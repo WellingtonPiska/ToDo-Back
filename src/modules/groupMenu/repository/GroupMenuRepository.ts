@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseGroupMenu = {
@@ -30,6 +31,7 @@ export default class GroupMenuRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseGroupMenu> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -37,7 +39,17 @@ export default class GroupMenuRepository {
       .createQueryBuilder('group_menu')
       .skip(skip)
       .take(take)
-      .where('group_menu.gme_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `group_menu.gme_status_s = :ref and  LOWER(group_menu.gme_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`group_menu.gme_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('group_menu.gme_name_s')
       .getManyAndCount();
 
     const result = {
