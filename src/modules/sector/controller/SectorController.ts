@@ -16,8 +16,7 @@ export default class SectorController {
       : undefined;
     const type = String(request.query.type);
     const serviceListSector = new ServiceListSector();
-
-    if (!type) {
+    if (!type || type === 'undefined') {
       throw new Error('Não foi identificado o type');
     }
 
