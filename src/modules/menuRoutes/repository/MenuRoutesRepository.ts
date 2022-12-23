@@ -7,6 +7,7 @@ type ISearchParams = {
   page: number;
   skip: number;
   take: number;
+  search?: string;
 };
 
 type IResponseMenuRoutes = {

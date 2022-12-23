@@ -6,6 +6,7 @@ type ISearchParams = {
   page: number;
   limit: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseUser = {
@@ -16,12 +17,17 @@ type IResponseUser = {
 };
 
 export class ServiceListUser {
-  async execute({ page, limit, ref }: ISearchParams): Promise<IResponseUser> {
+  async execute({
+    page,
+    limit,
+    ref,
+    search,
+  }: ISearchParams): Promise<IResponseUser> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
 
     const repo = new UserRepository();
-    const list = await repo.findAll({ page, skip, take, ref });
+    const list = await repo.findAll({ page, skip, take, ref, search });
     return list;
   }
 }

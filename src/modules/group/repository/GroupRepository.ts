@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseGroup = {
@@ -30,6 +31,7 @@ export default class GroupRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseGroup> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -37,7 +39,17 @@ export default class GroupRepository {
       .createQueryBuilder('group')
       .skip(skip)
       .take(take)
-      .where('group.gro_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `group.gro_status_s = :ref and  LOWER(group.gro_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`group.gro_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('group.gro_name_s')
       .getManyAndCount();
 
     const result = {

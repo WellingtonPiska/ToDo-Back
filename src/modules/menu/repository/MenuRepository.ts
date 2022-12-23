@@ -9,6 +9,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   ref: string;
+  search?: string;
 };
 
 type IResponseMenu = {
@@ -30,6 +31,7 @@ export default class MenuRepository {
     skip,
     take,
     ref,
+    search,
   }: ISearchParams): Promise<IResponseMenu> {
     const serviceFindRefStatus = new ServiceFindRefStatus();
     const status = await serviceFindRefStatus.execute({ ref });
@@ -38,7 +40,17 @@ export default class MenuRepository {
       .createQueryBuilder('menu')
       .skip(skip)
       .take(take)
-      .where('menu.men_status_s = :ref', { ref: status.id })
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(
+            `menu.men_status_s = :ref and  LOWER(menu.men_name_s) like :search`,
+            { ref: status.id, search: `%${search}%` }
+          );
+        } else {
+          qb.where(`menu.men_status_s = :ref `, { ref: status.id });
+        }
+      })
+      .orderBy('menu.men_name_s')
       .getManyAndCount();
 
     const result = {

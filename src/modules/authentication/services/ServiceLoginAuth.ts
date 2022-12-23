@@ -1,6 +1,7 @@
+import { sign } from 'jsonwebtoken';
+
 import ldap from '../../../config/axios/ldap';
 import UserRepository from '../../user/repository/UserRepository';
-import { sign } from 'jsonwebtoken';
 
 export class ServiceLogin {
   async execute(login: string, password: string): Promise<any> {
@@ -31,7 +32,7 @@ export class ServiceLogin {
             name: user.display,
             photo: '',
           },
-          token: token,
+          token,
           menu: {},
         };
 

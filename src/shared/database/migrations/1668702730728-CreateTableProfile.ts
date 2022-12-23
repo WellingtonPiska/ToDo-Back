@@ -32,6 +32,7 @@ export class CreateTableProfile1668702730728 implements MigrationInterface {
           {
             name: 'pro_obs_s',
             type: 'varchar',
+            length: '255',
             isNullable: true,
           },
           {

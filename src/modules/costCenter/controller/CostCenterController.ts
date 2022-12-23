@@ -11,12 +11,16 @@ export default class CostCenterController {
     const page = request.query.page ? Number(request.query.page) : 1;
     const limit = request.query.limit ? Number(request.query.limit) : 15;
     const ref = request.query.ref ? String(request.query.ref) : 'A';
+    const search = request.query.search
+      ? String(request.query.search)
+      : undefined;
     const serviceListCostCenter = new ServiceListCostCenter();
 
     const costCenter = await serviceListCostCenter.execute({
       page,
       limit,
       ref,
+      search,
     });
 
     return response.json(costCenter);
