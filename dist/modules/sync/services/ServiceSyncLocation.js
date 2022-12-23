@@ -13,61 +13,65 @@ var _StatusRepository = _interopRequireDefault(require("../../status/repository/
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class ServiceSyncLocation {
   async execute() {
-    const param = {
-      ou: process.env.LDAP_DN,
-      subou: false
-    };
-    const sync = (0, _uuid.v4)();
-    const res = await _ldap.default.post('/ldap/ou/list', param);
-    if (res.status === 200) {
-      const repo = new _SectorRepository.default();
-      const repoStatus = new _StatusRepository.default();
-      const obs = 'Registro adicionado pela sincronização.';
-      const type = 'L';
-      const dataStatus = await repoStatus.findByRef('A');
-      if (!dataStatus) {
-        throw Error('Status não cadastrado');
-      }
-      for (const {
-        name,
-        distinguishedName,
-        objectGUID
-      } of res.data) {
-        const sector = await repo.findByGuid(objectGUID);
-        if (sector) {
-          // UPDATE
-          sector.name = name;
-          sector.dn = distinguishedName;
-          sector.sync = sync;
-          await repo.update(sector);
-        } else {
-          // INSERT
-          const sectorValid = await repo.findValidSyncLocation(name);
-          if (!sectorValid) {
-            const add = new _Sector.default();
-            add.name = name;
-            add.obs = obs;
-            add.type = type;
-            add.status = dataStatus.id;
-            add.dn = distinguishedName;
-            add.guid = objectGUID;
-            add.sync = sync;
-            await repo.create(add);
+    try {
+      const param = {
+        ou: 'OU=Locais,OU=Administracao-TI,DC=hcampodoro,DC=com,DC=br',
+        subou: false
+      };
+      const sync = (0, _uuid.v4)();
+      const res = await _ldap.default.post('/ldap/ou/list', param);
+      if (res.status === 200) {
+        const repo = new _SectorRepository.default();
+        const repoStatus = new _StatusRepository.default();
+        const obs = 'Registro adicionado pela sincronização.';
+        const type = 'L';
+        const dataStatus = await repoStatus.findByRef('A');
+        if (!dataStatus) {
+          throw Error('Status não cadastrado');
+        }
+        for (const {
+          name,
+          distinguishedName,
+          objectGUID
+        } of res.data) {
+          const sector = await repo.findByGuid(objectGUID);
+          if (sector) {
+            // UPDATE
+            sector.name = name;
+            sector.dn = distinguishedName;
+            sector.sync = sync;
+            await repo.update(sector);
+          } else {
+            // INSERT
+            const sectorValid = await repo.findValidSyncLocation(name);
+            if (!sectorValid) {
+              const add = new _Sector.default();
+              add.name = name;
+              add.obs = obs;
+              add.type = type;
+              add.status = dataStatus.id;
+              add.dn = distinguishedName;
+              add.guid = objectGUID;
+              add.sync = sync;
+              await repo.create(add);
+            }
           }
         }
-      }
-      const remove = await repo.findNotSyncLocaton(sync);
-      if (remove) {
-        for (const rem of remove) {
-          const remStatus = await repoStatus.findByRef('I');
-          if (remStatus) {
-            rem.status = remStatus?.id;
-            await repo.update(rem);
+        const remove = await repo.findNotSyncLocaton(sync);
+        if (remove) {
+          for (const rem of remove) {
+            const remStatus = await repoStatus.findByRef('I');
+            if (remStatus) {
+              rem.status = remStatus?.id;
+              await repo.update(rem);
+            }
           }
         }
+      } else {
+        throw new Error('Erro na sincronização de locais.');
       }
-    } else {
-      throw Error('Erro na sincronização de locais.');
+    } catch (error) {
+      throw new Error(error.response.data);
     }
   }
 }
