@@ -26,6 +26,7 @@ export default class CostCenterController {
 
     return response.json(contactType);
   }
+
   public async find(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
