@@ -1,37 +1,42 @@
 import { Router } from 'express';
 
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
-import PlaceController from '../controller/SectorController';
-import schemaValidationPlaceCreate from '../validation/schemaValidationCreate';
-import schemaValidationPlaceDelete from '../validation/schemaValidationDelete';
-import schemaValidationPlaceFind from '../validation/schemaValidationFind';
-import schemaValidationPlaceUpdate from '../validation/schemaValidationUpdate';
+import SectorController from '../controller/SectorController';
+import schemaValidationSectorCreate from '../validation/schemaValidationCreate';
+import schemaValidationSectorDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditSectorStatus from '../validation/schemaValidationEditSectorStatus';
+import schemaValidationSectorFind from '../validation/schemaValidationFind';
+import schemaValidationSectorUpdate from '../validation/schemaValidationUpdate';
 
-const placeController = new PlaceController();
-const routerPlace = Router();
+const sectorController = new SectorController();
+const routerSector = Router();
 
-routerPlace.get('/', placeController.list);
+routerSector.get('/', sectorController.list);
 
-routerPlace.get(
+routerSector.get(
   '/:id',
-  ensureValidationYupRequest(schemaValidationPlaceFind),
-  placeController.find
+  ensureValidationYupRequest(schemaValidationSectorFind),
+  sectorController.find
 );
-routerPlace.post(
+routerSector.post(
   '/',
-  ensureValidationYupRequest(schemaValidationPlaceCreate),
-  placeController.create
+  ensureValidationYupRequest(schemaValidationSectorCreate),
+  sectorController.create
 );
-routerPlace.delete(
+routerSector.delete(
   '/:id',
-  ensureValidationYupRequest(schemaValidationPlaceDelete),
-  placeController.delete
+  ensureValidationYupRequest(schemaValidationSectorDelete),
+  sectorController.delete
+);
+routerSector.put(
+  '/:id',
+  ensureValidationYupRequest(schemaValidationSectorUpdate),
+  sectorController.update
+);
+routerSector.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditSectorStatus),
+  sectorController.editStatusSector
 );
 
-routerPlace.put(
-  '/:id',
-  ensureValidationYupRequest(schemaValidationPlaceUpdate),
-  placeController.update
-);
-
-export default routerPlace;
+export default routerSector;

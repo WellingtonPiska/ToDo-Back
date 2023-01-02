@@ -12,7 +12,7 @@ export class ServiceFindUser {
     const data = await repo.findById(id);
 
     if (!data) {
-      throw new Error('User não encontrado');
+      throw new Error('User not found');
     }
     return data;
   }

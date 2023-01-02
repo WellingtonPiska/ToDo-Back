@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
-import schemaParamIdPlace from './schemaParamIdPlace';
+import schemaParamIdSector from './schemaParamIdSector';
 
-const schemaValidationPlaceFind = yup.object().shape({
-  params: schemaParamIdPlace,
+const schemaValidationSectorFind = yup.object().shape({
+  params: schemaParamIdSector,
 });
 
-export default schemaValidationPlaceFind;
+export default schemaValidationSectorFind;

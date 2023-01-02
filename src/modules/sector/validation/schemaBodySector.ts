@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 // import regexUuidV4 from '../../../shared/utils/regexUuidV4';
 
-const schemaBodyPlace = yup.object().shape({
+const schemaBodySector = yup.object().shape({
   name: yup.string().required('Name is required'),
   type: yup
     .string()
@@ -15,4 +15,4 @@ const schemaBodyPlace = yup.object().shape({
   //   .matches(regexUuidV4, 'Invalid UUID'),
 });
 
-export default schemaBodyPlace;
+export default schemaBodySector;

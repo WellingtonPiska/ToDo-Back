@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateCompany } from '../services/ServiceCreateCompany';
 import { ServiceDeleteCompany } from '../services/ServiceDeleteCompany';
+import { ServiceEditStatusCompany } from '../services/ServiceEditCompanyStatus';
 import { ServiceFindCompany } from '../services/ServiceFindCompany';
 import { ServiceListCompany } from '../services/ServiceListCompany';
 import { ServiceUpdateCompany } from '../services/ServiceUpdateCompany';
@@ -108,6 +109,21 @@ export default class CompanyController {
     const serviceDeleteCompany = new ServiceDeleteCompany();
     const company = await serviceDeleteCompany.execute({
       id,
+    });
+
+    return response.json(company);
+  }
+  public async editStatusCompany(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusCompany = new ServiceEditStatusCompany();
+    const company = await serviceEditStatusCompany.execute({
+      id,
+      ref,
     });
 
     return response.json(company);

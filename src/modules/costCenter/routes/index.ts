@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerCostCenter from '../controller/CostCenterController';
 import schemaValidationCostCenterCreate from '../validation/schemaValidationCreate';
 import schemaValidationCostCenterDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditCostCenterStatus from '../validation/schemaValidationEditCostCenterStatus';
 import schemaValidationCostCenterFind from '../validation/schemaValidationFind';
 import schemaValidationCostCenterUpdate from '../validation/schemaValidationUpdate';
 
@@ -30,6 +31,11 @@ routerCostCenter.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationCostCenterDelete),
   controllerCostCenter.delete
+);
+routerCostCenter.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditCostCenterStatus),
+  controllerCostCenter.editStatusCostCenter
 );
 
 export default routerCostCenter;

@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
-import schemaBodyPlace from './schemaBodyPlace';
+import schemaBodySector from './schemaBodySector';
 
-const schemaValidationPlaceCreate = yup.object().shape({
-  body: schemaBodyPlace,
+const schemaValidationSectorCreate = yup.object().shape({
+  body: schemaBodySector,
 });
 
-export default schemaValidationPlaceCreate;
+export default schemaValidationSectorCreate;

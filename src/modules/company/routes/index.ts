@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerCompany from '../controller/CompanyController';
 import schemaValidationCompanyCreate from '../validation/schemaValidationCreate';
 import schemaValidationCompanyDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditCompanyStatus from '../validation/schemaValidationEditCompanyStatus';
 import schemaValidationCompanyFind from '../validation/schemaValidationFind';
 import schemaValidationCompanyUpdate from '../validation/schemaValidationUpdate';
 
@@ -31,6 +32,11 @@ routerCompany.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationCompanyDelete),
   controllerCompany.delete
+);
+routerCompany.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditCompanyStatus),
+  controllerCompany.editStatusCompany
 );
 
 export default routerCompany;

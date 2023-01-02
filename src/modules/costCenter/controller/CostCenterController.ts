@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateCostCenter } from '../services/ServiceCreateCostCenter';
 import { ServiceDeleteCostCenter } from '../services/ServiceDeleteCostCenter';
+import { ServiceEditStatusCostCenter } from '../services/ServiceEditCostCenterStatus';
 import { ServiceFindCostCenter } from '../services/ServiceFindCostCenter';
 import { ServiceListCostCenter } from '../services/ServiceListCostCenter';
 import { ServiceUpdateCostCenter } from '../services/ServiceUpdateCostCenter';
@@ -69,6 +70,21 @@ export default class CostCenterController {
     const serviceDeleteCostCenter = new ServiceDeleteCostCenter();
     const costCenter = await serviceDeleteCostCenter.execute({
       id,
+    });
+
+    return response.json(costCenter);
+  }
+  public async editStatusCostCenter(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusCostCenter = new ServiceEditStatusCostCenter();
+    const costCenter = await serviceEditStatusCostCenter.execute({
+      id,
+      ref,
     });
 
     return response.json(costCenter);

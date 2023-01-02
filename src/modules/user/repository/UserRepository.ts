@@ -63,10 +63,16 @@ export default class UserRepository {
   }
 
   public async findById(id: string): Promise<User | null> {
-    const data = await this.repo.findOneBy({
-      id,
+    const data = await this.repo.find({
+      where: {
+        id,
+      },
+      relations: ['sectorRef', 'costCenterRef', 'profileRef'],
     });
-    return data;
+    if (data.length > 0) {
+      return data[0];
+    }
+    return null;
   }
 
   public async findByName(name: string): Promise<User | null> {

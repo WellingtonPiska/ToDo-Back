@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateGroup } from '../services/ServiceCreateGroup';
 import { ServiceDeleteGroup } from '../services/ServiceDeleteGroup';
+import { ServiceEditStatusGroup } from '../services/ServiceEditGroupStatus';
 import { ServiceFindGroup } from '../services/ServiceFindGroup';
 import { ServiceListGroup } from '../services/ServiceListGroup';
 import { ServiceUpdateGroup } from '../services/ServiceUpdateGroup';
@@ -70,9 +71,24 @@ export default class GroupController {
     // #swagger.tags = ['Profile']
     const { id } = request.params;
     const serviceDeleteGroup = new ServiceDeleteGroup();
-    const deleted = await serviceDeleteGroup.execute({
+    const group = await serviceDeleteGroup.execute({
       id,
     });
-    return response.json(deleted);
+    return response.json(group);
+  }
+  public async editStatusGroup(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusGroup = new ServiceEditStatusGroup();
+    const group = await serviceEditStatusGroup.execute({
+      id,
+      ref,
+    });
+
+    return response.json(group);
   }
 }

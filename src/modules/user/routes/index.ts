@@ -4,6 +4,7 @@ import { uploadAvatar } from '../../../config/uploadAvatar';
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerUser from '../controller/UserController';
 import schemaValidationUserAvatar from '../validation/schemaValidationAvatar';
+import schemaValidationEditUserStatus from '../validation/schemaValidationEditUserStatus';
 import schemaValidationUserCreate from '../validation/schemaValidationUserCreate';
 import schemaValidationUserDelete from '../validation/schemaValidationUserDelete';
 import schemaValidationUserFind from '../validation/schemaValidationUserFind';
@@ -40,6 +41,11 @@ routerUser.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationUserDelete),
   controllerUser.delete
+);
+routerUser.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditUserStatus),
+  controllerUser.editStatusUser
 );
 
 export default routerUser;

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateSector } from '../services/ServiceCreateSector';
 import { ServiceDeleteSector } from '../services/ServiceDeleteSector';
+import { ServiceEditStatusSector } from '../services/ServiceEditSectorStatus';
 import { ServiceFindSector } from '../services/ServiceFindSector';
 import { ServiceListSector } from '../services/ServiceListSector';
 import { ServiceUpdateSector } from '../services/ServiceUpdateSector';
@@ -32,16 +33,16 @@ export default class SectorController {
 
   public async find(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const serviceFindPlace = new ServiceFindSector();
-    const place = await serviceFindPlace.execute({ id });
-    return response.json(place);
+    const serviceFindSector = new ServiceFindSector();
+    const sector = await serviceFindSector.execute({ id });
+    return response.json(sector);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, type, dn, guid, obs, sectorFather, costCenter } =
       request.body;
-    const serviceCreatePlace = new ServiceCreateSector();
-    const result = await serviceCreatePlace.execute({
+    const serviceCreateSector = new ServiceCreateSector();
+    const sector = await serviceCreateSector.execute({
       name,
       type,
       obs,
@@ -50,16 +51,16 @@ export default class SectorController {
       sectorFather,
       costCenter,
     });
-    return response.json(result);
+    return response.json(sector);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const serviceDeleteSector = new ServiceDeleteSector();
-    const deleted = await serviceDeleteSector.execute({
+    const sector = await serviceDeleteSector.execute({
       id,
     });
-    return response.json(deleted);
+    return response.json(sector);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -68,7 +69,7 @@ export default class SectorController {
       request.body;
 
     const serviceUpdateSector = new ServiceUpdateSector();
-    const data = await serviceUpdateSector.execute({
+    const sector = await serviceUpdateSector.execute({
       id,
       name,
       type,
@@ -79,6 +80,21 @@ export default class SectorController {
       costCenter,
     });
 
-    return response.json(data);
+    return response.json(sector);
+  }
+  public async editStatusSector(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusSector = new ServiceEditStatusSector();
+    const sector = await serviceEditStatusSector.execute({
+      id,
+      ref,
+    });
+
+    return response.json(sector);
   }
 }

@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerGroup from '../controller/GroupController';
 import schemaValidationGroupCreate from '../validation/schemaValidationCreate';
 import schemaValidationGroupDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditGroupStatus from '../validation/schemaValidationEditGroupStatus';
 import schemaValidationGroupFind from '../validation/schemaValidationFind';
 import schemaValidationGroupUpdate from '../validation/schemaValidationUpdate';
 
@@ -30,6 +31,11 @@ routerGroup.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationGroupDelete),
   controllerGroup.delete
+);
+routerGroup.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditGroupStatus),
+  controllerGroup.editStatusGroup
 );
 
 export default routerGroup;

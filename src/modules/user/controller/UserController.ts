@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { ServicePutAvatar } from '../services/ServiceAvatarUser';
 import { ServiceCreateUser } from '../services/ServiceCreateUser';
 import { ServiceDeleteUser } from '../services/ServiceDeleteUser';
+import { ServiceEditStatusUser } from '../services/ServiceEditUserStatus';
 import { ServiceFindUser } from '../services/ServiceFindUser';
 import { ServiceListUser } from '../services/ServiceListUser';
 import { ServiceUpdateUser } from '../services/ServiceUpdateUser';
@@ -124,6 +125,21 @@ export default class UserController {
     const data = await servicePutAvatar.execute({
       id,
       avatar: file?.filename,
+    });
+
+    return response.json(data);
+  }
+  public async editStatusUser(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusUser = new ServiceEditStatusUser();
+    const data = await serviceEditStatusUser.execute({
+      id,
+      ref,
     });
 
     return response.json(data);
