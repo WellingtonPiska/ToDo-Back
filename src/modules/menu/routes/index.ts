@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerMenu from '../controller/MenuController';
 import schemaValidationMenuCreate from '../validation/schemaValidationCreate';
 import schemaValidationMenuDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditMenuStatus from '../validation/schemaValidationEditMenuStatus';
 import schemaValidationMenuFind from '../validation/schemaValidationFind';
 import schemaValidationMenuUpdate from '../validation/schemaValidationUpdate';
 
@@ -30,6 +31,11 @@ routerMenu.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationMenuDelete),
   controllerMenu.delete
+);
+routerMenu.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditMenuStatus),
+  controllerMenu.editStatusMenu
 );
 
 export default routerMenu;

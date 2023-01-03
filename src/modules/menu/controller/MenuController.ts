@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateMenu } from '../services/ServiceCreateMenu';
 import { ServiceDeleteMenu } from '../services/ServiceDeleteMenu';
+import { ServiceEditStatusMenu } from '../services/ServiceEditMenuStatus';
 import { ServiceFindMenu } from '../services/ServiceFindMenu';
 import { ServiceListMenu } from '../services/ServiceListMenu';
 import { ServiceUpdateMenu } from '../services/ServiceUpdateMenu';
@@ -66,6 +67,21 @@ export default class MenuController {
     const serviceDeleteMenu = new ServiceDeleteMenu();
     const menu = await serviceDeleteMenu.execute({
       id,
+    });
+
+    return response.json(menu);
+  }
+  public async editStatusMenu(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusMenu = new ServiceEditStatusMenu();
+    const menu = await serviceEditStatusMenu.execute({
+      id,
+      ref,
     });
 
     return response.json(menu);
