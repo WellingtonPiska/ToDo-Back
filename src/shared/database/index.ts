@@ -2,12 +2,11 @@ import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
 export const dataSource = new DataSource({
-  type: 'oracle',
-  username: 'gta',
-  password: 'gta2018',
-  connectString:
-    // '(DESCRIPTION=(ADDRESS=(PROTOCOL = TCP)(HOST = 192.168.0.9)(PORT = 1521))(CONNECT_DATA=(SERVICE_NAME = teste) ))',
-    '(DESCRIPTION=(ADDRESS=(PROTOCOL = TCP)(HOST = 192.168.0.7)(PORT = 1521))(CONNECT_DATA=(SERVICE_NAME = orcl) ))',
+  type: 'mysql',
+  username: 'todo_do',
+  password: 'a9!qj#6bEgan*5',
+  database: 'todo_do',
+  host: 'todo_do.mysql.dbaas.com.br',
   synchronize: false,
   logging: false,
   extra: {
