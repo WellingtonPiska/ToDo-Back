@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerRoutes from '../controller/RoutesController';
 import schemaValidationRoutesCreate from '../validation/schemaValidationCreate';
 import schemaValidationRoutesDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditRoutesStatus from '../validation/schemaValidationEditRoutesStatus';
 import schemaValidationRoutesFind from '../validation/schemaValidationFind';
 import schemaValidationRoutesUpdate from '../validation/schemaValidationUpdate';
 
@@ -30,6 +31,11 @@ routerRoutes.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationRoutesDelete),
   controllerRoutes.delete
+);
+routerRoutes.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditRoutesStatus),
+  controllerRoutes.editStatusRoutes
 );
 
 export default routerRoutes;

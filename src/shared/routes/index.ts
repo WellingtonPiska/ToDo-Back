@@ -1,7 +1,5 @@
 import { Router } from 'express';
 
-import logRequest from '../middleware/logRequest';
-
 import routerPopulate from '../../modules/_populate/routes';
 import routerApportion from '../../modules/apportion/routes';
 import routerAuth from '../../modules/authentication/routes';
@@ -26,6 +24,7 @@ import routerSync from '../../modules/sync/routes';
 import routerUserCostCenter from '../../modules/user_costcenter/routes';
 import routerUserSector from '../../modules/user_Sector/routes';
 import routerUser from '../../modules/user/routes';
+import logRequest from '../middleware/logRequest';
 
 const routes = Router();
 

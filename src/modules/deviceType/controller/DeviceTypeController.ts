@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateDeviceType } from '../services/ServiceCreateDeviceType';
 import { ServiceDeleteDeviceType } from '../services/ServiceDeleteDeviceType';
+import { ServiceEditStatusDeviceType } from '../services/ServiceEditDeviceTypeStatus';
 import { ServiceFindDeviceType } from '../services/ServiceFindDeviceType';
 import { ServiceListDeviceType } from '../services/ServiceListDeviceType';
 import { ServiceUpdateDeviceType } from '../services/ServiceUpdateDeviceType';
@@ -64,6 +65,21 @@ export default class CostCenterController {
     const serviceDeleteDeviceType = new ServiceDeleteDeviceType();
     const deviceType = await serviceDeleteDeviceType.execute({
       id,
+    });
+
+    return response.json(deviceType);
+  }
+  public async editStatusDeviceType(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusDeviceType = new ServiceEditStatusDeviceType();
+    const deviceType = await serviceEditStatusDeviceType.execute({
+      id,
+      ref,
     });
 
     return response.json(deviceType);

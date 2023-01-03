@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateRoutes } from '../services/ServiceCreateRoutes';
 import { ServiceDeleteRoutes } from '../services/ServiceDeleteRoutes';
+import { ServiceEditStatusRoutes } from '../services/ServiceEditRoutesStatus';
 import { ServiceFindRoutes } from '../services/ServiceFindRoutes';
 import { ServiceListRoutes } from '../services/ServiceListRoutes';
 import { ServiceUpdateRoutes } from '../services/ServiceUpdateRoutes';
@@ -61,6 +62,21 @@ export default class RoutesController {
     const serviceDeleteRoutes = new ServiceDeleteRoutes();
     const routes = await serviceDeleteRoutes.execute({
       id,
+    });
+
+    return response.json(routes);
+  }
+  public async editStatusRoutes(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusRoutes = new ServiceEditStatusRoutes();
+    const routes = await serviceEditStatusRoutes.execute({
+      id,
+      ref,
     });
 
     return response.json(routes);

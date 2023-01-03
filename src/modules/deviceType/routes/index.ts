@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerDeviceType from '../controller/DeviceTypeController';
 import schemaValidationDeviceTypeCreate from '../validation/schemaValidationCreate';
 import schemaValidationDeviceTypeDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditDeviceTypeStatus from '../validation/schemaValidationEditDeviceTypeStatus';
 import schemaValidationDeviceTypeFind from '../validation/schemaValidationFind';
 import schemaValidationDeviceTypeUpdate from '../validation/schemaValidationUpdate';
 
@@ -30,6 +31,11 @@ routerDeviceType.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationDeviceTypeDelete),
   controllerDeviceType.delete
+);
+routerDeviceType.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditDeviceTypeStatus),
+  controllerDeviceType.editStatusDeviceType
 );
 
 export default routerDeviceType;

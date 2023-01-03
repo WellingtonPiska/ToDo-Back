@@ -4,6 +4,7 @@ import ensureValidationYupRequest from '../../../shared/middleware/validationReq
 import ControllerProfile from '../controller/ProfileController';
 import schemaValidationProfileCreate from '../validation/schemaValidationCreate';
 import schemaValidationProfileDelete from '../validation/schemaValidationDelete';
+import schemaValidationEditProfileStatus from '../validation/schemaValidationEditProfileStatus';
 import schemaValidationProfileFind from '../validation/schemaValidationFind';
 import schemaValidationProfileUpdate from '../validation/schemaValidationUpdate';
 
@@ -31,6 +32,11 @@ routerProfile.delete(
   '/:id',
   ensureValidationYupRequest(schemaValidationProfileDelete),
   controllerProfile.delete
+);
+routerProfile.put(
+  '/editStatus/:id',
+  ensureValidationYupRequest(schemaValidationEditProfileStatus),
+  controllerProfile.editStatusProfile
 );
 
 export default routerProfile;

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ServiceCreateProfile } from '../services/ServiceCreateProfile';
 import { ServiceDeleteProfile } from '../services/ServiceDeleteProfile';
+import { ServiceEditStatusProfile } from '../services/ServiceEditProfileStatus';
 import { ServiceFindProfile } from '../services/ServiceFindProfile';
 import { ServiceListProfile } from '../services/ServiceListProfile';
 import { ServiceUpdateProfile } from '../services/ServiceUpdateProfile';
@@ -69,5 +70,20 @@ export default class ProfileController {
       id,
     });
     return response.json(deleted);
+  }
+  public async editStatusProfile(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { ref } = request.body;
+
+    const serviceEditStatusProfile = new ServiceEditStatusProfile();
+    const profile = await serviceEditStatusProfile.execute({
+      id,
+      ref,
+    });
+
+    return response.json(profile);
   }
 }
