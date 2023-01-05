@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
 import Project from '../entities/Project';
 
-export default class FormRepository {
+export default class ProjectRepository {
   private repo: Repository<Project>;
 
   constructor() {

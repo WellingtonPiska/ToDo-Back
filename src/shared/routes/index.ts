@@ -9,5 +9,4 @@ const routes = Router();
 routes.use('/form', routerForm);
 routes.use('/user', routerUser);
 routes.use('/project', routerProject);
-
 export default routes;

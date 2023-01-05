@@ -6,10 +6,11 @@ import { ServiceDeleteProject } from '../services/ServiceDeleteProject';
 import { ServiceFindProject } from '../services/ServiceFindProject';
 import { ServiceUpdateProject } from '../services/ServiceUpdateProject';
 
-export default class StatusController {
+export default class ProjectController {
   public async list(request: Request, response: Response): Promise<Response> {
     const svcList = new ServiceListForm();
     const data = await svcList.execute();
+
     return response.json(data);
   }
   public async find(request: Request, response: Response): Promise<Response> {
