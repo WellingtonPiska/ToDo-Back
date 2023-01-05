@@ -5,41 +5,38 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTableProject1672856040815 implements MigrationInterface {
+export class CreateTableProjectMember1672946464573
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'project',
+        name: 'project_member',
         columns: [
           {
-            name: 'pro_id_s',
+            name: 'pme_id_s',
             type: 'varchar',
             length: '36',
             isPrimary: true,
-            primaryKeyConstraintName: 'PK_PROJECT',
+            primaryKeyConstraintName: 'PK_PROJECT_MEMBER',
           },
           {
-            name: 'pro_user_s',
+            name: 'pme_project_s',
             type: 'varchar',
             length: '36',
           },
           {
-            name: 'pro_name_s',
+            name: 'pme_user_s',
             type: 'varchar',
-            length: '30',
+            length: '36',
           },
           {
-            name: 'pro_description_s',
-            type: 'varchar',
-            length: '300',
-          },
-          {
-            name: 'pro_created_d',
+            name: 'pme_created_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
           {
-            name: 'pro_updated_d',
+            name: 'pme_updated_d',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
@@ -47,17 +44,26 @@ export class CreateTableProject1672856040815 implements MigrationInterface {
       })
     );
     await queryRunner.createForeignKey(
-      'project',
+      'project_member',
       new TableForeignKey({
-        columnNames: ['pro_user_s'],
+        columnNames: ['pme_project_s'],
+        referencedColumnNames: ['pro_id_s'],
+        referencedTableName: 'project',
+        name: 'FK_PROJECT_MEMBER_PROJECT',
+      })
+    );
+    await queryRunner.createForeignKey(
+      'project_member',
+      new TableForeignKey({
+        columnNames: ['pme_user_s'],
         referencedColumnNames: ['use_id_s'],
         referencedTableName: 'user',
-        name: 'FK_PROJECT_USER',
+        name: 'FK_PROJECT_MEMBER_USER',
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('project');
+    await queryRunner.dropTable('project_member');
   }
 }

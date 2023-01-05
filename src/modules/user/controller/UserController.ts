@@ -8,8 +8,19 @@ import { ServiceUpdateUser } from '../services/ServiceUpdateUser';
 
 export default class StatusController {
   public async list(request: Request, response: Response): Promise<Response> {
+    const page = request.query.page ? Number(request.query.page) : 1;
+    const limit = request.query.limit ? Number(request.query.limit) : 15;
+
+    const search = request.query.search
+      ? String(request.query.search)
+      : undefined;
+
     const svcList = new ServiceListUser();
-    const data = await svcList.execute();
+    const data = await svcList.execute({
+      page,
+      limit,
+      search,
+    });
     return response.json(data);
   }
   public async find(request: Request, response: Response): Promise<Response> {

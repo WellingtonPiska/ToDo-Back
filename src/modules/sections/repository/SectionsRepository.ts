@@ -16,9 +16,10 @@ export default class FormRepository {
     return result;
   }
 
-  public async findById(id: string): Promise<Sections | null> {
+  public async findById(id: string, project: string): Promise<Sections | null> {
     const data = await this.repo.findOneBy({
       id,
+      project,
     });
     return data;
   }

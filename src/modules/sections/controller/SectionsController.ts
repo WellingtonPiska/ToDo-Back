@@ -14,11 +14,11 @@ export default class SectionsController {
   }
   public async find(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['sections']
-    const { id } = request.params;
+    const { id, project } = request.params;
 
     const serviceFindSections = new ServiceFindSections();
 
-    const sections = await serviceFindSections.execute({ id });
+    const sections = await serviceFindSections.execute({ id, project });
 
     return response.json(sections);
   }

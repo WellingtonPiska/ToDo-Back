@@ -3,16 +3,17 @@ import SectionsRepository from '../repository/SectionsRepository';
 
 type IFindSections = {
   id: string;
+  project: string;
 };
 
 export class ServiceFindSections {
-  async execute({ id }: IFindSections): Promise<Sections> {
+  async execute({ id, project }: IFindSections): Promise<Sections> {
     const repo = new SectionsRepository();
 
-    const data = await repo.findById(id);
+    const data = await repo.findById(id, project);
 
     if (!data) {
-      throw new Error('Setor não encontrado!');
+      throw new Error('Seção não encontrada!');
     }
 
     return data;

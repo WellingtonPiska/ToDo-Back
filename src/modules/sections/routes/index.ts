@@ -10,24 +10,24 @@ import schemaValidationSectionsUpdate from '../validation/schemaValidationUpdate
 const controllerSections = new ControllerSections();
 const routerSections = Router();
 
-routerSections.get('/', controllerSections.list);
+routerSections.get('/:project/sections/', controllerSections.list);
 routerSections.get(
-  '/:id',
+  '/:project/sections/:id',
   ensureValidationYupRequest(schemaValidationSectionsFind),
   controllerSections.find
 );
 routerSections.post(
-  '/',
+  '/:project/sections/',
   ensureValidationYupRequest(schemaValidationSectionsCreate),
   controllerSections.create
 );
 routerSections.delete(
-  '/:id',
+  '/:project/sections/:id',
   ensureValidationYupRequest(schemaValidationSectionsDelete),
   controllerSections.delete
 );
 routerSections.put(
-  '/:id',
+  '/:project/sections/:id',
   ensureValidationYupRequest(schemaValidationSectionsUpdate),
   controllerSections.update
 );

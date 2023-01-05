@@ -51,7 +51,7 @@ export class CreateTableSections1672892721275 implements MigrationInterface {
         columnNames: ['sec_project_s'],
         referencedColumnNames: ['pro_id_s'],
         referencedTableName: 'project',
-        name: 'FK_SECTIONS_STATUS',
+        name: 'FK_SECTIONS_USER',
       })
     );
   }

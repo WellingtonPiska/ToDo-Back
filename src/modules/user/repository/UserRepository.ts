@@ -3,6 +3,20 @@ import { Repository } from 'typeorm';
 import { dataSource } from '../../../shared/database';
 import User from '../entities/User';
 
+type ISearchParams = {
+  page: number;
+  skip: number;
+  take: number;
+  search?: string;
+};
+
+type IResponseUser = {
+  per_page: number;
+  total: number;
+  current_page: number;
+  data: User[];
+};
+
 export default class UserRepository {
   private repo: Repository<User>;
 
@@ -10,8 +24,31 @@ export default class UserRepository {
     this.repo = dataSource.getRepository(User);
   }
 
-  public async findAll(): Promise<User[]> {
-    const result = await this.repo.find();
+  public async findAll({
+    page,
+    skip,
+    search,
+    take,
+  }: ISearchParams): Promise<IResponseUser> {
+    const [user, count] = await this.repo
+      .createQueryBuilder('user')
+      .skip(skip)
+      .take(take)
+      .where(qb => {
+        if (search !== undefined) {
+          qb.where(`LOWER(user.use_name_s) like :search`);
+        }
+      })
+      .orderBy('user.use_name_s')
+      .getManyAndCount();
+
+    const result = {
+      per_page: take,
+      total: count,
+      current_page: page,
+      data: user,
+    };
+
     return result;
   }
 
