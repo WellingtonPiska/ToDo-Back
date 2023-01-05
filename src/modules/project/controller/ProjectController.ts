@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 
-import { ServiceListForm } from '../../form/services/ServiceListForm';
 import { ServiceCreateProject } from '../services/ServiceCreateProject';
 import { ServiceDeleteProject } from '../services/ServiceDeleteProject';
 import { ServiceFindProject } from '../services/ServiceFindProject';
+import { ServiceListProject } from '../services/ServiceListProject';
 import { ServiceUpdateProject } from '../services/ServiceUpdateProject';
 
 export default class ProjectController {
   public async list(request: Request, response: Response): Promise<Response> {
-    const svcList = new ServiceListForm();
+    const svcList = new ServiceListProject();
     const data = await svcList.execute();
 
     return response.json(data);

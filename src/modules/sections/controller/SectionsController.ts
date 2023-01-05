@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 
-import { ServiceListForm } from '../../form/services/ServiceListForm';
 import { ServiceCreateSections } from '../services/ServiceCreateSections';
 import { ServiceDeleteSections } from '../services/ServiceDeleteSections';
 import { ServiceFindSections } from '../services/ServiceFindSections';
+import { ServiceListSections } from '../services/ServiceListSections';
 import { ServiceUpdateSections } from '../services/ServiceUpdateSections';
 
 export default class SectionsController {
   public async list(request: Request, response: Response): Promise<Response> {
-    const svcList = new ServiceListForm();
+    const svcList = new ServiceListSections();
     const data = await svcList.execute();
     return response.json(data);
   }
