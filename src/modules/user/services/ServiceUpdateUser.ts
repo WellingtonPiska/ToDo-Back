@@ -5,7 +5,6 @@ import { ServiceFindUser } from './ServiceFindUser';
 type IUpdateUser = {
   id: string;
   login: string;
-  password: string;
   name: string;
   lastName: string;
   mail: string;
@@ -18,7 +17,6 @@ export class ServiceUpdateUser {
   async execute({
     id,
     login,
-    password,
     name,
     lastName,
     mail,
@@ -38,7 +36,6 @@ export class ServiceUpdateUser {
     }
 
     user.login = login;
-    user.password = password;
     user.lastname = lastName;
     user.mail = mail;
     user.phone = phone;

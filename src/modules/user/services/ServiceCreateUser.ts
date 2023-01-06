@@ -1,3 +1,5 @@
+import { hash } from 'bcrypt';
+
 import User from '../entities/User';
 import UserRepository from '../repository/UserRepository';
 
@@ -23,7 +25,13 @@ export class ServiceCreateUser {
     avatar,
     color,
   }: ICreateUser): Promise<User> {
+    const passwordHash = await hash(password, 8);
     const repo = new UserRepository();
+
+    const mailAlreadyExists = await repo.findByMail(mail);
+    if (mailAlreadyExists) {
+      throw new Error('Este email já existe!');
+    }
 
     const userValid = await repo.findByLogin(login);
 
@@ -33,7 +41,7 @@ export class ServiceCreateUser {
 
     const user = new User();
     user.login = login;
-    user.password = password;
+    user.password = passwordHash;
     user.name = name;
     user.lastname = lastName;
     user.mail = mail;

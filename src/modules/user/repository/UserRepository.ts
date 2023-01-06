@@ -73,6 +73,13 @@ export default class UserRepository {
     return data;
   }
 
+  public async findByMail(mail: string): Promise<User | null> {
+    const data = await this.repo.findOneBy({
+      mail,
+    });
+    return data;
+  }
+
   public async findValidUpdate(
     id: string,
     login: string,

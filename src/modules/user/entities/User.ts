@@ -27,7 +27,7 @@ class User {
   @Column({
     name: 'use_password_s',
     type: 'varchar',
-    length: '30',
+    length: '100',
   })
   password: string;
 
@@ -67,6 +67,12 @@ class User {
     nullable: true,
   })
   avatar?: string;
+
+  @Column({
+    name: 'use_admin_s',
+    type: 'boolean',
+  })
+  admin: boolean;
 
   @Column({
     name: 'use_color_s',

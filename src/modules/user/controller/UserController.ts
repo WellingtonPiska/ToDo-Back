@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { AuthenticateUser } from '../services/ServiceAuthenticateUser';
 import { ServicePutAvatar } from '../services/ServiceAvatarUser';
 import { ServiceCreateUser } from '../services/ServiceCreateUser';
 import { ServiceDeleteUser } from '../services/ServiceDeleteUser';
@@ -16,8 +17,8 @@ export default class StatusController {
       ? String(request.query.search)
       : undefined;
 
-    const svcList = new ServiceListUser();
-    const data = await svcList.execute({
+    const serviceListUser = new ServiceListUser();
+    const data = await serviceListUser.execute({
       page,
       limit,
       search,
@@ -36,19 +37,19 @@ export default class StatusController {
   }
   public async create(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['User']
-    const { login, password, name, lastName, mail, phone, avatar, color } =
+    const { login, name, lastName, mail, phone, avatar, color, password } =
       request.body;
 
     const serviceCreateUser = new ServiceCreateUser();
     const user = await serviceCreateUser.execute({
       login,
-      password,
       name,
       lastName,
       mail,
       phone,
       avatar,
       color,
+      password,
     });
 
     return response.json(user);
@@ -63,15 +64,13 @@ export default class StatusController {
     return response.json(user);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { login, password, name, lastName, mail, phone, avatar, color } =
-      request.body;
+    const { login, name, lastName, mail, phone, avatar, color } = request.body;
     const { id } = request.params;
 
     const serviceUpdateUser = new ServiceUpdateUser();
     const user = await serviceUpdateUser.execute({
       id,
       login,
-      password,
       name,
       lastName,
       mail,
@@ -95,5 +94,17 @@ export default class StatusController {
     });
 
     return response.json(data);
+  }
+
+  public async handle(request: Request, response: Response): Promise<Response> {
+    const { password, login } = request.body;
+
+    const authenticateUser = new AuthenticateUser();
+
+    const token = await authenticateUser.execute({
+      login,
+      password,
+    });
+    return response.json(token);
   }
 }

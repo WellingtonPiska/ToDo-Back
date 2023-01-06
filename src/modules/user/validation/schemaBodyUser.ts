@@ -2,7 +2,6 @@ import * as yup from 'yup';
 
 const schemaBodyUser = yup.object().shape({
   login: yup.string().required('Campo necessário!'),
-  password: yup.string().required('Campo necessário!'),
   name: yup.string().required('Campo necessário!'),
   lastname: yup.string().required('Campo necessário!'),
   mail: yup.string().required('Campo necessário!'),
