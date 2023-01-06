@@ -35,7 +35,7 @@ export default class StatusController {
   }
   public async create(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['User']
-    const { login, password, name, lastName, mail, phone, avatar } =
+    const { login, password, name, lastName, mail, phone, avatar, color } =
       request.body;
 
     const serviceCreateUser = new ServiceCreateUser();
@@ -47,6 +47,7 @@ export default class StatusController {
       mail,
       phone,
       avatar,
+      color,
     });
 
     return response.json(user);
@@ -61,7 +62,7 @@ export default class StatusController {
     return response.json(user);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { login, password, name, lastName, mail, phone, avatar } =
+    const { login, password, name, lastName, mail, phone, avatar, color } =
       request.body;
     const { id } = request.params;
 
@@ -75,6 +76,7 @@ export default class StatusController {
       mail,
       phone,
       avatar,
+      color,
     });
 
     return response.json(user);

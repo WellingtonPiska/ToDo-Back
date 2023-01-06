@@ -9,6 +9,7 @@ type ICreateUser = {
   mail: string;
   phone?: string;
   avatar?: string;
+  color?: string;
 };
 
 export class ServiceCreateUser {
@@ -20,6 +21,7 @@ export class ServiceCreateUser {
     mail,
     phone,
     avatar,
+    color,
   }: ICreateUser): Promise<User> {
     const repo = new UserRepository();
 
@@ -37,6 +39,7 @@ export class ServiceCreateUser {
     user.mail = mail;
     user.phone = phone;
     user.avatar = avatar;
+    user.color = color;
     const obj = await repo.create(user);
 
     return obj;

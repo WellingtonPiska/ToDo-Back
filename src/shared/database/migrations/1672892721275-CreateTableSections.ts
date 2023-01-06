@@ -29,6 +29,11 @@ export class CreateTableSections1672892721275 implements MigrationInterface {
             length: '30',
           },
           {
+            name: 'sec_color_s',
+            type: 'varchar',
+            length: '150',
+          },
+          {
             name: 'sec_order_s',
             type: 'integer',
           },

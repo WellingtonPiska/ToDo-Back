@@ -45,6 +45,13 @@ class Sections {
   })
   project: string;
 
+  @Column({
+    name: 'sec_color_s',
+    type: 'varchar',
+    length: '150',
+  })
+  color: string;
+
   @CreateDateColumn({
     name: 'sec_created_d',
     type: 'timestamp',

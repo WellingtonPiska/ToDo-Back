@@ -8,6 +8,7 @@ const schemaBodyUser = yup.object().shape({
   mail: yup.string().required('Campo necessário!'),
   phone: yup.string().notRequired(),
   avatar: yup.string().notRequired(),
+  color: yup.string().notRequired(),
 });
 
 export default schemaBodyUser;

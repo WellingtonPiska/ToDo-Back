@@ -6,10 +6,16 @@ type ICreateSections = {
   name: string;
   project: string;
   order: number;
+  color: string;
 };
 
 export class ServiceCreateSections {
-  async execute({ name, project, order }: ICreateSections): Promise<Sections> {
+  async execute({
+    name,
+    project,
+    order,
+    color,
+  }: ICreateSections): Promise<Sections> {
     const repo = new SectionsRepository();
 
     const projectValid = await repo.findByName(name);
@@ -18,13 +24,14 @@ export class ServiceCreateSections {
       throw new Error('O Formulário já existe');
     }
 
-    const serviceFindUser = new ServiceFindProject();
-    const projectRef = await serviceFindUser.execute({ id: project });
+    const serviceFindProject = new ServiceFindProject();
+    const projectRef = await serviceFindProject.execute({ id: project });
 
     const sections = new Sections();
     sections.name = name;
     sections.project = projectRef.id;
     sections.order = order;
+    sections.color = color;
     const obj = await repo.create(sections);
 
     return obj;

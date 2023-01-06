@@ -8,6 +8,7 @@ type IUpdateSections = {
   name: string;
   order: number;
   project: string;
+  color: string;
 };
 
 export class ServiceUpdateSections {
@@ -16,6 +17,7 @@ export class ServiceUpdateSections {
     name,
     order,
     project,
+    color,
   }: IUpdateSections): Promise<Sections> {
     const repo = new SectionsRepository();
 
@@ -23,7 +25,7 @@ export class ServiceUpdateSections {
     const projectRef = await serviceFindProject.execute({ id: project });
 
     const serviceFindSections = new ServiceFindSections();
-    const sections = await serviceFindSections.execute({ id });
+    const sections = await serviceFindSections.execute({ id, project });
 
     const projectValid = await repo.findValidUpdate(id, name);
 
@@ -34,6 +36,7 @@ export class ServiceUpdateSections {
     sections.name = name;
     sections.order = order;
     sections.project = projectRef.id;
+    sections.color = color;
     await repo.update(sections);
     return sections;
   }

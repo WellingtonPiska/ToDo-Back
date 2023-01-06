@@ -24,13 +24,14 @@ export default class SectionsController {
   }
   public async create(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['sections']
-    const { name, project, order } = request.body;
+    const { name, project, order, color } = request.body;
 
     const serviceCreateSections = new ServiceCreateSections();
     const sections = await serviceCreateSections.execute({
       name,
       project,
       order,
+      color,
     });
 
     return response.json(sections);
@@ -45,7 +46,7 @@ export default class SectionsController {
     return response.json(deleted);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, order, project } = request.body;
+    const { name, order, project, color } = request.body;
     const { id } = request.params;
 
     const serviceUpdateSections = new ServiceUpdateSections();
@@ -54,6 +55,7 @@ export default class SectionsController {
       name,
       order,
       project,
+      color,
     });
 
     return response.json(sections);

@@ -68,6 +68,14 @@ class User {
   })
   avatar?: string;
 
+  @Column({
+    name: 'use_color_s',
+    type: 'varchar',
+    length: '150',
+    nullable: true,
+  })
+  color?: string;
+
   @CreateDateColumn({
     name: 'use_created_d',
     type: 'timestamp',

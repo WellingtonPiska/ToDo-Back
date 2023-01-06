@@ -11,6 +11,7 @@ type IUpdateUser = {
   mail: string;
   phone: string;
   avatar: string;
+  color?: string;
 };
 
 export class ServiceUpdateUser {
@@ -23,6 +24,7 @@ export class ServiceUpdateUser {
     mail,
     phone,
     avatar,
+    color,
   }: IUpdateUser): Promise<User> {
     const repo = new UserRepository();
 
@@ -42,6 +44,7 @@ export class ServiceUpdateUser {
     user.phone = phone;
     user.avatar = avatar;
     user.name = name;
+    user.color = color;
     await repo.update(user);
     return user;
   }
