@@ -35,7 +35,7 @@ class AuthenticateUser {
       throw new Error('Login ou senha incorretas!');
     }
 
-    const token = sign({}, '3e7b339e7f1fdfc2f4a147ec1d871d5d ', {
+    const token = sign({}, '3e7b339e7f1fdfc2f4a147ec1d871d5d', {
       subject: user.id,
       expiresIn: '1d',
     });
