@@ -1,5 +1,6 @@
 import { ServiceFindProject } from '../../project/services/ServiceFindProject';
 import { ServiceFindTasks } from '../../tasks/services/ServiceFindTasks';
+import { ServiceFindUser } from '../../user/services/ServiceFindUser';
 import HoursControl from '../entities/HoursControl';
 import HoursControlRepository from '../repository/HoursControlRepository';
 import { ServiceFindHoursControl } from './ServiceFindHoursControl';
@@ -10,6 +11,7 @@ type IUpdateHoursControl = {
   project: string;
   dateStart: string;
   dateEnd: string;
+  user: string;
 };
 
 export class ServiceUpdateHoursControl {
@@ -19,6 +21,7 @@ export class ServiceUpdateHoursControl {
     project,
     dateEnd,
     dateStart,
+    user,
   }: IUpdateHoursControl): Promise<HoursControl> {
     const repo = new HoursControlRepository();
 
@@ -27,28 +30,23 @@ export class ServiceUpdateHoursControl {
       id,
       project,
       tasks,
+      user,
     });
 
     const serviceFindProject = new ServiceFindProject();
     const projectRef = await serviceFindProject.execute({ id: project });
 
     const serviceFindTasks = new ServiceFindTasks();
-    const tasksRef = await serviceFindTasks.execute({ id });
+    const tasksRef = await serviceFindTasks.execute({ id: tasks });
 
-    const hoursControlValid = await repo.findValidUpdate(
-      id,
-      dateStart,
-      dateEnd
-    );
-
-    if (hoursControlValid) {
-      throw new Error('hoursControlulário duplicado');
-    }
+    const serviceFindUser = new ServiceFindUser();
+    const userRef = await serviceFindUser.execute({ id: user });
 
     hoursControl.dateEnd = dateEnd;
     hoursControl.dateStart = dateStart;
     hoursControl.project = projectRef.id;
     hoursControl.tasks = tasksRef.id;
+    hoursControl.user = userRef.id;
     await repo.update(hoursControl);
     return hoursControl;
   }

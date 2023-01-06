@@ -34,6 +34,7 @@ export default class TasksController {
       situation,
       percentage,
       order,
+      priority,
     } = request.body;
 
     const serviceCreateTasks = new ServiceCreateTasks();
@@ -46,6 +47,7 @@ export default class TasksController {
       situation,
       percentage,
       order,
+      priority,
     });
 
     return response.json(result);
@@ -69,6 +71,7 @@ export default class TasksController {
       percentage,
       situation,
       title,
+      priority,
     } = request.body;
     const { id } = request.params;
 
@@ -83,6 +86,7 @@ export default class TasksController {
       project,
       sections,
       order,
+      priority,
     });
 
     return response.json(tasks);

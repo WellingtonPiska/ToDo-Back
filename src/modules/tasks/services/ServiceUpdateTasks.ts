@@ -15,6 +15,7 @@ type IUpdateTasks = {
   project: string;
   sections: string;
   order: number;
+  priority: string;
 };
 
 export class ServiceUpdateTasks {
@@ -28,6 +29,7 @@ export class ServiceUpdateTasks {
     project,
     sections,
     order,
+    priority,
   }: IUpdateTasks): Promise<Tasks> {
     const repo = new TasksRepository();
 
@@ -46,7 +48,7 @@ export class ServiceUpdateTasks {
     const serviceFindTasks = new ServiceFindTasks();
     const tasks = await serviceFindTasks.execute({ id });
 
-    const tasksValid = await repo.findValidUpdate(id, project);
+    const tasksValid = await repo.findValidUpdate(id, project, title);
 
     if (tasksValid) {
       throw new Error('Projeto duplicado');
@@ -60,6 +62,7 @@ export class ServiceUpdateTasks {
     tasks.project = projectRef.id;
     tasks.sections = sectionsRef.id;
     tasks.responsible = responsibleRef.id;
+    tasks.priority = priority;
     await repo.update(tasks);
     return tasks;
   }

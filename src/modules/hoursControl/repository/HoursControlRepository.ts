@@ -44,35 +44,17 @@ export default class FormRepository {
     return result;
   }
 
-  public async findValidUpdate(
-    id: string,
-    dateEnd: string,
-    dateStart: string
-  ): Promise<HoursControl | null> {
-    const data = await this.repo
-      .createQueryBuilder('hours_control')
-      .where(
-        'hours_control.hco_id_s <> :id and (hours_control.hco_date_start_s = :date_start OR hours_control.hco_date_end_s = :date_end)',
-        {
-          id,
-          dateEnd,
-          dateStart,
-        }
-      )
-      .getOne();
-
-    return data;
-  }
-
   public async findById(
     id: string,
     project: string,
-    tasks: string
+    tasks: string,
+    user: string
   ): Promise<HoursControl | null> {
     const data = await this.repo.findOneBy({
       id,
       project,
       tasks,
+      user,
     });
     return data;
   }

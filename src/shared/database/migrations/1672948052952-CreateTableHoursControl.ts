@@ -31,6 +31,11 @@ export class CreateTableHoursControl1672948052952
             length: '36',
           },
           {
+            name: 'hco_user_s',
+            type: 'varchar',
+            length: '36',
+          },
+          {
             name: 'hco_date_start_s',
             type: 'varchar',
             length: '50',
@@ -69,6 +74,15 @@ export class CreateTableHoursControl1672948052952
         referencedColumnNames: ['tas_id_s'],
         referencedTableName: 'tasks',
         name: 'FK_HOURS_CONTROL_TASKS',
+      })
+    );
+    await queryRunner.createForeignKey(
+      'hours_control',
+      new TableForeignKey({
+        columnNames: ['hco_user_s'],
+        referencedColumnNames: ['use_id_s'],
+        referencedTableName: 'user',
+        name: 'FK_HOURS_CONTROL_USER',
       })
     );
   }

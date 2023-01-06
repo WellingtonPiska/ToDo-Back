@@ -13,6 +13,7 @@ type ICreateTasks = {
   project: string;
   sections: string;
   order: number;
+  priority: string;
 };
 
 export class ServiceCreateTasks {
@@ -25,6 +26,7 @@ export class ServiceCreateTasks {
     situation,
     percentage,
     order,
+    priority,
   }: ICreateTasks): Promise<Tasks> {
     const repo = new TasksRepository();
 
@@ -48,6 +50,7 @@ export class ServiceCreateTasks {
     tasks.sections = sectionsRef.id;
     tasks.situation = situation;
     tasks.percentage = percentage;
+    tasks.priority = priority;
     tasks.order = order;
 
     const obj = await repo.create(tasks);

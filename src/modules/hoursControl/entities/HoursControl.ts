@@ -11,6 +11,7 @@ import { v4 as uuid } from 'uuid';
 
 import Project from '../../project/entities/Project';
 import Tasks from '../../tasks/entities/Tasks';
+import User from '../../user/entities/User';
 
 @Entity('hours_control')
 class HoursControl {
@@ -33,6 +34,17 @@ class HoursControl {
   })
   tasks: string;
 
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'hco_user_s' })
+  userRef: Tasks;
+
+  @Column({
+    name: 'hco_user_s',
+    type: 'varchar',
+    length: '36',
+  })
+  user: string;
+
   @ManyToOne(() => Project)
   @JoinColumn({ name: 'hco_project_s' })
   projectRef: Project;
@@ -45,14 +57,14 @@ class HoursControl {
   project: string;
 
   @Column({
-    name: 'sec_date_start_s',
+    name: 'hco_date_start_s',
     type: 'varchar',
     length: '50',
   })
   dateStart: string;
 
   @Column({
-    name: 'sec_date_end_s',
+    name: 'hco_date_end_s',
     type: 'varchar',
     length: '50',
   })

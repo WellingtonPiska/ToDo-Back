@@ -5,6 +5,7 @@ type IFindHoursControl = {
   id: string;
   project: string;
   tasks: string;
+  user: string;
 };
 
 export class ServiceFindHoursControl {
@@ -12,10 +13,11 @@ export class ServiceFindHoursControl {
     id,
     project,
     tasks,
+    user,
   }: IFindHoursControl): Promise<HoursControl> {
     const repo = new HoursControlRepository();
 
-    const data = await repo.findById(id, project, tasks);
+    const data = await repo.findById(id, project, tasks, user);
 
     if (!data) {
       throw new Error('Usuário não encontrado');

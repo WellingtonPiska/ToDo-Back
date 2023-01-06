@@ -7,14 +7,6 @@ const schemaParamIdHoursControl = yup.object({
     .string()
     .required('Id is required')
     .matches(regexUuidV4, 'Invalid UUID'),
-  tasks: yup
-    .string()
-    .required('Id is required')
-    .matches(regexUuidV4, 'Invalid UUID'),
-  project: yup
-    .string()
-    .required('Id is required')
-    .matches(regexUuidV4, 'Invalid UUID'),
 });
 
 export default schemaParamIdHoursControl;

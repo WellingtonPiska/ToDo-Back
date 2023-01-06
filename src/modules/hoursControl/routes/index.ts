@@ -10,24 +10,24 @@ import schemaValidationHoursControlUpdate from '../validation/schemaValidationUp
 const controllerHoursControl = new ControllerHoursControl();
 const routerHoursControl = Router();
 
-routerHoursControl.get('/:project/hoursControl/', controllerHoursControl.list);
+routerHoursControl.get('/', controllerHoursControl.list);
 routerHoursControl.get(
-  '/:project/hoursControl/:id',
+  '/:id',
   ensureValidationYupRequest(schemaValidationHoursControlFind),
   controllerHoursControl.find
 );
 routerHoursControl.post(
-  '/:project/hoursControl/',
+  '/',
   ensureValidationYupRequest(schemaValidationHoursControlCreate),
   controllerHoursControl.create
 );
 routerHoursControl.delete(
-  '/:project/hoursControl/:id',
+  '/:id',
   ensureValidationYupRequest(schemaValidationHoursControlDelete),
   controllerHoursControl.delete
 );
 routerHoursControl.put(
-  '/:project/hoursControl/:id',
+  '/:id',
   ensureValidationYupRequest(schemaValidationHoursControlUpdate),
   controllerHoursControl.update
 );
