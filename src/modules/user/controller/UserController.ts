@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-import { AuthenticateUser } from '../services/ServiceAuthenticateUser';
 import { ServicePutAvatar } from '../services/ServiceAvatarUser';
 import { ServiceCreateUser } from '../services/ServiceCreateUser';
 import { ServiceDeleteUser } from '../services/ServiceDeleteUser';
@@ -8,7 +7,7 @@ import { ServiceFindUser } from '../services/ServiceFindUser';
 import { ServiceListUser } from '../services/ServiceListUser';
 import { ServiceUpdateUser } from '../services/ServiceUpdateUser';
 
-export default class StatusController {
+export default class UserController {
   public async list(request: Request, response: Response): Promise<Response> {
     const page = request.query.page ? Number(request.query.page) : 1;
     const limit = request.query.limit ? Number(request.query.limit) : 15;
@@ -94,17 +93,5 @@ export default class StatusController {
     });
 
     return response.json(data);
-  }
-
-  public async handle(request: Request, response: Response): Promise<Response> {
-    const { password, login } = request.body;
-
-    const authenticateUser = new AuthenticateUser();
-
-    const token = await authenticateUser.execute({
-      login,
-      password,
-    });
-    return response.json(token);
   }
 }

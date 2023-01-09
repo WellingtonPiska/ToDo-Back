@@ -12,7 +12,7 @@ export class ServiceFindForm {
     const data = await repo.findById(id);
 
     if (!data) {
-      throw new Error('Form not found');
+      throw new Error('Formulário não encontrado');
     }
 
     return data;

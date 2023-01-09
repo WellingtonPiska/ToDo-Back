@@ -1,7 +1,7 @@
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
-import UserRepository from '../repository/UserRepository';
+import UserRepository from '../../user/repository/UserRepository';
 
 type IRequest = {
   login: string;
