@@ -1,5 +1,6 @@
 import { dataSource } from '../../../shared/database/index';
 import 'reflect-metadata';
+import { deleteFile } from '../../../utils/file';
 import User from '../entities/User';
 import { ServiceFindUser } from './ServiceFindUser';
 
@@ -14,6 +15,10 @@ export class ServicePutAvatar {
 
     const serviceFindUser = new ServiceFindUser();
     const ava = await serviceFindUser.execute({ id });
+    console.log(ava.avatar);
+    if (ava.avatar) {
+      await deleteFile(`./public/avatar/${ava.avatar}`);
+    }
 
     ava.avatar = avatar;
 

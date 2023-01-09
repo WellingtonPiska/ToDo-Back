@@ -17,7 +17,6 @@ export async function ensureAuthenticated(
   if (!authHeader) {
     throw new Error('O Token está faltando!');
   }
-
   const [, token] = authHeader.split(' ');
   try {
     const { sub: id } = verify(
