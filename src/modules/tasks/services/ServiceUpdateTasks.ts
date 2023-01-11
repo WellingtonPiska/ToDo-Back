@@ -51,7 +51,7 @@ export class ServiceUpdateTasks {
     const tasksValid = await repo.findValidUpdate(id, project, title);
 
     if (tasksValid) {
-      throw new Error('Projeto duplicado');
+      throw new Error('Tarefa duplicada');
     }
 
     tasks.order = order;

@@ -15,10 +15,10 @@ import { ensureAuthenticated } from '../middleware/ensureAuthenticated';
 const routes = Router();
 
 routes.use('/form', ensureAuthenticated, routerForm);
-routes.use('/user', routerUser);
-routes.use('/project', ensureAuthenticated, routerProject);
-routes.use('/project', ensureAuthenticated, routerSections);
-routes.use('/tasks', ensureAuthenticated, routerTasks);
+routes.use('/user', /* ensureAuthenticated */ routerUser);
+routes.use('/project', /* ensureAuthenticated */ routerProject);
+routes.use('/project', /* ensureAuthenticated */ routerSections);
+routes.use('/tasks', /* ensureAuthenticated */ routerTasks);
 routes.use(
   '/project/tasks/hoursControl',
   ensureAuthenticated,

@@ -5,6 +5,7 @@ import AuthenticationController from '../controller/AuthenticationController';
 import schemaValidationAuthenticationCreate from '../validation/schemaValidationCreate';
 import schemaValidationAuthenticationDelete from '../validation/schemaValidationDelete';
 import schemaValidationAuthenticationFind from '../validation/schemaValidationFind';
+import schemaBodyAuthenticationLogin from '../validation/schemaValidationLogin';
 import schemaValidationAuthenticationUpdate from '../validation/schemaValidationUpdate';
 
 const authenticationController = new AuthenticationController();
@@ -34,6 +35,10 @@ authenticationRoutes.put(
 
 // login
 const loginRoutes = Router();
-loginRoutes.post('/', authenticationController.login);
+loginRoutes.post(
+  '/',
+  ensureValidationYupRequest(schemaBodyAuthenticationLogin),
+  authenticationController.login
+);
 
 export { authenticationRoutes, loginRoutes };
