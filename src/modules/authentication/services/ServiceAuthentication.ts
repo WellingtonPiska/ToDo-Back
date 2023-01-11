@@ -3,8 +3,8 @@ import { sign } from 'jsonwebtoken';
 
 import auth from '../../../config/auth';
 import UserRepository from '../../user/repository/UserRepository';
-import UserTokens from '../entities/UserTokens';
-import UserTokensRepository from '../repository/UserTokensRepository';
+// import UserTokens from '../entities/UserTokens';
+// import UserTokensRepository from '../repository/UserTokensRepository';
 
 type IRequest = {
   login: string;
@@ -24,7 +24,7 @@ class AuthenticateUser {
     // Usuário existe
 
     const repo = new UserRepository();
-    const userTokensRepository = new UserTokensRepository();
+    // const userTokensRepository = new UserTokensRepository();
     const user = await repo.findByLogin(login);
 
     if (!user) {
@@ -43,20 +43,20 @@ class AuthenticateUser {
       expiresIn: auth.expireInToken,
     });
 
-    const refreshToken = sign(
-      { login, mail: user.mail },
-      auth.secretRefreshToken,
-      {
-        subject: user.id,
-        expiresIn: auth.expireInRefreshToken,
-      }
-    );
+    // const refreshToken = sign(
+    //   { login, mail: user.mail },
+    //   auth.secretRefreshToken,
+    //   {
+    //     subject: user.id,
+    //     expiresIn: auth.expireInRefreshToken,
+    //   }
+    // );
 
-    await userTokensRepository.create({
-      expiresDate,
-      refreshToken,
-      user: user.id,
-    });
+    // await userTokensRepository.create({
+    //   expiresDate,
+    //   refreshToken,
+    //   user: user.id,
+    // });
 
     return {
       user,
