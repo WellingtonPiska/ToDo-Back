@@ -5,11 +5,17 @@ import ProjectRepository from '../repository/ProjectRepository';
 type ICreateProject = {
   name: string;
   description: string;
-  user: string;
+  responsible: string;
+  order: number;
 };
 
 export class ServiceCreateProject {
-  async execute({ name, description, user }: ICreateProject): Promise<Project> {
+  async execute({
+    name,
+    description,
+    responsible,
+    order,
+  }: ICreateProject): Promise<Project> {
     const repo = new ProjectRepository();
 
     const projectValid = await repo.findByName(name);
@@ -19,12 +25,13 @@ export class ServiceCreateProject {
     }
 
     const serviceFindUser = new ServiceFindUser();
-    const userRef = await serviceFindUser.execute({ id: user });
+    const responsibleRef = await serviceFindUser.execute({ id: responsible });
 
     const project = new Project();
     project.name = name;
     project.description = description;
-    project.user = userRef.id;
+    project.responsible = responsibleRef.id;
+    project.order = order;
     const obj = await repo.create(project);
 
     return obj;

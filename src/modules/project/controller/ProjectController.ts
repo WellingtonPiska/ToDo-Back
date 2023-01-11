@@ -25,13 +25,14 @@ export default class ProjectController {
   }
   public async create(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['project']
-    const { name, description, user } = request.body;
+    const { name, description, responsible, order } = request.body;
 
     const serviceCreateProject = new ServiceCreateProject();
     const result = await serviceCreateProject.execute({
       name,
       description,
-      user,
+      responsible,
+      order,
     });
 
     return response.json(result);
@@ -46,7 +47,7 @@ export default class ProjectController {
     return response.json(deleted);
   }
   public async update(request: Request, response: Response): Promise<Response> {
-    const { name, description, user } = request.body;
+    const { name, description, responsible, order } = request.body;
     const { id } = request.params;
 
     const serviceUpdateProject = new ServiceUpdateProject();
@@ -54,7 +55,8 @@ export default class ProjectController {
       id,
       name,
       description,
-      user,
+      responsible,
+      order,
     });
 
     return response.json(project);

@@ -36,15 +36,21 @@ class Project {
   description: string;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: 'pro_user_s' })
-  userRef: User;
+  @JoinColumn({ name: 'pro_responsible_s' })
+  responsibleRef: User;
 
   @Column({
-    name: 'pro_user_s',
+    name: 'pro_responsible_s',
     type: 'varchar',
     length: '36',
   })
-  user: string;
+  responsible: string;
+
+  @Column({
+    name: 'pro_order_s',
+    type: 'varchar',
+  })
+  order: number;
 
   @CreateDateColumn({
     name: 'pro_created_d',

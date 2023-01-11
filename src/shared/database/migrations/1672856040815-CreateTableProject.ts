@@ -19,7 +19,7 @@ export class CreateTableProject1672856040815 implements MigrationInterface {
             primaryKeyConstraintName: 'PK_PROJECT',
           },
           {
-            name: 'pro_user_s',
+            name: 'pro_responsible_s',
             type: 'varchar',
             length: '36',
           },
@@ -32,6 +32,10 @@ export class CreateTableProject1672856040815 implements MigrationInterface {
             name: 'pro_description_s',
             type: 'varchar',
             length: '300',
+          },
+          {
+            name: 'pro_order_s',
+            type: 'integer',
           },
           {
             name: 'pro_created_d',
@@ -49,7 +53,7 @@ export class CreateTableProject1672856040815 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'project',
       new TableForeignKey({
-        columnNames: ['pro_user_s'],
+        columnNames: ['pro_responsible_s'],
         referencedColumnNames: ['use_id_s'],
         referencedTableName: 'user',
         name: 'FK_PROJECT_USER',

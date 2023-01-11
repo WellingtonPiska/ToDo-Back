@@ -7,7 +7,8 @@ type IUpdateProject = {
   id: string;
   name: string;
   description: string;
-  user: string;
+  responsible: string;
+  order: number;
 };
 
 export class ServiceUpdateProject {
@@ -15,12 +16,13 @@ export class ServiceUpdateProject {
     id,
     name,
     description,
-    user,
+    responsible,
+    order,
   }: IUpdateProject): Promise<Project> {
     const repo = new ProjectRepository();
 
     const serviceFindUser = new ServiceFindUser();
-    const userRef = await serviceFindUser.execute({ id: user });
+    const responsibleRef = await serviceFindUser.execute({ id: responsible });
 
     const serviceFindProject = new ServiceFindProject();
     const project = await serviceFindProject.execute({ id });
@@ -33,7 +35,8 @@ export class ServiceUpdateProject {
 
     project.name = name;
     project.description = description;
-    project.user = userRef.id;
+    project.responsible = responsibleRef.id;
+    project.order = order;
     await repo.update(project);
     return project;
   }
