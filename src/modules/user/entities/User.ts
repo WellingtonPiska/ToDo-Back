@@ -43,7 +43,7 @@ class User {
     type: 'varchar',
     length: '30',
   })
-  lastname: string;
+  lastName: string;
 
   @Column({
     name: 'use_mail_s',

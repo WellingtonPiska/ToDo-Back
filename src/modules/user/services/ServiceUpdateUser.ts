@@ -36,7 +36,7 @@ export class ServiceUpdateUser {
     }
 
     user.login = login;
-    user.lastname = lastName;
+    user.lastName = lastName;
     user.mail = mail;
     user.phone = phone;
     user.avatar = avatar;

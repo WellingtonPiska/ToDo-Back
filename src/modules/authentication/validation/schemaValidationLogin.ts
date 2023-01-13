@@ -1,10 +1,9 @@
 import * as yup from 'yup';
 
-const schemaBodyAuthenticationLogin = yup.object().shape({
-  body: yup.object().shape({
-    login: yup.string().required('Login is required'),
-    password: yup.string().required('Password is required'),
-  }),
+import schemaBodyLogin from './schemaBodyLogin';
+
+const schemaValidationAuthenticationLogin = yup.object().shape({
+  body: schemaBodyLogin,
 });
 
-export default schemaBodyAuthenticationLogin;
+export default schemaValidationAuthenticationLogin;

@@ -39,10 +39,11 @@ export default class SectionsController {
   }
   public async delete(request: Request, response: Response): Promise<Response> {
     // #swagger.tags = ['sections']
-    const { id } = request.params;
+    const { id, project } = request.params;
     const serviceDeleteSections = new ServiceDeleteSections();
     const deleted = await serviceDeleteSections.execute({
       id,
+      project,
     });
     return response.json(deleted);
   }

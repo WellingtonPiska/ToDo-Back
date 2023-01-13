@@ -43,7 +43,7 @@ export class ServiceCreateUser {
     user.login = login;
     user.password = passwordHash;
     user.name = name;
-    user.lastname = lastName;
+    user.lastName = lastName;
     user.mail = mail;
     user.phone = phone;
     user.avatar = avatar;
