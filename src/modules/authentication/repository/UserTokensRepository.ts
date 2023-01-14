@@ -22,4 +22,18 @@ export default class UserTokensRepository {
     await this.repository.save(userToken);
     return userToken;
   }
+
+  async findByUserId(user: string, token: string): Promise<UserTokens | null> {
+    const userToken = await this.repository.findOneBy({
+      user,
+      refreshToken: token,
+    });
+    return userToken;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete({
+      id,
+    });
+  }
 }

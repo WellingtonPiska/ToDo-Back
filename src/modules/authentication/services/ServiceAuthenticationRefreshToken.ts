@@ -1,51 +1,72 @@
-import { compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
-import UserRepository from '../../user/repository/UserRepository';
+import auth from '../../../config/auth';
+import { DayjsDateProvider } from '../../../shared/utils/DayjsDateProvider';
+import UserTokensRepository from '../repository/UserTokensRepository';
 
 type IRequest = {
-  login: string;
-  password: string;
+  refreshToken: string;
 };
 
 type IResponse = {
-  user: {
-    name: string;
-    login: string;
-  };
+  user: string;
   token: string;
+  refreshToken: string;
 };
 
-class AuthenticateUser {
-  async execute({ login, password }: IRequest): Promise<IResponse> {
-    // Usuário existe
+type IPayLoad = {
+  sub: string;
+  mail: string;
+  login: string;
+};
 
-    const repo = new UserRepository();
-    const user = await repo.findByLogin(login);
+class ServiceAuthenticationRefreshToken {
+  async execute({ refreshToken }: IRequest): Promise<IResponse> {
+    const userTokensRepository = new UserTokensRepository();
+    const dayjsDateProvider = new DayjsDateProvider();
+    const { login, mail, sub } = verify(
+      refreshToken,
+      auth.secretRefreshToken
+    ) as IPayLoad;
 
-    if (!user) {
-      throw new Error('Login ou senha incorretas!');
+    const userId = sub;
+
+    const userToken = await userTokensRepository.findByUserId(
+      userId,
+      refreshToken
+    );
+
+    if (!userToken) {
+      throw new Error('Refresh token not found!');
+    }
+    if (userToken.id) {
+      await userTokensRepository.deleteById(userToken.id);
     }
 
-    // Senha está correta
-    const passwordMatch = await compare(password, user.password);
-    console.log(password, user.password);
+    const token = sign({}, auth.secretToken, {
+      subject: userId,
+      expiresIn: auth.expireInToken,
+    });
 
-    if (!passwordMatch) {
-      throw new Error('Login ou senha incorretas!');
-    }
+    const newRefreshToken = sign({ login, mail }, auth.secretRefreshToken, {
+      subject: userId,
+      expiresIn: auth.expireInRefreshToken,
+    });
 
-    const token = sign({}, '3e7b339e7f1fdfc2f4a147ec1d871d5d', {
-      subject: user.id,
-      expiresIn: '1d',
+    const expiresDate = dayjsDateProvider.addDays(auth.expireRefreshTokenDays);
+
+    await userTokensRepository.create({
+      expiresDate,
+      user: userId,
+      refreshToken: newRefreshToken,
     });
 
     return {
-      user,
+      user: userId,
       token,
+      refreshToken: newRefreshToken,
     };
-    // Gerar jsonwebtoken
   }
 }
 
-export { AuthenticateUser };
+export { ServiceAuthenticationRefreshToken };

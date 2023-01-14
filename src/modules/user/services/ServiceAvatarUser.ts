@@ -1,6 +1,6 @@
 import { dataSource } from '../../../shared/database/index';
 import 'reflect-metadata';
-import { deleteFile } from '../../../utils/file';
+import { deleteFile } from '../../../shared/utils/file';
 import User from '../entities/User';
 import { ServiceFindUser } from './ServiceFindUser';
 

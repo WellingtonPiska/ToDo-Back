@@ -19,11 +19,11 @@ class UserTokens {
     length: '36',
     primaryKeyConstraintName: 'PK_USER_TOKENS',
   })
-  id: string;
+  id?: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'uto_user_s' })
-  userRef: User;
+  userRef?: User;
 
   @Column({
     name: 'uto_user_s',
@@ -43,7 +43,7 @@ class UserTokens {
     name: 'uto_created_d',
     type: 'timestamp',
   })
-  create: Date;
+  create?: Date;
 
   @UpdateDateColumn({
     name: 'uto_expires_date_d',
