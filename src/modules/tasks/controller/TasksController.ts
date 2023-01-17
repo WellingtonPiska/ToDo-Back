@@ -8,8 +8,9 @@ import { ServiceUpdateTasks } from '../services/ServiceUpdateTasks';
 
 export default class TasksController {
   public async list(request: Request, response: Response): Promise<Response> {
+    const { project, sections } = request.body;
     const svcList = new ServiceListTasks();
-    const data = await svcList.execute();
+    const data = await svcList.execute({ project, sections });
 
     return response.json(data);
   }

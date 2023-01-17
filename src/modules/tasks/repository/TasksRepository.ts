@@ -11,8 +11,8 @@ export default class TasksRepository {
     this.repo = dataSource.getRepository(Tasks);
   }
 
-  public async findAll(): Promise<Tasks[]> {
-    const result = await this.repo.find();
+  public async findAll(project: string, sections: string): Promise<Tasks[]> {
+    const result = await this.repo.findBy({ project, sections });
     return result;
   }
 

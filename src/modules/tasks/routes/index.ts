@@ -5,12 +5,17 @@ import ControllerTasks from '../controller/TasksController';
 import schemaValidationTasksCreate from '../validation/schemaValidationCreate';
 import schemaValidationTasksDelete from '../validation/schemaValidationDelete';
 import schemaValidationTasksFind from '../validation/schemaValidationFind';
+import schemaValidationList from '../validation/schemaValidationList';
 import schemaValidationTasksUpdate from '../validation/schemaValidationUpdate';
 
 const controllerTasks = new ControllerTasks();
 const routerTasks = Router();
 
-routerTasks.get('/', controllerTasks.list);
+routerTasks.get(
+  '/',
+  ensureValidationYupRequest(schemaValidationList),
+  controllerTasks.list
+);
 routerTasks.get(
   '/:id',
   ensureValidationYupRequest(schemaValidationTasksFind),
