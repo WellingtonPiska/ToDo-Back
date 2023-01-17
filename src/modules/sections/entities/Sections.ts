@@ -4,12 +4,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 import Project from '../../project/entities/Project';
+import Tasks from '../../tasks/entities/Tasks';
 
 @Entity('sections')
 class Sections {
@@ -63,6 +65,9 @@ class Sections {
     type: 'timestamp',
   })
   update: Date;
+
+  @OneToMany(() => Tasks, tasks => tasks.sections)
+  tasks: Tasks[];
 
   constructor() {
     if (!this.id) {

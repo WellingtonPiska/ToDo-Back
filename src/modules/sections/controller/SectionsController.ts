@@ -8,8 +8,9 @@ import { ServiceUpdateSections } from '../services/ServiceUpdateSections';
 
 export default class SectionsController {
   public async list(request: Request, response: Response): Promise<Response> {
+    const { project } = request.params;
     const svcList = new ServiceListSections();
-    const data = await svcList.execute();
+    const data = await svcList.execute(project);
     return response.json(data);
   }
   public async find(request: Request, response: Response): Promise<Response> {

@@ -11,8 +11,13 @@ export default class FormRepository {
     this.repo = dataSource.getRepository(Sections);
   }
 
-  public async findAll(): Promise<Sections[]> {
-    const result = await this.repo.find();
+  public async findAll(project: string): Promise<Sections[]> {
+    const result = await this.repo.find({
+      where: {
+        project,
+      },
+      relations: ['tasks'],
+    });
     return result;
   }
 
