@@ -66,7 +66,7 @@ class Sections {
   })
   update: Date;
 
-  @OneToMany(() => Tasks, tasks => tasks.sections)
+  @OneToMany(() => Tasks, tasks => tasks.sectionsRef)
   tasks: Tasks[];
 
   constructor() {

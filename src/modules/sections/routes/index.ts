@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 import ensureValidationYupRequest from '../../../shared/middleware/validationRequest';
 import ControllerSections from '../controller/SectionsController';
-import schemaParamIdListSections from '../validation/schemaParamIdListSections';
 import schemaValidationSectionsCreate from '../validation/schemaValidationCreate';
 import schemaValidationSectionsDelete from '../validation/schemaValidationDelete';
 import schemaValidationSectionsFind from '../validation/schemaValidationFind';
+import schemaValidationListSections from '../validation/schemaValidationListSections';
 import schemaValidationSectionsUpdate from '../validation/schemaValidationUpdate';
 
 const controllerSections = new ControllerSections();
@@ -13,7 +13,7 @@ const routerSections = Router();
 
 routerSections.get(
   '/:project/sections/',
-  ensureValidationYupRequest(schemaParamIdListSections),
+  ensureValidationYupRequest(schemaValidationListSections),
   controllerSections.list
 );
 routerSections.get(
