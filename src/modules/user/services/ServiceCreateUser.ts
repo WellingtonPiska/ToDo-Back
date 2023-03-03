@@ -48,7 +48,7 @@ export class ServiceCreateUser {
     user.phone = phone;
     user.avatar = avatar;
     user.color = color;
-    const obj = await repo.create(user);
+    const obj = await repo.save(user);
 
     return obj;
   }

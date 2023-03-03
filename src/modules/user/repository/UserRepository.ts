@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 
 import { dataSource } from '../../../shared/database';
 import User from '../entities/User';
@@ -8,6 +8,7 @@ type ISearchParams = {
   skip: number;
   take: number;
   search?: string;
+  select: boolean;
 };
 
 type IResponseUser = {
@@ -29,11 +30,12 @@ export default class UserRepository {
     skip,
     search,
     take,
+    select,
   }: ISearchParams): Promise<IResponseUser> {
     const [user, count] = await this.repo
       .createQueryBuilder('user')
-      .skip(skip)
-      .take(take)
+      .skip(!select ? skip : undefined)
+      .take(!select ? take : undefined)
       .where(qb => {
         if (search !== undefined) {
           qb.where(`LOWER(user.use_name_s) like :search`);
@@ -43,9 +45,9 @@ export default class UserRepository {
       .getManyAndCount();
 
     const result = {
-      per_page: take,
+      per_page: !select ? take : 0,
       total: count,
-      current_page: page,
+      current_page: !select ? page : 1,
       data: user,
     };
 
@@ -80,6 +82,16 @@ export default class UserRepository {
     return data;
   }
 
+  async findByNameAndId(name: string, id: string): Promise<User | null> {
+    const data = await this.repo.findOne({
+      where: {
+        name,
+        id: Not(id),
+      },
+    });
+    return data;
+  }
+
   public async findValidUpdate(
     id: string,
     login: string,
@@ -100,17 +112,11 @@ export default class UserRepository {
     return data;
   }
 
-  public async create(user: User): Promise<User> {
-    const data = this.repo.save(user);
-    return data;
+  async save(data: User): Promise<User> {
+    return this.repo.save(data);
   }
 
-  public async update(user: User): Promise<User> {
-    await this.repo.save(user);
-    return user;
-  }
-
-  public async remove(user: User): Promise<void> {
-    await this.repo.remove(user);
+  async remove(data: User): Promise<void> {
+    await this.repo.remove(data);
   }
 }

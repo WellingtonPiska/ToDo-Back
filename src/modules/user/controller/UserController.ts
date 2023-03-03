@@ -15,12 +15,14 @@ export default class UserController {
     const search = request.query.search
       ? String(request.query.search)
       : undefined;
+    const select = request.query.select ? Boolean(request.query.select) : false;
 
     const serviceListUser = new ServiceListUser();
     const data = await serviceListUser.execute({
       page,
       limit,
       search,
+      select,
     });
     return response.json(data);
   }

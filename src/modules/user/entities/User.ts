@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   Column,
   CreateDateColumn,
@@ -85,14 +86,36 @@ class User {
   @CreateDateColumn({
     name: 'use_created_d',
     type: 'timestamp',
+    transformer: {
+      to() {
+        return undefined;
+      },
+      from(value) {
+        if (value.toString() === 'Invalid Date') {
+          return undefined;
+        }
+        return moment(value).format('DD/MM/yyyy HH:mm:ss');
+      },
+    },
   })
-  create: Date;
+  created: Date;
 
   @UpdateDateColumn({
     name: 'use_updated_d',
     type: 'timestamp',
+    transformer: {
+      to() {
+        return undefined;
+      },
+      from(value) {
+        if (value.toString() === 'Invalid Date') {
+          return undefined;
+        }
+        return moment(value).format('DD/MM/yyyy HH:mm:ss');
+      },
+    },
   })
-  update: Date;
+  updated: Date;
 
   constructor() {
     if (!this.id) {

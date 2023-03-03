@@ -29,10 +29,9 @@ export class ServiceUpdateUser {
     const serviceFindUser = new ServiceFindUser();
     const user = await serviceFindUser.execute({ id });
 
-    const userValid = await repo.findValidUpdate(id, login, mail);
-
-    if (userValid) {
-      throw new Error('Usuário duplicado');
+    const validName = await repo.findByNameAndId(name, id);
+    if (validName) {
+      throw new Error('Nome do usuário já cadastrado!.');
     }
 
     user.login = login;
@@ -42,7 +41,7 @@ export class ServiceUpdateUser {
     user.avatar = avatar;
     user.name = name;
     user.color = color;
-    await repo.update(user);
+    await repo.save(user);
     return user;
   }
 }
