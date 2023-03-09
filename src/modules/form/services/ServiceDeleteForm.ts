@@ -1,5 +1,5 @@
+import AppError from '../../../shared/errors/AppError';
 import FormRepository from '../repository/FormRepository';
-import { ServiceFindForm } from './ServiceFindForm';
 
 type IDeleteForm = {
   id: string;
@@ -8,9 +8,12 @@ type IDeleteForm = {
 export class ServiceDeleteForm {
   async execute({ id }: IDeleteForm): Promise<boolean> {
     const repo = new FormRepository();
-    const serviceFindForm = new ServiceFindForm();
-    const form = await serviceFindForm.execute({ id });
-    await repo.remove(form);
+
+    const data = await repo.findById(id);
+    if (!data) {
+      throw new AppError('Formulario nao encontrado');
+    }
+    await repo.remove(data);
     return true;
   }
 }

@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt';
 
+import AppError from '../../../shared/errors/AppError';
 import User from '../entities/User';
 import UserRepository from '../repository/UserRepository';
 
@@ -28,15 +29,15 @@ export class ServiceCreateUser {
     const passwordHash = await hash(password, 8);
     const repo = new UserRepository();
 
-    const mailAlreadyExists = await repo.findByMail(mail);
-    if (mailAlreadyExists) {
-      throw new Error('Este email já existe!');
+    const mailExists = repo.findByMail(mail);
+    if (!mailExists) {
+      throw new AppError('Este email ja existe');
     }
 
     const userValid = await repo.findByLogin(login);
 
     if (userValid) {
-      throw new Error('Esse usuário já existe');
+      throw new AppError('Esse usuário já existe');
     }
 
     const user = new User();

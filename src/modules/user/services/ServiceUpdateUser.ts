@@ -1,6 +1,6 @@
+import AppError from '../../../shared/errors/AppError';
 import User from '../entities/User';
 import UserRepository from '../repository/UserRepository';
-import { ServiceFindUser } from './ServiceFindUser';
 
 type IUpdateUser = {
   id: string;
@@ -26,12 +26,17 @@ export class ServiceUpdateUser {
   }: IUpdateUser): Promise<User> {
     const repo = new UserRepository();
 
-    const serviceFindUser = new ServiceFindUser();
-    const user = await serviceFindUser.execute({ id });
+    // const serviceFindUser = new ServiceFindUser();
+    // const user = await serviceFindUser.execute({ id });
+
+    const user = await repo.findById(id);
+    if (!user) {
+      throw new AppError('Usuario nao encontrado');
+    }
 
     const validName = await repo.findByNameAndId(name, id);
     if (validName) {
-      throw new Error('Nome do usuário já cadastrado!.');
+      throw new AppError('Nome do usuário já cadastrado!.');
     }
 
     user.login = login;

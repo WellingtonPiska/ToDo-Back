@@ -1,3 +1,4 @@
+import AppError from '../../../shared/errors/AppError';
 import User from '../entities/User';
 import UserRepository from '../repository/UserRepository';
 
@@ -12,7 +13,7 @@ export class ServiceFindUser {
     const data = await repo.findById(id);
 
     if (!data) {
-      throw new Error('Usuário não encontrado');
+      throw new AppError('Usuário não encontrado');
     }
 
     return data;

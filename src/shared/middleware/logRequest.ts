@@ -10,7 +10,7 @@ const logRequest = (req: Request, res: Response, next: NextFunction) => {
     header: req.headers,
     ip: req.socket.remoteAddress,
   };
-  next();
+  next(log);
 };
 
 export default logRequest;

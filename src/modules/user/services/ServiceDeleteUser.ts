@@ -1,3 +1,4 @@
+import AppError from '../../../shared/errors/AppError';
 import UserRepository from '../repository/UserRepository';
 
 type IDeleteUser = {
@@ -9,7 +10,7 @@ export class ServiceDeleteUser {
     const repo = new UserRepository();
     const data = await repo.findById(id);
     if (!data) {
-      throw new Error('Usuário não encontrado.');
+      throw new AppError('Usuário não encontrado.');
     }
     await repo.remove(data);
     return true;
