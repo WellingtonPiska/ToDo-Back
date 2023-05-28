@@ -8,6 +8,7 @@ import { ServiceUpdateProject } from '../services/ServiceUpdateProject';
 
 export default class ProjectController {
   public async list(request: Request, response: Response): Promise<Response> {
+    // #swagger.tags = ['project']
     const svcList = new ServiceListProject();
     const data = await svcList.execute();
 
